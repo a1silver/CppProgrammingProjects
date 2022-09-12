@@ -23,7 +23,7 @@ using namespace std; // standard library
 int main() {
   srand(time(NULL)); // Sets the random seed.
 
-  bool playing = true;
+  bool playing = true; // Keeps track of whether the player wants to keep playing or not.
 
   while(playing) {
     int randomNumber = rand() % 100 + 1; // Sets the number that the user has to guess.
@@ -47,17 +47,17 @@ int main() {
       }
     } while (guess != randomNumber);
 
-    ++guesses;
+    ++guesses; // Increase guesses
   
     cout << "You guessed my number correctly!  It was " << randomNumber << ".  You guessed my number in " << guesses << " guesses." << endl;
-    cout << "Would you like to play again? (Y/N)" << endl;
+    cout << "Would you like to play again? (Y/N)" << endl; // Ask to play again
     char ch;
     do {
       cin >> ch;
     } while (ch != 'Y' && ch != 'y' && ch != 'N' && ch != 'n');
 
     if(ch == 'N' || ch == 'n') {
-      playing = false;
+      playing = false; // This will break out of the loop
     }
   
   }
