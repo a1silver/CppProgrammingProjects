@@ -3,18 +3,21 @@
 
 using namespace std;
 
-int main(int argc, char *argv[]) {
-  cout << "Arg count: " << argc - 1 << endl; // subtract 1 to account for the filename
+int main() {
+  cout << "This is a very simple palindrome tester!  Please input up to 80 characters:" << endl;
+  char rawinput[80];
+  cin >> ws;
+  getline(cin, rawinput);
+  cin.ignore(1, '\n');
   
-  if(argc == 1) { // Use cin to read input.
-    
-  } else { // Use the argv to read input.
-    int len = strlen(argv[1]);
-    char str[len];
-    strcpy(str, "");
-    strcat(str, argv[1]);
+  char input[80];
+  strcpy(input, rawinput);
+  puts(input);
 
-    // palindrome stuff
-    
+  for(int i = 0; i < 80; ++i) {
+    cout << input[i];
   }
+  
+  
+  return 0;
 }
