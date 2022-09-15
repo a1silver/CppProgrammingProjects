@@ -1,3 +1,6 @@
+/*
+  This is not part of the TicTacToe assignment.  This is testing passing by reference vs passing by value.
+ */
 #include <iostream>
 #include <cstring>
 #include <ctype.h>
