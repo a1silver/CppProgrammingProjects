@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
   bool testing = true;
-
+  
   cout << "This is a very simple palindrome tester! ";
   
   while (testing) {
@@ -22,7 +22,7 @@ int main() {
       bool flag1 = isalpha(rawinput[i]);
       bool flag2 = rawinput[i] == '\0';
       if(flag1 || flag2) {
-	strippedinput[isize] = rawinput[i];
+	strippedinput[isize] = tolower(rawinput[i]);
 	isize++;
       }
       if(flag2) {
