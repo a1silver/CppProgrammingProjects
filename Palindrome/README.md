@@ -1,3 +1,3 @@
 # CppProgrammingProjects
 
-palindrome assignment.  WIP
+palindrome assignment.
