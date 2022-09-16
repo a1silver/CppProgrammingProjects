@@ -1,0 +1,26 @@
+#ifndef STUDENT_H
+#define STUDENT_H
+
+struct Student {
+public:
+  int id;
+  float gpa;
+
+  char[] getFirstName() {
+    return fname;
+  }
+  char[] getLastName() {
+    return lname;
+  }
+  char[] getFullName() {
+    return strcat(fname, strcat(" ", lname));
+  }
+  char[] getLnameFname() {
+    return strcat(lname, strcat(", ", fname));
+  }
+protected:
+  char fname[20];
+  char lname[20];
+};
+
+#endif STUDENT_H
