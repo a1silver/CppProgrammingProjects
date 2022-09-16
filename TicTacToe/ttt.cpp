@@ -11,7 +11,7 @@ const int O_MOVE = 2;
 const int BLANK = 0;
 
 // Scoring & board
-int board[9];
+int board[3][3];
 int X_SCORE = 0;
 int O_SCORE = 0;
 int turn = 0;
@@ -84,9 +84,11 @@ int main() {
       }
 
       bool isBoardFull = true;
-      for(int i = 0; i < 9; i++) {
-        if(board[i] == BLANK) {
-          isBoardFull = false;
+      for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+          if(board[i][j] == BLANK) {
+            isBoardFull = false;
+          }
         }
       }
       if(isBoardFull) {
@@ -118,8 +120,10 @@ int main() {
 
 // Clears the board
 void initBoard() {
-  for(int i = 0; i < 9; i++) {
-    board[i] = BLANK;
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      board[i][j] = BLANK;
+    }
   }
 }
 
@@ -142,9 +146,9 @@ char getBoardChar(int move) {
 void printBoard() {
   cout << "Current Board: " << endl << "---------" << endl;
   cout << "  1 2 3" << endl;
-  cout << "a " << getBoardChar(board[0]) << " " << getBoardChar(board[1]) << " " << getBoardChar(board[2]) << endl;
-  cout << "b " << getBoardChar(board[3]) << " " << getBoardChar(board[4]) << " " << getBoardChar(board[5]) << endl;
-  cout << "c " << getBoardChar(board[6]) << " " << getBoardChar(board[7]) << " " << getBoardChar(board[8]) << endl;
+  cout << "a " << getBoardChar(board[0][0]) << " " << getBoardChar(board[0][1]) << " " << getBoardChar(board[0][2]) << endl;
+  cout << "b " << getBoardChar(board[1][0]) << " " << getBoardChar(board[1][1]) << " " << getBoardChar(board[1][2]) << endl;
+  cout << "c " << getBoardChar(board[2][0]) << " " << getBoardChar(board[2][1]) << " " << getBoardChar(board[2][2]) << endl;
   cout << "" << endl;
 }
 
@@ -198,30 +202,29 @@ void runTurn() {
     }
 
     // The following code calculates the array pos for a given coordinate pair:
-    int pos;
+    int posX;
+    int posY = col - 1;
     
     switch(row) {
       case 'a':
-        pos = 0;
+        posX = 0;
         break;
       case 'b':
-        pos = 3;
+        posX = 1;
         break;
       case 'c':
-        pos = 6;
+        posX = 2;
         break;
     }
-    pos += (col - 1);
-    // end pos calculation code
 
-    cout << "You are placing your piece in board position " << pos << endl;
+    cout << "You are placing your piece in board position: " << posX << ", " << posY << endl;
 
-    isTaken = board[pos] != BLANK;
+    isTaken = board[posX][posY] != BLANK;
 
     if(isTaken) {
       cout << "That position is taken!" << endl;
     } else{
-      board[pos] = turn;
+      board[posX][posY] = turn;
     }
     
   }
@@ -230,30 +233,30 @@ void runTurn() {
 
 // Test wins for a player
 bool testWins(int player) {
-  if(board[0] == player && board[1] == player && board[2] == player) { // top horizontal
+  if(board[0][0] == player && board[0][1] == player && board[0][2] == player) { // top horizontal
     return true;
   }
-  if(board[3] == player && board[4] == player && board[5] == player) { // center horizontal
+  if(board[1][0] == player && board[1][1] == player && board[1][2] == player) { // center horizontal
     return true;
   }
-  if(board[6] == player && board[7] == player && board[8] == player) { // bottom horizontal
-    return true;
-  }
-
-  if(board[0] == player && board[3] == player && board[6] == player) { // left vertical
-    return true;
-  }
-  if(board[1] == player && board[4] == player && board[7] == player) { // center vertical
-    return true;
-  }
-  if(board[2] == player && board[5] == player && board[8] == player) { // right vertical
+  if(board[2][0] == player && board[2][1] == player && board[2][2] == player) { // bottom horizontal
     return true;
   }
 
-  if(board[0] == player && board[4] == player && board[8] == player) { // left->right diagonal
+  if(board[0][0] == player && board[1][0] == player && board[2][0] == player) { // left vertical
     return true;
   }
-  if(board[2] == player && board[4] == player && board[6] == player) { // right->left diagonal
+  if(board[0][1] == player && board[1][1] == player && board[2][1] == player) { // center vertical
+    return true;
+  }
+  if(board[0][2] == player && board[1][2] == player && board[2][2] == player) { // right vertical
+    return true;
+  }
+
+  if(board[0][0] == player && board[1][1] == player && board[2][2] == player) { // left->right diagonal
+    return true;
+  }
+  if(board[0][2] == player && board[1][1] == player && board[2][0] == player) { // right->left diagonal
     return true;
   }
   return false;
