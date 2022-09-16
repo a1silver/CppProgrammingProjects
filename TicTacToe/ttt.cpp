@@ -1,3 +1,12 @@
+/*
+  This program allows two players to play TicTacToe with each other.
+  The board is kept in an int array of size 9.  The board can hold blanks, x moves, or o moves.
+
+  Author: Morgan Hinz
+  Creation Date: 15 September 2022
+
+  Made for Mr. Galbraith's C++ class.
+ */
 #include <iostream>
 #include <cstring>
 #include <ctype.h>
