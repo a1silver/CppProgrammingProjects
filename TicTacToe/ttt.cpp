@@ -5,59 +5,254 @@
 
 using namespace std;
 
+// Move IDs
 const int X_MOVE = 1;
 const int O_MOVE = 2;
 const int BLANK = 0;
 
+// Scoring & board
 int board[9];
 int X_SCORE = 0;
 int O_SCORE = 0;
-
 int turn = 0;
 
+// Method prototypes
 void initBoard();
+char getBoardChar();
 void printBoard();
+void runTurn();
+bool testWins(int player);
 
 int main() {
-  cout << "Welcome to TicTacToe!  In this game, your goal is to try to achieve a three-in-a-row sequence of your own pieces.  We'll start by picking who goes first!  If you'd like X to go first, please type \"1.\"  If you'd like O to go first, please type \"2.\"  >>  ";
-  cin.sync();
-  char c;
-  cin >> c;
-  cout << endl;
-  while (c != '1' && c != '2') {
+  bool playing = true;
+  cout << "Welcome to TicTacToe!  In this game, your goal is to try to achieve a three-in-a-row sequence of your own pieces.  We'll start by picking who goes first!  ";
+  while (playing) {
+    cout << "If you'd like X to go first, please type \"1\".  If you'd like O to go first, please type \"2\".  >>  ";
     cin.sync();
-    cout << "Please enter either \"1\" or \"2\":  >>  ";
+    char c;
     cin >> c;
-  }
+    cout << endl;
+    while (c != '1' && c != '2') {
+      cin.sync();
+      cout << "Please enter either \"1\" or \"2\":  >>  ";
+      cin >> c;
+    }
+    
+    switch(c) {
+    case '1':
+      turn = 1;
+      cout << "The first player will be X!" << endl;
+      break;
+    case '2':
+      turn = 2;
+      cout << "The first player will be O!" << endl;
+      break;
+    }
+    
+    cout << endl;
   
-  cout << endl;
+    initBoard();
+    printBoard();
   
-  switch(c) {
-  case '1':
-    turn = 1;
-    cout << "The first player will be X!" << endl;
-    break;
-  case '2':
-    turn = 2;
-    cout << "The first player will be O!" << endl;
-    break;
-  }
+    while (true) {
+      runTurn();
+      printBoard();
+      if(testWins(turn)) {
+        switch(turn) {
+          case X_MOVE:
+            X_SCORE++;
+            cout << "Player X won this round! ";
+            break;
+          case O_MOVE:
+            O_SCORE++;
+            cout << "Player O won this round! ";
+            break;
+          default:
+            break;
+        }
+        cout << "Player X has " << X_SCORE << " points and Player O has " << O_SCORE << " points." << endl;
+        break;
+      }
+      // Swap Turns
+      switch(turn) {
+        case X_MOVE:
+          turn = O_MOVE;
+          break;
+        case O_MOVE:
+          turn = X_MOVE;
+          break;
+      }
 
-  initBoard();
-  printBoard();
+      bool isBoardFull = true;
+      for(int i = 0; i < 9; i++) {
+        if(board[i] == BLANK) {
+          isBoardFull = false;
+        }
+      }
+      if(isBoardFull) {
+        break;
+      }
+    }
+    
+    cout << "Would you like to play another game? (Y/N)" << endl;
+    char ch;
+    do {
+      cin >> ch;
+    } while (ch != 'Y' && ch != 'y' && ch != 'N' && ch != 'n');
+
+    if(ch == 'N' || ch == 'n') {
+      cout << "Thanks for playing!  The final score is below:" << endl;
+      cout << "X: " << X_SCORE << "   O: " << O_SCORE << endl;
+      playing = false;
+    } else {
+      cout << "Starting new game..." << endl;
+      initBoard();
+      turn = 0;
+    }
+  }
 
   return 0;
 }
 
+// Clears the board
 void initBoard() {
   for(int i = 0; i < 9; i++) {
     board[i] = BLANK;
   }
 }
 
+// Get board cell character
+char getBoardChar(int move) {
+  switch(move) {
+    case 0: // blank
+      return ' ';
+    case 1: // x move
+      return 'X';
+    case 2: // o move
+      return 'O';
+    default: // just in case
+      return ' ';
+  }
+  return ' '; // also just in case
+} 
+
+// Print the board to the console
 void printBoard() {
+  cout << "Current Board: " << endl << "---------" << endl;
   cout << "  1 2 3" << endl;
-  cout << "a " << board[0] << " " << board[1] << " " << board[2] << endl;
-  cout << "b " << board[3] << " " << board[4] << " " << board[5] << endl;
-  cout << "c " << board[6] << " " << board[7] << " " << board[8] << endl;
+  cout << "a " << getBoardChar(board[0]) << " " << getBoardChar(board[1]) << " " << getBoardChar(board[2]) << endl;
+  cout << "b " << getBoardChar(board[3]) << " " << getBoardChar(board[4]) << " " << getBoardChar(board[5]) << endl;
+  cout << "c " << getBoardChar(board[6]) << " " << getBoardChar(board[7]) << " " << getBoardChar(board[8]) << endl;
+  cout << "" << endl;
+}
+
+// Run a turn.
+void runTurn() {
+  bool isTaken = true; // retry the turn until a blank spot is chosen
+  
+  while(isTaken) {
+    switch(turn) {
+      case X_MOVE:
+        cout << "Player X, please input the ROW (a, b, or c) of your chosen move: ";
+        break;
+      case O_MOVE:
+        cout << "Player O, please input the ROW (a, b, or c) of your chosen move: ";
+        break;
+    }
+
+    // ====> 
+    cin.sync();
+    char row;
+    cin >> row;
+    cout << endl;
+    row = tolower(row);
+    while (row != 'a' && row != 'b' && row != 'c') {
+      cin.sync();
+      cout << "\"" << row << "\" is not a valid row!  Please try again: ";
+      cin >> row;
+    }
+    cout << endl;
+    
+    switch(turn) {
+      case X_MOVE:
+        cout << "Player X, please input the COLUMN (1, 2, or 3) of your chosen move: ";
+        break;
+      case O_MOVE:
+        cout << "Player O, please input the COLUMN (1, 2, or 3) of your chosen move: ";
+        break;
+    }
+  
+    cin.sync(); // sync somehow fixes some issues with getting an int...
+    int col;
+    cin >> col;
+    cout << col << endl;
+    
+    while (col != 1 && col != 2 && col != 3) {
+      cin.sync();
+      cin.ignore(1, '\n');
+      cout << "\"" << col << "\" is not a valid column!  Please try again: ";
+      cin >> col;
+      cout << col << endl;
+    }
+
+    // The following code calculates the array pos for a given coordinate pair:
+    int pos;
+    
+    switch(row) {
+      case 'a':
+        pos = 0;
+        break;
+      case 'b':
+        pos = 3;
+        break;
+      case 'c':
+        pos = 6;
+        break;
+    }
+    pos += (col - 1);
+    // end pos calculation code
+
+    cout << "You are placing your piece in board position " << pos << endl;
+
+    isTaken = board[pos] != BLANK;
+
+    if(isTaken) {
+      cout << "That position is taken!" << endl;
+    } else{
+      board[pos] = turn;
+    }
+    
+  }
+  
+}
+
+// Test wins for a player
+bool testWins(int player) {
+  if(board[0] == player && board[1] == player && board[2] == player) { // top horizontal
+    return true;
+  }
+  if(board[3] == player && board[4] == player && board[5] == player) { // center horizontal
+    return true;
+  }
+  if(board[6] == player && board[7] == player && board[8] == player) { // bottom horizontal
+    return true;
+  }
+
+  if(board[0] == player && board[3] == player && board[6] == player) { // left vertical
+    return true;
+  }
+  if(board[1] == player && board[4] == player && board[7] == player) { // center vertical
+    return true;
+  }
+  if(board[2] == player && board[5] == player && board[8] == player) { // right vertical
+    return true;
+  }
+
+  if(board[0] == player && board[4] == player && board[8] == player) { // left->right diagonal
+    return true;
+  }
+  if(board[2] == player && board[4] == player && board[6] == player) { // right->left diagonal
+    return true;
+  }
+  return false;
 }
