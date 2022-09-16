@@ -1,12 +1,3 @@
-/*
-  This program allows two players to play TicTacToe with each other.
-  The board is kept in an int array of size 9.  The board can hold blanks, x moves, or o moves.
-
-  Author: Morgan Hinz
-  Creation Date: 15 September 2022
-
-  Made for Mr. Galbraith's C++ class.
- */
 #include <iostream>
 #include <cstring>
 #include <ctype.h>
@@ -36,7 +27,7 @@ int main() {
   bool playing = true;
   cout << "Welcome to TicTacToe!  In this game, your goal is to try to achieve a three-in-a-row sequence of your own pieces.  We'll start by picking who goes first!  ";
   while (playing) {
-    cout << "If you'd like X to go first, please type \"1\".  If you'd like O to go first, please type \"2\".  >>  ";
+    cout << "If you'd like X to go first, please type \"1.\"  If you'd like O to go first, please type \"2.\"  >>  ";
     cin.sync();
     char c;
     cin >> c;
@@ -99,6 +90,8 @@ int main() {
         }
       }
       if(isBoardFull) {
+        cout << "The game ended in a tie!" << endl;
+        cout << "Player X has " << X_SCORE << " points and Player O has " << O_SCORE << " points." << endl;
         break;
       }
     }
