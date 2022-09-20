@@ -43,28 +43,29 @@ int main() {
 }
 
 void readInStudent(vector<Student *> *students) {
-  Student student;
+  Student* student = new Student();
   
   cout << "Enter First Name: ";
-  cin >> student.fname;
+  cin >> student->fname;
   cout << "Enter Last Name: ";
-  cin >> student.lname;
+  cin >> student->lname;
   cout << "Enter Student ID: ";
-  cin >> student.id;
+  cin >> student->id;
   cout << "Enter Student GPA: ";
-  cin >> student.gpa;
+  cin >> student->gpa;
 
-  students->push_back(&student);
-  
-  cout << "Student added!" << endl;
+  students->push_back(student);
+
+  cout << "Student added!" << endl << endl;
   
 }
 
 void printStudents(vector<Student *> *students) {
-  for(vector<Student *>::itertor it = students->begin(); it != students->end(); it++) {
-    Student *it;
-    cout << it->fname << " " << it->lname << ", " << it->id << ", " << it->gpa << endl;
+  vector<Student *>::iterator it;
+  for(it = students->begin(); it < students->end(); it++) {
+    cout << (*it)->fname << " " << (*it)->lname << ", " << (*it)->id << ", " << (*it)->gpa << endl;
   }
+  cout << endl;
 }
 
 void deleteStudent(vector<Student *> *students) {
