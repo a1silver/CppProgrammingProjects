@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <ctype.h>
-#include "data.h"
 
 using namespace std;
 
