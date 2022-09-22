@@ -4,7 +4,6 @@
 #define STUDENT_H
 
 struct Student {
-public:
   int id;
   float gpa;
   char fname[20];
