@@ -10,20 +10,20 @@ const int X_MOVE = 1;
 const int O_MOVE = 2;
 const int BLANK = 0;
 
-// Scoring & board
-int board[3][3];
-int X_SCORE = 0;
-int O_SCORE = 0;
-int turn = 0;
-
 // Method prototypes
-void initBoard();
-char getBoardChar();
-void printBoard();
-void runTurn();
-bool testWins(int player);
+void initBoard(int board[3][3]);
+char getBoardChar(int move);
+void printBoard(int board[3][3]);
+void runTurn(int board[3][3], int player);
+bool testWins(int board[3][3], int player);
 
 int main() {
+  // Scoring and board
+  int board[3][3];
+  int X_SCORE = 0;
+  int O_SCORE = 0;
+  int turn = 0;
+  
   bool playing = true;
   cout << "Welcome to TicTacToe!  In this game, your goal is to try to achieve a three-in-a-row sequence of your own pieces.  We'll start by picking who goes first!  ";
   while (playing) {
@@ -51,13 +51,13 @@ int main() {
     
     cout << endl;
   
-    initBoard();
-    printBoard();
+    initBoard(board);
+    printBoard(board);
   
     while (true) {
-      runTurn();
-      printBoard();
-      if(testWins(turn)) {
+      runTurn(board, turn);
+      printBoard(board);
+      if(testWins(board, turn)) {
         switch(turn) {
           case X_MOVE:
             X_SCORE++;
@@ -110,7 +110,7 @@ int main() {
       playing = false;
     } else {
       cout << "Starting new game..." << endl;
-      initBoard();
+      initBoard(board);
       turn = 0;
     }
   }
@@ -119,7 +119,7 @@ int main() {
 }
 
 // Clears the board
-void initBoard() {
+void initBoard(int board[3][3]) {
   for(int i = 0; i < 3; i++) {
     for(int j = 0; j < 3; j++) {
       board[i][j] = BLANK;
@@ -143,7 +143,7 @@ char getBoardChar(int move) {
 } 
 
 // Print the board to the console
-void printBoard() {
+void printBoard(int board[3][3]) {
   cout << "Current Board: " << endl << "---------" << endl;
   cout << "  1 2 3" << endl;
   cout << "a " << getBoardChar(board[0][0]) << " " << getBoardChar(board[0][1]) << " " << getBoardChar(board[0][2]) << endl;
@@ -153,7 +153,7 @@ void printBoard() {
 }
 
 // Run a turn.
-void runTurn() {
+void runTurn(int board[3][3], int turn) {
   bool isTaken = true; // retry the turn until a blank spot is chosen
   
   while(isTaken) {
@@ -232,7 +232,7 @@ void runTurn() {
 }
 
 // Test wins for a player
-bool testWins(int player) {
+bool testWins(int board[3][3], int player) {
   if(board[0][0] == player && board[0][1] == player && board[0][2] == player) { // top horizontal
     return true;
   }
