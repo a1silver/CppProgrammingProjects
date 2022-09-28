@@ -4,8 +4,17 @@
 #include <vector>
 #include <ctype.h>
 
-int main() {
+#include "media.h"
 
+using namespace std;
+
+int main() {
+  Media* media = new Media();
+  media->setTitle(new char[] {'B', 'r', 'e', 'a', 'k', 'i', 'n', 'g', ' ', 'B', 'a', 'd', '\0'});
+  media->setYear(2020);
+  cout << media->getTitle() << " - " << media->getYear() << endl;
+  delete media;
+  
   return 0;
 }
 
