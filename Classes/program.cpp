@@ -15,6 +15,7 @@ using namespace std;
 const char ADD_CMD[] = "ADD";
 const char SEARCH_CMD[] = "SEARCH";
 const char DELETE_CMD[] = "DELETE";
+const char CLEAR_CMD[] = "CLEAR";
 const char QUIT_CMD[] = "QUIT";
 
 // Media Types
@@ -34,6 +35,7 @@ const char DELETE_NO[] = "NO";
 void addMedia(vector<Media *> *mediaList);
 void searchMedia(vector<Media *> *mediaList);
 void deleteMedia(vector<Media *> *mediaList);
+void clearMedia(vector<Media *> *mediaList);
 
 // Main method
 int main() {
@@ -48,23 +50,29 @@ int main() {
   // Keeps track of the current command. 7 = longest cmd (6) + 1 (null char)
   char cmd[7];
 
-  while (true) {
+  while (true) { // Get a command until the user gives the exit command
     cout << "> ";
     cin >> cmd;
 
     // Commands
     // add search delete quit
     if(strcmp(cmd, ADD_CMD) == 0) {
-      addMedia(&mediaList);
+      addMedia(&mediaList); // Add a media entry
     }
     if(strcmp(cmd, SEARCH_CMD) == 0) {
-      searchMedia(&mediaList);
+      searchMedia(&mediaList); // Search media database
     }
     if(strcmp(cmd, DELETE_CMD) == 0) {
-      deleteMedia(&mediaList);
+      deleteMedia(&mediaList); // Delete a media entry
+    }
+    if(strcmp(cmd, CLEAR_CMD) == 0) {
+      int size = mediaList.size();
+      clearMedia(&mediaList);
+      cout << "Cleared " << size << " entries!" << endl;
     }
     if(strcmp(cmd, QUIT_CMD) == 0) {
-      break;
+      clearMedia(&mediaList);
+      break; // Quit the application
     }
   }
   
@@ -134,11 +142,12 @@ void addMedia(vector<Media *> *mediaList) {
       cin.ignore();
       obj->setRating(rating);
 
+      cout << endl;
       obj->print();
 
       mediaList->push_back(obj);
       
-      cout << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
+      cout << endl << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
     }
     break;
   case 1: // Music
@@ -172,11 +181,12 @@ void addMedia(vector<Media *> *mediaList) {
       cin.getline(publisher, 100, '\n');
       obj->setPublisher(publisher);
 
+      cout << endl;
       obj->print();
 
       mediaList->push_back(obj);
       
-      cout << "New song added! There are " << mediaList->size() << " entries in the database." << endl;
+      cout << endl << "New song added! There are " << mediaList->size() << " entries in the database." << endl;
     }
     break;
   case 2: // Movie
@@ -211,11 +221,12 @@ void addMedia(vector<Media *> *mediaList) {
       cin.ignore();
       obj->setRating(rating);
 
+      cout << endl;
       obj->print();
 
       mediaList->push_back(obj);
       
-      cout << "New movie added! There are " << mediaList->size() << " entries in the database." << endl;
+      cout << endl << "New movie added! There are " << mediaList->size() << " entries in the database." << endl;
     }
     break;
 
@@ -257,37 +268,41 @@ void searchMedia(vector<Media *> *mediaList) {
       char titleSearch[101];
       cin.getline(titleSearch, 100, '\n');
 
+      cout << endl;
+      
       int results = 0;
     
       vector<Media *>::iterator it;
       for(it = mediaList->begin(); it < mediaList->end(); it++) {
 	if(strcmp((*it)->getTitle(), titleSearch) == 0) {
-	  cout << " >> ";
+	  cout << ">> ";
 	  (*it)->print();
 	  results++;
 	}
       }
-      cout << "Found " << results << " results matching that title." << endl;
+      cout << endl << "Found " << results << " results matching that title." << endl;
     }
     break;
   case 1: // By year
     {
       cout << "Please enter the year you're searching for: ";
       int yearSearch;
-	cin >> yearSearch;
-	cin.ignore();
+      cin >> yearSearch;
+      cin.ignore();
 
+      cout << endl;
+      
       int results = 0;
     
       vector<Media *>::iterator it;
       for(it = mediaList->begin(); it < mediaList->end(); it++) {
 	if((*it)->getYear() == yearSearch) {
-	  cout << " >> ";
+	  cout << ">> ";
 	  (*it)->print();
 	  results++;
 	}
       }
-      cout << "Found " << results << " results matching that year." << endl;
+      cout << endl << "Found " << results << " results matching that year." << endl;
     }
     break;
   case -1:
@@ -338,7 +353,7 @@ void deleteMedia(vector<Media *> *mediaList) {
 	  cout << "Is this the one you'd like to delete? Type \"YES\" or \"NO\": ";
 	  char conf[4];
 	  cin >> conf;
-	  if(strcmp(conf, DELETE_YES)) {
+	  if(strcmp(conf, DELETE_YES) == 0) {
 	    cout << "Deleting... ";
 	    delete *it;
 	    mediaList->erase(mediaList->begin() + index);
@@ -368,16 +383,16 @@ void deleteMedia(vector<Media *> *mediaList) {
 	  char conf[4];
 	  cin >> conf;
 	  cin.ignore();
-	  if(strcmp(conf, DELETE_YES)) {
+	  if(strcmp(conf, DELETE_YES) == 0) {
 	    cout << "Deleting... ";
 	    delete *it;
 	    mediaList->erase(mediaList->begin() + index);
+	    cout << "Deleted the entry!" << endl;
 	    break;
 	  }
 	}
 	index++;
       }
-      cout << "Deleted the entry!" << endl;
     }
     break;
   case -1:
@@ -385,6 +400,14 @@ void deleteMedia(vector<Media *> *mediaList) {
     cout << "An unexpected error happened: An incorrect delete mode was supplied!" << endl;
     break;
   }
+}
+
+void clearMedia(vector<Media *> *mediaList) {
+	vector<Media *>::iterator it;
+	for(it = mediaList->begin(); it < mediaList->end(); it++) {
+		delete *it;
+	}
+	mediaList->clear();
 }
 
 // when creating media objects:
