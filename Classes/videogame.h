@@ -16,4 +16,4 @@ class Videogame : public Media {
   float rating;
 };
 
-#endif // MEDIA_H
+#endif // VIDEOGAME_H

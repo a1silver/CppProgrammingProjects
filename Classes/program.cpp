@@ -6,6 +6,8 @@
 
 #include "media.h"
 #include "videogame.h"
+#include "music.h"
+#include "movie.h"
 
 using namespace std;
 
@@ -17,6 +19,9 @@ const char QUIT_CMD[] = "QUIT";
 const char VIDEOGAME_TYPE[] = "VIDEOGAME";
 const char MUSIC_TYPE[] = "MUSIC";
 const char MOVIE_TYPE[] = "MOVIE";
+
+const char SEARCHBY_TITLE[] = "TITLE";
+const char SEARCHBY_YEAR[] = "YEAR";
 
 void addMedia(vector<Media *> *mediaList);
 void searchMedia(vector<Media *> *mediaList);
@@ -122,14 +127,90 @@ void addMedia(vector<Media *> *mediaList) {
       obj->setRating(rating);
 
       obj->print();
+
+      mediaList->push_back(obj);
+      
+      cout << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
     }
     break;
   case 1: // Music
-    cout << "Adding music!" << endl;
+    {
+      Music* obj = new Music();
+
+      char title[101];
+      cout << "Enter Title: ";
+      cin.getline(title, 100, '\n');
+      obj->setTitle(title);
+
+      int year;
+      cout << "Enter Year: ";
+      cin >> year;
+      cin.ignore();
+      obj->setYear(year);
+
+      char artist[101];
+      cout << "Enter Artist: ";
+      cin.getline(artist, 100, '\n');
+      obj->setArtist(artist);
+
+      float duration;
+      cout << "Enter Duration in minutes: ";
+      cin >> duration;
+      cin.ignore();
+      obj->setDuration(duration);
+
+      char publisher[101];
+      cout << "Enter Publisher: ";
+      cin.getline(publisher, 100, '\n');
+      obj->setPublisher(publisher);
+
+      obj->print();
+
+      mediaList->push_back(obj);
+      
+      cout << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
+    }
     break;
   case 2: // Movie
-    cout << "Adding a movie!" << endl;
+    {
+      Movie* obj = new Movie();
+
+      char title[101];
+      cout << "Enter Title: ";
+      cin.getline(title, 100, '\n');
+      obj->setTitle(title);
+
+      int year;
+      cout << "Enter Year: ";
+      cin >> year;
+      cin.ignore();
+      obj->setYear(year);
+
+      char director[101];
+      cout << "Enter Director: ";
+      cin.getline(director, 100, '\n');
+      obj->setDirector(director);
+
+      float duration;
+      cout << "Enter Duration in minutes: ";
+      cin >> duration;
+      cin.ignore();
+      obj->setRating(duration);
+      
+      float rating;
+      cout << "Enter Rating: ";
+      cin >> rating;
+      cin.ignore();
+      obj->setRating(rating);
+
+      obj->print();
+
+      mediaList->push_back(obj);
+      
+      cout << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
+    }
     break;
+
   case -1:
   default:
     cout << "An unexpected error happened: An incorrect media type was supplied!" << endl;
