@@ -26,6 +26,10 @@ const char MOVIE_TYPE[] = "MOVIE";
 const char SEARCHBY_TITLE[] = "TITLE";
 const char SEARCHBY_YEAR[] = "YEAR";
 
+// Misc
+const char DELETE_YES[] = "YES";
+const char DELETE_NO[] = "NO";
+
 // Method prototypes
 void addMedia(vector<Media *> *mediaList);
 void searchMedia(vector<Media *> *mediaList);
@@ -57,7 +61,7 @@ int main() {
       searchMedia(&mediaList);
     }
     if(strcmp(cmd, DELETE_CMD) == 0) {
-      // deleteMedia(&mediaList);
+      deleteMedia(&mediaList);
     }
     if(strcmp(cmd, QUIT_CMD) == 0) {
       break;
@@ -230,7 +234,7 @@ void searchMedia(vector<Media *> *mediaList) {
   
   // Get search filter
   do {
-    cout << "What type of media would you like to add?  Please enter either \"TITLE\" or \"YEAR\": ";
+    cout << "How would you like to search your media?  Please enter either \"TITLE\" or \"YEAR\": ";
     cin >> typIn;
     cin.ignore();
 
@@ -289,6 +293,96 @@ void searchMedia(vector<Media *> *mediaList) {
   case -1:
   default:
     cout << "An unexpected error happened: An incorrect search filter was supplied!" << endl;
+    break;
+  }
+}
+
+void deleteMedia(vector<Media *> *mediaList) {
+  char typIn[10];
+
+  // Delete mode. 0 = by title, 1 = by year
+  int typ = -1;
+  
+  // Get search filter
+  do {
+    cout << "How would you like to delete media?  Please enter either \"TITLE\" or \"YEAR\": ";
+    cin >> typIn;
+    cin.ignore();
+
+    if(strcmp(typIn, SEARCHBY_TITLE) == 0) {
+      typ = 0;
+      break;
+    }
+    if(strcmp(typIn, SEARCHBY_YEAR) == 0) {
+      typ = 1;
+      break;
+    }
+    
+  } while (true);
+
+  // Search the media database and delete matching items
+  switch (typ) {
+  case 0: // By title
+    {
+      cout << "Please enter the title you're searching for: ";
+      char titleSearch[101];
+      cin.getline(titleSearch, 100, '\n');
+
+      int index = 0;
+
+      vector<Media *>::iterator it;
+      for(it = mediaList->begin(); it < mediaList->end(); it++) {
+	if(strcmp((*it)->getTitle(), titleSearch) == 0) {
+	  cout << " >> ";
+	  (*it)->print();
+	  cout << "Is this the one you'd like to delete? Type \"YES\" or \"NO\": ";
+	  char conf[4];
+	  cin >> conf;
+	  if(strcmp(conf, DELETE_YES)) {
+	    cout << "Deleting... ";
+	    delete *it;
+	    mediaList->erase(mediaList->begin() + index);
+	    cout << "Deleted the entry!" << endl;
+	    break;
+	  }
+	}
+	index++;
+      }
+    }
+    break;
+  case 1: // By year
+    {
+      cout << "Please enter the title you're searching for: ";
+      int year;
+      cin >> year;
+      cin.ignore();
+      
+      int index = 0;
+
+      vector<Media *>::iterator it;
+      for(it = mediaList->begin(); it < mediaList->end(); it++) {
+	if((*it)->getYear() == year) {
+	  cout << " >> ";
+	  (*it)->print();
+	  cout << "Is this the one you'd like to delete? Type \"YES\" or \"NO\": ";
+	  char conf[4];
+	  cin >> conf;
+	  cin.ignore();
+	  if(strcmp(conf, DELETE_YES)) {
+	    cout << "Deleting... ";
+	    delete *it;
+	    mediaList->erase(mediaList->begin() + index);
+	    break;
+	  }
+	}
+	index++;
+      }
+      cout << "Deleted the entry!" << endl;
+    }
+    break;
+  case -1:
+  default:
+    cout << "An unexpected error happened: An incorrect delete mode was supplied!" << endl;
     break;
   }
 }
