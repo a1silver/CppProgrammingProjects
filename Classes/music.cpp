@@ -32,5 +32,5 @@ void Music::setPublisher(char publisherIn[101]) {
 }
 
 void Music::print() {
-  cout << "\"" << title << "\" by " << artist << " (" << duration << " minutes), published by " << publisher << " in " << year << endl;;
+  cout << "SONG: \"" << title << "\" by " << artist << " (" << duration << " minutes), published by " << publisher << " in " << year << endl;;
 }

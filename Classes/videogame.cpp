@@ -26,5 +26,5 @@ void Videogame::setRating(float ratingIn) {
 }
 
 void Videogame::print() {
-  cout << "\"" << title << "\" by " << publisher << ", published in " << year << " (Rating: " << rating << " stars)" << endl;
+  cout << "VIDEOGAME: \"" << title << "\" by " << publisher << ", published in " << year << " (Rating: " << rating << " stars)" << endl;
 }

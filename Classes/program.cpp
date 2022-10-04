@@ -54,10 +54,10 @@ int main() {
       addMedia(&mediaList);
     }
     if(strcmp(cmd, SEARCH_CMD) == 0) {
-      
+      searchMedia(&mediaList);
     }
     if(strcmp(cmd, DELETE_CMD) == 0) {
-
+      // deleteMedia(&mediaList);
     }
     if(strcmp(cmd, QUIT_CMD) == 0) {
       break;
@@ -172,7 +172,7 @@ void addMedia(vector<Media *> *mediaList) {
 
       mediaList->push_back(obj);
       
-      cout << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
+      cout << "New song added! There are " << mediaList->size() << " entries in the database." << endl;
     }
     break;
   case 2: // Movie
@@ -211,13 +211,84 @@ void addMedia(vector<Media *> *mediaList) {
 
       mediaList->push_back(obj);
       
-      cout << "New video game added! There are " << mediaList->size() << " entries in the database." << endl;
+      cout << "New movie added! There are " << mediaList->size() << " entries in the database." << endl;
     }
     break;
 
   case -1:
   default:
     cout << "An unexpected error happened: An incorrect media type was supplied!" << endl;
+    break;
+  }
+}
+
+void searchMedia(vector<Media *> *mediaList) {
+  char typIn[10];
+
+  // Search filter. 0 = by title, 1 = by year
+  int typ = -1;
+  
+  // Get search filter
+  do {
+    cout << "What type of media would you like to add?  Please enter either \"TITLE\" or \"YEAR\": ";
+    cin >> typIn;
+    cin.ignore();
+
+    if(strcmp(typIn, SEARCHBY_TITLE) == 0) {
+      typ = 0;
+      break;
+    }
+    if(strcmp(typIn, SEARCHBY_YEAR) == 0) {
+      typ = 1;
+      break;
+    }
+    
+  } while (true);
+
+  // Search the media database
+  switch (typ) {
+  case 0: // By title
+    {
+      cout << "Please enter the title you're searching for: ";
+      char titleSearch[101];
+      cin.getline(titleSearch, 100, '\n');
+
+      int results = 0;
+    
+      vector<Media *>::iterator it;
+      for(it = mediaList->begin(); it < mediaList->end(); it++) {
+	if(strcmp((*it)->getTitle(), titleSearch) == 0) {
+	  cout << " >> ";
+	  (*it)->print();
+	  results++;
+	}
+      }
+      cout << "Found " << results << " results matching that title." << endl;
+    }
+    break;
+  case 1: // By year
+    {
+      cout << "Please enter the year you're searching for: ";
+      int yearSearch;
+	cin >> yearSearch;
+	cin.ignore();
+
+      int results = 0;
+    
+      vector<Media *>::iterator it;
+      for(it = mediaList->begin(); it < mediaList->end(); it++) {
+	if((*it)->getYear() == yearSearch) {
+	  cout << " >> ";
+	  (*it)->print();
+	  results++;
+	}
+      }
+      cout << "Found " << results << " results matching that year." << endl;
+    }
+    break;
+  case -1:
+  default:
+    cout << "An unexpected error happened: An incorrect search filter was supplied!" << endl;
     break;
   }
 }

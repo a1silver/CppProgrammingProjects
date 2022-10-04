@@ -31,7 +31,7 @@ void Movie::setRating(float ratingIn) {
 }
 
 void Movie::print() {
-  cout << "\"" << title << ",\" a " << year << " film directed by " << director << " (Duration: " << duration << " minutes).  Rated " << rating << " stars." << endl;
+  cout << "MOVIE: \"" << title << ",\" a " << year << " film directed by " << director << " (Duration: " << duration << " minutes).  Rated " << rating << " stars." << endl;
 }
 
 

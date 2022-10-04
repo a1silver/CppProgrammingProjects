@@ -14,6 +14,14 @@ void Media::print() {
   
 }
 
+char* Media::getTitle() {
+  return title;
+}
+
+int Media::getYear() {
+  return year;
+}
+
 void Media::setTitle(char titleIn[101]) {
   strcpy(title, titleIn);
 }

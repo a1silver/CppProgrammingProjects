@@ -7,7 +7,9 @@ class Media {
   virtual ~Media();
 
   virtual void print();
-  
+
+  char* getTitle();
+  int getYear();
   void setTitle(char titleIn[101]);
   void setYear(int yearIn);
  protected:
