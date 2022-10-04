@@ -11,18 +11,22 @@
 
 using namespace std;
 
+// Commands
 const char ADD_CMD[] = "ADD";
 const char SEARCH_CMD[] = "SEARCH";
 const char DELETE_CMD[] = "DELETE";
 const char QUIT_CMD[] = "QUIT";
 
+// Media Types
 const char VIDEOGAME_TYPE[] = "VIDEOGAME";
 const char MUSIC_TYPE[] = "MUSIC";
 const char MOVIE_TYPE[] = "MOVIE";
 
+// Search filters
 const char SEARCHBY_TITLE[] = "TITLE";
 const char SEARCHBY_YEAR[] = "YEAR";
 
+// Method prototypes
 void addMedia(vector<Media *> *mediaList);
 void searchMedia(vector<Media *> *mediaList);
 void deleteMedia(vector<Media *> *mediaList);
