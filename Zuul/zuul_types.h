@@ -14,6 +14,8 @@ struct ZuulItem {
   ~ZuulItem();
 };
 
+typedef vector<ZuulItem *> Items;
+
 struct ZuulPuzzle {
   char* name;
   char* solution;
@@ -22,7 +24,5 @@ struct ZuulPuzzle {
   ZuulPuzzle(char nameIn[51], char descriptionIn[101], char solutionIn[11], ZuulItem* itemIn);
   ~ZuulPuzzle();
 };
-
-typedef vector<ZuulItem *> ItemList;
 
 #endif // ZUUL_TYPES_H

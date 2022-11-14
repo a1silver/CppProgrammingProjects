@@ -1,4 +1,7 @@
 #include <iostream>
+#include <cctype>
+#include <vector>
+#include <map>
 #include "zuul_types.h"
 
 using namespace std;
