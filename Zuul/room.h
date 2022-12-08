@@ -1,35 +1,21 @@
 #ifndef ROOM_H
 #define ROOM_H
 
-#include <map>
+#include "item.h"
 #include <vector>
+#include <map>
 
-using namespace std;
+class Room {
+ public:
+  std::vector<Item*>* requirements;
+  std::vector<Item*>* items;
+  std::map<char*, Item*>* exits;
 
-class ZuulRoom;
-
-typedef map<char *, ZuulRoom *> Exits;
-
-class ZuulRoom {
-public:
-  char* description;
-  ZuulItem* requirement;
-  ZuulPuzzle* puzzle;
-  Exits* exits;
-  Items* items;
-  ZuulRoom(char descriptionIn[101]);
-  ~ZuulRoom();
-
-  void addExit(char directionIn[11], ZuulRoom *neighborIn);
-  void addItem(ZuulItem *itemIn);
-  void setRequirement(ZuulItem *requirementIn);
-  void setPuzzle(ZuulPuzzle *puzzleIn);
-  ZuulItem* getItemByName(char nameIn[51]);
-  ZuulItem* getItemAt(int indexIn);
-  void removeItemAt(int indexIn);
-  void printFullDescription();
-  void printExitString();
-  ZuulRoom* getExit(char directionIn[11])
+  char name[51]; // 50 and a null
+  char description[101]; // 100 and a null
+  
+  Room();
+  ~Room();
 };
 
-#ENDIF // ROOM_H
+#endif // ROOM_H
