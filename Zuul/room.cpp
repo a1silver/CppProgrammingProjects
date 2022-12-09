@@ -9,7 +9,11 @@
 using namespace std;
 
 Room::Room() {
-  
+  requirements = new vector<Item*>();
+  items = new vector<Item*>();
+  exits = new map<char*, Room*>();
+  name = new char[51];
+  description = new char[251];
 };
 
 Room::~Room() {
