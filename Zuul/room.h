@@ -9,13 +9,18 @@ class Room {
  public:
   std::vector<Item*>* requirements;
   std::vector<Item*>* items;
-  std::map<char*, Item*>* exits;
+  std::map<char*, Room*>* exits;
 
-  char name[51]; // 50 and a null
-  char description[101]; // 100 and a null
+  char* name; // 50 and a null
+  char* description; // 250 and a null
   
   Room();
   ~Room();
+
+  void setNnD(char* nameIn, char* descriptionIn);
+  void addRequirement(Item* itemIn);
+  void addItem(Item* itemIn);
+  void setExit(char directionIn[6], Room* roomIn);
 };
 
 #endif // ROOM_H
