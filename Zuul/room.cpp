@@ -65,9 +65,16 @@ void Room::addItem(Item* itemIn) {
 }
 
 void Room::setExit(char directionIn[6], Room* roomIn) {
+  if(exits->size() == 0) {
+    exits->insert({directionIn, roomIn});
+    return;
+  }
   map<char*, Room*>::iterator it = exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
   while (it != exits->end()) {
     if(strcmp(it->first, directionIn) == 0) {
+      return;
+    } else {
+      exits->insert({directionIn, roomIn});
       return;
     }
   }
@@ -78,6 +85,4 @@ void Room::setExit(char directionIn[6], Room* roomIn) {
     }
   }
   */
-  exits->insert({directionIn, roomIn});
-  return;
 }

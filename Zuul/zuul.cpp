@@ -42,6 +42,7 @@ int main() {
   // Initializing items first
 
   // Flashlight
+  cout << 1 << endl;
   char flashlightName[] = "FLASHLIGHT";
   char flashlightDescription[] = "This item is an imperative for finding other items!";
   Item* flashlight = new Item();
@@ -49,6 +50,7 @@ int main() {
   strcpy(flashlight->description, flashlightDescription);
 
   // Screwdriver
+  cout << 2 << endl;
   char screwdriverName[] = "SCREWDRIVER";
   char screwdriverDescription[] = "Electricians used this item to open maintenance vents.";
   Item* screwdriver = new Item();
@@ -56,6 +58,7 @@ int main() {
   strcpy(screwdriver->description, screwdriverDescription);
 
   // Dungeon 1c Key
+  cout << 3 << endl;
   char key1cName[] = "DUNGEON-1C-KEY";
   char key1cDescription[] = "This key grants access to the Dungeon 1C.";
   Item* dungeon1cKey = new Item();
@@ -63,6 +66,7 @@ int main() {
   strcpy(dungeon1cKey->description, key1cDescription);
 
   // Rope
+  cout << 4 << endl;
   char ropeName[] = "ROPE";
   char ropeDescription[] = "Ropes could be useful to cross large spaces or scale up tall things like cliffs!";
   Item* rope = new Item();
@@ -70,6 +74,7 @@ int main() {
   strcpy(rope->description, ropeDescription);
 
   // Rope
+  cout << 5 << endl;
   char lintName[] = "LINTBALL";
   char lintDescription[] = "Your ropes may be frayed, repair them by whipping them with some old lint!";
   Item* lint = new Item();
@@ -77,6 +82,7 @@ int main() {
   strcpy(lint->description, lintDescription);
 
   // Hammer
+  cout << 6 << endl;
   char hammerName[] = "HAMMER";
   char hammerDescription[] = "Used along with the screwdriver!  Commonly used by electricians.";
   Item* hammer = new Item();
@@ -84,6 +90,7 @@ int main() {
   strcpy(hammer->description, hammerDescription);
 
   // Turret SE Key
+  cout << 7 << endl;
   char turretSeKeyName[] = "TURRET-SE-KEY";
   char turretSeKeyDescription[] = "This key grants access to the Southeast Turret.";
   Item* turretSeKey = new Item();
@@ -91,6 +98,7 @@ int main() {
   strcpy(turretSeKey->description, turretSeKeyDescription);
 
   // Iron Bar
+  cout << 8 << endl;
   char ironBarName[] = "IRONBAR";
   char ironBarDescription[] = "You may need to pry open a window with this!";
   Item* ironBar = new Item();
@@ -98,6 +106,7 @@ int main() {
   strcpy(ironBar->description, ironBarDescription);
 
   // Turret NE Key
+  cout << 9 << endl;
   char turretNeKeyName[] = "TURRET-NE-KEY";
   char turretNeKeyDescription[] = "This key grants access to the Northeast Turret.";
   Item* turretNeKey = new Item();
@@ -105,6 +114,7 @@ int main() {
   strcpy(turretNeKey->description, turretNeKeyDescription);
 
   // Mattress 1
+  cout << 10 << endl;
   char mat1Name[] = "MATTRESS-1";
   char mat1Description[] = "Using a mattress could save your life in case you need to jump out of a window!";
   Item* mat1 = new Item();
@@ -112,6 +122,7 @@ int main() {
   strcpy(mat1->description, mat1Description);
 
   // Mattress 2
+  cout << 11 << endl;
   char mat2Name[] = "MATTRESS-2";
   char mat2Description[] = "Using a mattress could save your life in case you need to jump out of a window!";
   Item* mat2 = new Item();
@@ -147,18 +158,26 @@ int main() {
   Room* turretSE = new Room();
 
   // Creating the rooms
+  cout << 12 << endl;
   char darkHallwayName[] = "Dark Hallway";
   char darkHallwayDescription[] = "You emerge out of an awkward dream.  You ask yourself, \"Where am I?\"  As you slowly get your bearings, you notice you're in a disturbingly dark room.";
   darkHallway->setNnD(darkHallwayName, darkHallwayDescription);
   darkHallway->addItem(flashlight);
   darkHallway->setExit(EXIT_EAST, dungeon1);
 
+  cout << 13 << endl;
   char dungeon1bName[] = "Dungeon 1B";
+  cout << "13a" << endl;
   char dungeon1bDescription[] = "You're in section 1B of the main dungeon.";
+  cout << "13b" << endl;
   dungeon1b->setNnD(dungeon1bName, dungeon1bDescription);
+  cout << "13c" << endl;
   dungeon1b->setExit(EXIT_EAST, dungeon1c);
+  cout << "13d" << endl;
   dungeon1b->setExit(EXIT_SOUTH, dungeon1a);
+  cout << "13e" << endl;
 
+  cout << 14 << endl;
   char dungeon1aName[] = "Dungeon 1A";
   char dungeon1aDescription[] = "You're in section 1A of the main dungeon.";
   dungeon1a->setNnD(dungeon1aName, dungeon1aDescription);
@@ -166,6 +185,7 @@ int main() {
   dungeon1a->setExit(EXIT_NORTH, dungeon1b);
   dungeon1a->setExit(EXIT_SOUTH, dungeon1);
 
+  cout << 15 << endl;
   char dungeon1Name[] = "Dungeon 1";
   char dungeon1Description[] = "You're in the main dungeon.";
   dungeon1->setNnD(dungeon1Name, dungeon1Description);
@@ -174,6 +194,7 @@ int main() {
   dungeon1->setExit(EXIT_EAST, oldAirway);
   dungeon1->setExit(EXIT_WEST, darkHallway);
 
+  cout << 16 << endl;
   char dungeon1dName[] = "Dungeon 1D";
   char dungeon1dDescription[] = "You're in section 1D of the main dungeon.";
   dungeon1d->setNnD(dungeon1dName, dungeon1dDescription);
@@ -181,12 +202,14 @@ int main() {
   dungeon1d->setExit(EXIT_NORTH, dungeon1);
   dungeon1d->setExit(EXIT_SOUTH, dungeon1e);
 
+  cout << 17 << endl;
   char dungeon1eName[] = "Dungeon 1E";
   char dungeon1eDescription[] = "You're in section 1E of the main dungeon.";
   dungeon1e->setNnD(dungeon1eName, dungeon1eDescription);
   dungeon1e->setExit(EXIT_NORTH, dungeon1d);
   dungeon1e->setExit(EXIT_EAST, dungeon1f);
 
+  cout << 18 << endl;
   char dungeon1cName[] = "Dungeon 1C";
   char dungeon1cDescription[] = "You're in section 1C of the main dungeon.";
   dungeon1c->setNnD(dungeon1cName, dungeon1cDescription);
@@ -194,6 +217,7 @@ int main() {
   dungeon1c->addRequirement(dungeon1cKey);
   dungeon1c->setExit(EXIT_WEST, dungeon1b);
 
+  cout << 19 << endl;
   char oldAirwayName[] = "Old Airway";
   char oldAirwayDescription[] = "You're in an old airway of the castle.  A great place for someone to hide.";
   oldAirway->setNnD(oldAirwayName, oldAirwayDescription);
@@ -203,6 +227,7 @@ int main() {
   oldAirway->setExit(EXIT_WEST, dungeon1);
   oldAirway->setExit(EXIT_EAST, rockShelfW);
 
+  cout << 20 << endl;
   char dungeon1fName[] = "Dungeon 1F";
   char dungeon1fDescription[] = "You're in section 1F of the main dungeon.";
   dungeon1f->setNnD(dungeon1fName, dungeon1fDescription);
@@ -226,34 +251,44 @@ int main() {
         break;
     }
     char namePrefix[] = "Rock Shelf ";
-    char descriptionPrefix[] = "You're on the ";
-    char descriptionSuffix[] = " side of the chasm.";
+    char descriptionPrefix[] = "You're on Rock Shelf ";
+    int maxTitleSize = strlen(namePrefix) + 5 + 1; // name size + max direction size + null char
+    int maxDescriptionSize = strlen(descriptionPrefix) + 5 + 1;
+    char concatTitle[maxTitleSize];
+    char concatDescription[maxDescriptionSize];
+    strcpy(concatTitle, strcat(namePrefix, direction));
+    strcpy(concatDescription, strcat(descriptionPrefix, direction));
     switch(i) {
       case 0:
-        rockShelfN->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
+        cout << 21 << endl;
+        rockShelfN->setNnD(concatTitle, concatDescription);
         rockShelfN->addItem(ironBar);
         rockShelfN->setExit(EXIT_NORTH, windowHallwayN);
         rockShelfN->setExit(EXIT_SOUTH, chasm);
         break;
       case 1:
-        rockShelfS->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
+        cout << 22 << endl;
+        rockShelfS->setNnD(concatTitle, concatDescription);
         rockShelfS->setExit(EXIT_NORTH, chasm);
         rockShelfS->setExit(EXIT_SOUTH, windowHallwayS);
         break;
       case 2:
-        rockShelfE->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
+        cout << 23 << endl;
+        rockShelfE->setNnD(concatTitle, concatDescription);
         rockShelfE->addItem(turretNeKey);
         rockShelfE->setExit(EXIT_EAST, barredWindowE);
         rockShelfE->setExit(EXIT_WEST, chasm);
         break;
       case 3:
-        rockShelfW->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
+        cout << 24 << endl;
+        rockShelfW->setNnD(concatTitle, concatDescription);
         rockShelfW->setExit(EXIT_EAST, chasm);
         rockShelfW->setExit(EXIT_WEST, oldAirway);
         break;
     }
   }
 
+  cout << 25 << endl;
   char chasmName[] = "Chasm";
   char chasmDescription[] = "You're in the underground part of the castle and find an odd hole in the ground... could you possibly throw a rope to get across?";
   chasm->setNnD(chasmName, chasmDescription);
@@ -289,25 +324,30 @@ int main() {
     char finalRoomDescription[] = "Congratulations, you successfully escaped the castle!  Thanks for playing.";
     switch(i) {
       case 0:
+        cout << 26 << endl;
         barredWindowN1->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         barredWindowN1->setExit(EXIT_EAST, windowHallwayN);
         break;
       case 1:
+        cout << 27 << endl;
         barredWindowN2->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         barredWindowN2->setExit(EXIT_WEST, windowHallwayN);
         barredWindowN2->setExit(EXIT_EAST, turretNE);
         break;
       case 2:
+        cout << 28 << endl;
         barredWindowS1->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         barredWindowS1->addItem(turretSeKey);
         barredWindowS1->setExit(EXIT_EAST, windowHallwayS);
         break;
       case 3:
+        cout << 29 << endl;
         barredWindowS2->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         barredWindowS2->setExit(EXIT_WEST, windowHallwayS);
         barredWindowS2->setExit(EXIT_EAST, turretSE);
         break;
       case 4:
+        cout << 30 << endl;
         barredWindowE->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         barredWindowE->addRequirement(ironBar);
         barredWindowE->addRequirement(mat1);
@@ -337,23 +377,27 @@ int main() {
     char descriptionSuffix[] = ".";
     switch(i) {
       case 0:
+        cout << 31 << endl;
         windowHallwayN->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         windowHallwayN->setExit(EXIT_WEST, barredWindowN1);
         windowHallwayN->setExit(EXIT_EAST, barredWindowN2);
         windowHallwayN->setExit(EXIT_SOUTH, rockShelfN);
         break;
       case 1:
+        cout << 32 << endl;
         windowHallwayS->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         windowHallwayN->setExit(EXIT_WEST, barredWindowS1);
         windowHallwayN->setExit(EXIT_EAST, barredWindowS2);
         windowHallwayN->setExit(EXIT_NORTH, rockShelfS);
         break;
       case 2:
+        cout << 33 << endl;
         windowHallwayE1->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         windowHallwayE1->addItem(mat1);
         windowHallwayE1->setExit(EXIT_NORTH, turretNE);
         break;
       case 3:
+        cout << 34 << endl;
         windowHallwayE2->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
         windowHallwayE1->addItem(mat2);
         windowHallwayE1->setExit(EXIT_SOUTH, turretSE);
@@ -361,6 +405,7 @@ int main() {
     }
   }
 
+  cout << 35 << endl;
   char turretNeName[] = "Northeast Turret";
   char turretNeDescription[] = "You're in the castle's Northeast Turret.";
   turretNE->setNnD(turretNeName, turretNeDescription);
@@ -368,6 +413,7 @@ int main() {
   turretNE->setExit(EXIT_WEST, barredWindowN2);
   turretNE->setExit(EXIT_SOUTH, windowHallwayE1);
 
+  cout << 36 << endl;
   char turretSeName[] = "Southeast Turret";
   char turretSeDescription[] = "You're in the castle's Southeast Turret.";
   turretSE->setNnD(turretSeName, turretSeDescription);
@@ -379,6 +425,43 @@ int main() {
   // Initializing variables
   Room* currentRoom = darkHallway;
   vector<Item*> inventory;
+  cout << "Done initializing" << endl;
+
+  while(true) {
+    cout << "Enter your command > ";
+    char cmd1[101];
+    cin >> cmd1;
+    cout << "Enter your command parameter > ";
+    char cmd2[101];
+    cin >> cmd2;
+    cout << "Command 1: " << cmd1 << endl;
+    cout << "Command 2: " << cmd2 << endl;
+    /*
+    char cmd[55];
+    cin.getline(cmd, 54, '\n');
+    char cmd1[5];
+    char cmd2[51];
+    std::vector<char*> v;
+    int count = 0;
+    char* chars_array = strtok(cmd, " ");
+    while (chars_array) {
+      if(count > 0) {
+        strcpy(cmd2, strcat(cmd2, chars_array));
+      } else {
+        strcpy(cmd1, chars_array);
+      }
+      chars_array = strtok(NULL, " ");
+      // std::cout << chars_array << endl;
+      count++;
+    }
+    if(strlen(cmd1) > 4) {
+      cout << "\"" << cmd1 << "\" is not a valid command!" << endl;
+      continue;
+    }
+    cout << "Command 1: " << cmd1 << endl;
+    cout << "Command 2: " << cmd2 << endl;
+    */
+  }
   
   return 0;
 }
