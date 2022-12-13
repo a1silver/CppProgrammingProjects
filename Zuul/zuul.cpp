@@ -578,6 +578,17 @@ int main()
     }
     if (strcmp(cmd1, CMD_HELP) == 0)
     {
+      cout << endl;
+      cout << "Escape the Castle - Help" << endl;
+      cout << "Square bracket arguments [] are required; angle bracket arguments <> are optional." << endl;
+      cout << "To leave an optional argument blank, simply type \"NONE\"." << endl << endl;
+      cout << "LOOK                 Look around the room for exits and items.  You need the flashlight item to run this command.  This item is found at the very start of the game." << endl;
+      cout << "TAKE [item_name]     Take items from the room.  Your inventory has unlimited space." << endl;
+      cout << "DROP [item_name]     Drop items from your inventory into the current room that you're in.  You can't drop items into a room if said item is that room's requirement." << endl;
+      cout << "MOVE [direction]     Move from room to room.  Some rooms may require that you have a certain item in your inventory in order to enter." << endl;
+      cout << "INVT <item_name>     View all of the items that you have, or view a specific item and it's description." << endl;
+      cout << "HELP                 View this message." << endl;
+      cout << "QUIT                 Exit the game at any time." << endl;
     }
     if (strcmp(cmd1, CMD_QUIT) == 0)
     {
