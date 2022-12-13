@@ -8,45 +8,54 @@
 
 using namespace std;
 
-Room::Room() {
-  requirements = new vector<Item*>();
-  items = new vector<Item*>();
-  exits = new map<char*, Room*>();
+Room::Room()
+{
+  // Initialize fields!  Don't want those segmentation faults.
+  requirements = new vector<Item *>();
+  items = new vector<Item *>();
+  exits = new map<char *, Room *>();
   name = new char[51];
   description = new char[251];
 };
 
-Room::~Room() {
-  for(auto it = requirements->begin(); it < requirements->end(); it++) {
+Room::~Room()
+{
+  // The room destructor is the worst
+  for (auto it = requirements->begin(); it < requirements->end(); it++)
+  {
     delete *it;
   }
   delete requirements;
-  for(auto it = items->begin(); it < items->end(); it++) {
+  for (auto it = items->begin(); it < items->end(); it++)
+  {
     delete *it;
   }
   delete items;
-  /*
-  for (auto it = exits->begin(); it != exits->end(); it++) {
-    delete it->first;
-    delete it->second;
-  }
-  */
-  map<char*, Room*>::iterator it = exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
-  while (it != exits->end()) {
+  map<char *, Room *>::iterator it = exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
+  for (auto it = exits->begin(); it != exits->end(); it++)
+  {
     delete it->first;
     delete it->second;
   }
   delete exits;
+  delete name;
+  delete description;
 }
 
-void Room::setNnD(char nameIn[51], char descriptionIn[251]) {
+void Room::setNnD(char nameIn[51], char descriptionIn[251])
+{
+  // Sets both the name and the description at the same time
   strcpy(name, nameIn);
   strcpy(description, descriptionIn);
 }
 
-void Room::addRequirement(Item* itemIn) {
-  for(auto it = requirements->begin(); it < requirements->end(); it++) {
-    if((*it)->equals(itemIn)) {
+void Room::addRequirement(Item *itemIn)
+{
+  // Add an item to a room that the user must have before entering
+  for (auto it = requirements->begin(); it < requirements->end(); it++)
+  {
+    if ((*it)->equals(itemIn))
+    {
       return;
     }
   }
@@ -54,9 +63,13 @@ void Room::addRequirement(Item* itemIn) {
   return;
 }
 
-void Room::addItem(Item* itemIn) {
-  for(auto it = items->begin(); it < items->end(); it++) {
-    if((*it)->equals(itemIn)) {
+void Room::addItem(Item *itemIn)
+{
+  // Places an item in the room that can be picked up
+  for (auto it = items->begin(); it < items->end(); it++)
+  {
+    if ((*it)->equals(itemIn))
+    {
       return;
     }
   }
@@ -64,25 +77,25 @@ void Room::addItem(Item* itemIn) {
   return;
 }
 
-void Room::setExit(char directionIn[6], Room* roomIn) {
-  if(exits->size() == 0) {
+void Room::setExit(char directionIn[6], Room *roomIn)
+{
+  // Add an exit to the room
+  if (exits->size() == 0)
+  {
     exits->insert({directionIn, roomIn});
     return;
   }
-  map<char*, Room*>::iterator it = exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
-  while (it != exits->end()) {
-    if(strcmp(it->first, directionIn) == 0) {
+  map<char *, Room *>::iterator it = exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
+  while (it != exits->end())
+  {
+    if (strcmp(it->first, directionIn) == 0)
+    {
       return;
-    } else {
+    }
+    else
+    {
       exits->insert({directionIn, roomIn});
       return;
     }
   }
-  /*
-  for(auto it = exits->begin(); it < exits->end(); it++) {
-    if(strcmp(it.first, directionIn) == 0) {
-      return;
-    }
-  }
-  */
 }

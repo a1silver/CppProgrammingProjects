@@ -8,11 +8,13 @@
 
 using namespace std;
 
+// Exit directions
 char EXIT_NORTH[] = "NORTH";
 char EXIT_SOUTH[] = "SOUTH";
 char EXIT_EAST[] = "EAST";
 char EXIT_WEST[] = "WEST";
 
+// Char constants for room names
 const char DIR_NORTH_FULL[] = "North";
 const char DIR_SOUTH_FULL[] = "South";
 const char DIR_EAST_FULL[] = "East";
@@ -37,13 +39,14 @@ const char CMD_HELP[] = "HELP";
 const char CMD_QUIT[] = "QUIT";
 const char CMD_NULL[] = "NONE";
 
+// Method prototypes
 void printRoom(Room *currentRoom);
-void look(Room *currentRoom);
-void dropItem(Room *currentRoom, vector<Item *> *inventory, int idx);
 
 int main()
 {
   // Initializing items first
+  // This is so much damn fun.
+  // Galbraith if you're reading this please please please for the love of god let us use strings :(
 
   // Flashlight
   char flashlightName[] = "FLASHLIGHT";
@@ -122,7 +125,7 @@ int main()
   strcpy(mat2->name, mat2Name);
   strcpy(mat2->description, mat2Description);
 
-  // Initializing the rooms;
+  // Initializing the rooms
   Room *darkHallway = new Room();
   Room *dungeon1b = new Room();
   Room *dungeon1a = new Room();
@@ -212,6 +215,7 @@ int main()
   dungeon1f->addItem(hammer);
   dungeon1f->setExit(EXIT_WEST, dungeon1e);
 
+  // For loops cuz im lazy and don't wanna write thousands of lines of code
   for (int i = 0; i < 4; i++)
   {
     char direction[6];
@@ -269,6 +273,7 @@ int main()
   chasm->setExit(EXIT_EAST, rockShelfE);
   chasm->setExit(EXIT_WEST, rockShelfW);
 
+  // For loops cuz im lazy and don't wanna write thousands of lines of code
   for (int i = 0; i < 5; i++)
   {
     char direction[5];
@@ -324,6 +329,7 @@ int main()
     }
   }
 
+  // For loops cuz im lazy and don't wanna write thousands of lines of code
   for (int i = 0; i < 4; i++)
   {
     char direction[5];
@@ -390,24 +396,33 @@ int main()
   Room *currentRoom = darkHallway;
   vector<Item *> *inventory = new vector<Item *>();
 
+  // Time to actually start the game!
+
+  // Print entry message
   cout << "Welcome to Escape the Castle, the epic sequel to Escape the Hotel, a Java Adventure Game." << endl;
   cout << "If, at any point during the game you forget what commands to use, type \"HELP\" and you will be presented with the command list." << endl;
   cout << "The goal of this game is to escape the castle using items that you find around the map!  Good luck." << endl
        << endl;
 
+  // Get commands forever until a quit command is sent
   while (true)
   {
+    // Print the room
     printRoom(currentRoom);
+
+    // Get the command & arg
     cout << "Enter your command > ";
     char cmd1[101];
     cin >> cmd1;
     char cmd2[101];
 
+    // Check & run "commands"
     if (strcmp(cmd1, CMD_LOOK) == 0)
     {
+      // Dropping items
       if (strcmp(currentRoom->name, darkHallwayName) == 0)
       {
-        if (find(inventory->begin(), inventory->end(), flashlight) != inventory->end())
+        if (find(inventory->begin(), inventory->end(), flashlight) != inventory->end()) // Player needs a flashlight to look around
         {
           cout << "There are " << currentRoom->exits->size() << " ways to exit this room: " << endl;
           map<char *, Room *>::iterator it = currentRoom->exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
@@ -418,6 +433,7 @@ int main()
           cout << endl;
           if (currentRoom->items->size() > 0)
           {
+            // Only display the first item so the player doesn't yoink them all straight away
             cout << "I also found an item called \"" << currentRoom->items->at(0)->name << "\"..." << endl;
           }
         }
@@ -428,7 +444,7 @@ int main()
       }
       else
       {
-        if (find(inventory->begin(), inventory->end(), flashlight) != inventory->end())
+        if (find(inventory->begin(), inventory->end(), flashlight) != inventory->end()) // Player needs a flashlight to look around
         {
           cout << "There are " << currentRoom->exits->size() << " ways to exit this room: " << endl;
           map<char *, Room *>::iterator it = currentRoom->exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
@@ -439,6 +455,7 @@ int main()
           cout << endl;
           if (currentRoom->items->size() > 0)
           {
+            // Only display the first item so the player doesn't yoink them all straight away
             cout << "I also found an item called \"" << currentRoom->items->at(0)->name << "\"..." << endl;
           }
         }
@@ -450,6 +467,7 @@ int main()
     }
     if (strcmp(cmd1, CMD_TAKE) == 0)
     {
+      // Picking up items
       cout << "Enter your command parameter > ";
       cin >> cmd2;
       cout << endl;
@@ -477,6 +495,7 @@ int main()
     }
     if (strcmp(cmd1, CMD_DROP) == 0)
     {
+      // Dropping items
       cout << "Enter your command parameter > ";
       cin >> cmd2;
       cout << endl;
@@ -497,6 +516,7 @@ int main()
     }
     if (strcmp(cmd1, CMD_MOVE) == 0)
     {
+      // Moving around the map
       cout << "Enter your command parameter > ";
       cin >> cmd2;
       cout << endl;
@@ -525,7 +545,7 @@ int main()
             continue;
           }
           currentRoom = it->second;
-          if (strcmp(currentRoom->name, barredWindowE->name) == 0)
+          if (strcmp(currentRoom->name, barredWindowE->name) == 0) // The player is in the "winning" room
           {
             cout << currentRoom->description << endl;
             return 0;
@@ -539,11 +559,13 @@ int main()
       }
       if (!found)
       {
+        // Tell the player they entered in the wrong input
         cout << "There isn't an exit there!" << endl;
       }
     }
     if (strcmp(cmd1, CMD_INVT) == 0)
     {
+      // Display inventory or specific item info
       cout << "Enter your command parameter > ";
       cin >> cmd2;
       cout << endl;
@@ -574,12 +596,14 @@ int main()
         }
         if (!found)
         {
+          // Item doesn't exist
           cout << "You don't have that item in your inventory!" << endl;
         }
       }
     }
     if (strcmp(cmd1, CMD_HELP) == 0)
     {
+      // Display the help menu
       cout << endl;
       cout << "Escape the Castle - Help" << endl;
       cout << "Square bracket arguments [] are required; angle bracket arguments <> are optional." << endl;
@@ -595,36 +619,11 @@ int main()
     }
     if (strcmp(cmd1, CMD_QUIT) == 0)
     {
+      // Quit command.  Send message and return exit code 0
       cout << "Thanks for playing!" << endl;
       return 0;
     }
     cout << endl;
-
-    /*
-    char cmd[55];
-    cin.getline(cmd, 54, '\n');
-    char cmd1[5];
-    char cmd2[51];
-    std::vector<char*> v;
-    int count = 0;
-    char* chars_array = strtok(cmd, " ");
-    while (chars_array) {
-      if(count > 0) {
-        strcpy(cmd2, strcat(cmd2, chars_array));
-      } else {
-        strcpy(cmd1, chars_array);
-      }
-      chars_array = strtok(NULL, " ");
-      // std::cout << chars_array << endl;
-      count++;
-    }
-    if(strlen(cmd1) > 4) {
-      cout << "\"" << cmd1 << "\" is not a valid command!" << endl;
-      continue;
-    }
-    cout << "Command 1: " << cmd1 << endl;
-    cout << "Command 2: " << cmd2 << endl;
-    */
   }
 
   return 0;
@@ -632,15 +631,8 @@ int main()
 
 void printRoom(Room *currentRoom)
 {
+  // Print the room name, description, and tip
   cout << "Current Room: " << currentRoom->name << endl;
   cout << currentRoom->description << endl;
   cout << "What would you like to do?  Type \"HELP\" for you available commands." << endl;
-}
-
-void look(Room *currentRoom, vector<Item *> *inventory)
-{
-}
-
-void dropItem(Room *currentRoom, vector<Item *> *inventory, int idx)
-{
 }
