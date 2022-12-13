@@ -560,6 +560,20 @@ int main()
       }
       else
       {
+        bool found = false;
+        vector<Item *>::iterator it;
+        for (it = inventory->begin(); it < inventory->end(); it++)
+        {
+          if(strcmp((*it)->name, cmd2) == 0) {
+            cout << (*it)->name << endl;
+            cout << "   " << (*it)->description << endl;
+            found = true;
+            break;
+          }
+        }
+        if(!found) {
+          cout << "You don't have that item in your inventory!" << endl;
+        }
       }
     }
     if (strcmp(cmd1, CMD_HELP) == 0)
