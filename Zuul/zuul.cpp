@@ -564,14 +564,16 @@ int main()
         vector<Item *>::iterator it;
         for (it = inventory->begin(); it < inventory->end(); it++)
         {
-          if(strcmp((*it)->name, cmd2) == 0) {
+          if (strcmp((*it)->name, cmd2) == 0)
+          {
             cout << (*it)->name << endl;
             cout << "   " << (*it)->description << endl;
             found = true;
             break;
           }
         }
-        if(!found) {
+        if (!found)
+        {
           cout << "You don't have that item in your inventory!" << endl;
         }
       }
@@ -581,7 +583,8 @@ int main()
       cout << endl;
       cout << "Escape the Castle - Help" << endl;
       cout << "Square bracket arguments [] are required; angle bracket arguments <> are optional." << endl;
-      cout << "To leave an optional argument blank, simply type \"NONE\"." << endl << endl;
+      cout << "To leave an optional argument blank, simply type \"NONE\"." << endl
+           << endl;
       cout << "LOOK                 Look around the room for exits and items.  You need the flashlight item to run this command.  This item is found at the very start of the game." << endl;
       cout << "TAKE [item_name]     Take items from the room.  Your inventory has unlimited space." << endl;
       cout << "DROP [item_name]     Drop items from your inventory into the current room that you're in.  You can't drop items into a room if said item is that room's requirement." << endl;
