@@ -7,6 +7,7 @@ using namespace std;
 
 int main() {
     Node* current = NULL;
+    Node* firstnode = NULL;
 
     cout << "Welcome to Student List, but with linked lists!  This is a demo to make sure all core files are working properly." << endl;
 
@@ -16,6 +17,7 @@ int main() {
     student1->id = 455152;
     student1->gpa = 4.143;
     Node* first = new Node(student1);
+    firstnode = first;
     
     Student* student2 = new Student();
     strcpy(student2->firstname, "Aaron");
@@ -59,6 +61,21 @@ int main() {
     
     // The while loop stops before the very last item in the list
     cout << current->getStudent()->firstname << " " << current->getStudent()->lastname << ", " << current->getStudent()->id << ", " << current->getStudent()->gpa << endl;
+    
+    current = firstnode;
+    cout << "before" << endl;
+    while(current->getNext() != NULL) {
+        cout << 1 << endl;
+        Node *temp = current;
+        cout << 2 << endl;
+        current = current->getNext();
+        cout << 3 << endl;
+        delete temp;
+        cout << 4 << endl;
+    }
+    
+    // The while loop stops before the very last item in the list
+    delete current;
 
     return 0;
 }
