@@ -68,48 +68,6 @@ void LinkedList::add(Node *current, Student *newS, bool isHead)
     {
         this->add(current->getNext(), newS, false);
     }
-
-    /*
-    if(current != nullptr && this->size == 1) // Head exists, but it's the only element in the list
-    {
-        if(newS->id < this->head->getStudent()->id)
-        {
-            Node *newN = new Node(newS);
-            newN->setNext(this->head);
-            this->head = newN;
-        } else {
-            this->head->setNext(new Node(newS));
-            // this->add(current->getNext(), newS, false);
-        }
-        this->size++;
-        return;
-    }
-    // 3rd element and onwards
-    if(prev == nullptr)
-    {
-        if(newS->id < this->head->getStudent()->id)
-        {
-            Node *newN = new Node(newS);
-            newN->setNext(this->head);
-            this->head = newN;
-        } else {
-            // this->head->setNext(new Node(newS));
-            this->add(current->getNext(), newS, false);
-        }
-        this->size++;
-        return;
-    }
-    if(newS->id < current->getStudent()->id)
-    {
-        Node *newN = new Node(newS);
-        prev->setNext(newN);
-        newN->setNext(current);
-        this->size++;
-        return;
-    } else {
-        this->add(current->getNext(), newS, false);
-    }
-    */
 }
 
 void LinkedList::add(Student *newS)
@@ -248,8 +206,6 @@ void LinkedList::remove(int index)
         Node *toDelete = current->getNext();
         current->setNext(current->getNext()->getNext());
         delete toDelete;
-        // current->getNext() = current->getNext()->getNext();
-        // delete toDelete;
         this->size--;
     }
 }
@@ -313,125 +269,6 @@ float *LinkedList::getAverageGpa() // Return a pointer so we can delete it later
     // *sum = *sum / this->getSize();;
     return sum;
 }
-
-/*
-float LinkedList::getAverageGpa()
-{
-    float sum = 0;
-    Node *current = this->head;
-    for (int i = 0; i < this->size; i++)
-    {
-        // sum += current->getStudent()->gpa;
-        if (current == nullptr)
-        {
-            break;
-        }
-        else
-        {
-            sum += current->getStudent()->gpa;
-        }
-        current = current->getNext();
-    }
-    return sum / this->size;
-}
-*/
-
-/*
-void LinkedList::bubbleSort(Node *current)
-{
-    if (current == nullptr || current->getNext() == nullptr)
-        return;
-
-    if (current->getStudent()->id > current->getNext()->getStudent()->id)
-    {
-        Student *temp = current->getStudent();
-        current->setStudent(current->getNext()->getStudent());
-        current->getNext()->setStudent(temp);
-        bubbleSort(this->getPrevious(current));
-        // On god, the one line above this comment took me THREE HOURS to figure out.  It exists because once we swap two nodes, the first node (now the smaller node) may still be smaller than the one before it.  Because of this, we have to run the bubbleSort() function on the new current's previous node.
-        // swap(head->getStudent(), head->getNext()->getStudent());
-    }
-
-    bubbleSort(current->getNext());
-}
-
-Node *LinkedList::getPrevious(Node *node)
-{
-    Node *current = this->head;
-    for (int i = 0; i < this->size; i++)
-    {
-        if (current->getNext() == node)
-        {
-            return current;
-        }
-        current = current->getNext();
-    }
-    return nullptr;
-}
-
-void LinkedList::swap(Student *a, Student *b)
-{
-    Student temp;
-    temp.id = a->id;
-    strcpy(temp.firstname, a->firstname);
-    strcpy(temp.lastname, a->lastname);
-    // temp.firstname = a->firstname;
-    // temp.lastname = a->lastname;
-    temp.gpa = a->gpa;
-
-    a->id = b->id;
-    strcpy(a->firstname, b->firstname);
-    strcpy(a->lastname, b->lastname);
-    // a->firstname = b->firstname;
-    // a->lastname = b->lastname;
-    a->gpa = b->gpa;
-
-    b->id = temp.id;
-    strcpy(b->firstname, temp.firstname);
-    strcpy(b->lastname, temp.lastname);
-    // b->firstname = temp.firstname;
-    // b->lastname = temp.lastname;
-    b->gpa = temp.gpa;
-}
-*/
-
-/*
-void LinkedList::sortList()
-{
-    this->bubbleSort(this->head);
-}
-*/
-
-/*
-void LinkedList::sortList()
-{
-    if (this->size == 0)
-    {
-        return;
-    }
-
-    bool swapped;
-    Node *current;
-    Node *last = nullptr;
-    do
-    {
-        swapped = false;
-        current = this->head;
-        while (current->getNext() != last)
-        {
-            if (current->getStudent()->id > current->getNext()->getStudent()->id)
-            {
-                Student *temp = current->getStudent();
-                current->setStudent(current->getNext()->getStudent());
-                current->getNext()->setStudent(temp);
-                swapped = true;
-            }
-            current = current->getNext();
-        }
-        last = current;
-    } while (swapped);
-}
-*/
 
 void LinkedList::printNode(Node *current)
 {
