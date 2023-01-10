@@ -1,10 +1,9 @@
-#include <iostream>
-#include <iomanip>
-#include <cstring>
 #include <cctype>
-#include <vector>
-#include <algorithm>
+#include <cstring>
 #include <ctype.h>
+#include <iomanip>
+#include <iostream>
+
 #include "student.h"
 #include "node.h"
 #include "linkedlist.h"
