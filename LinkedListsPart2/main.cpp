@@ -91,14 +91,17 @@ void readInStudent(LinkedList *studentList)
     cout << "Enter Student GPA: ";
     cin >> student->gpa;
 
+    cout << "check dupe ID" << endl;
     if (studentList->idExists(student->id))
     {
         cout << "A student with id " << student->id << " already exists!" << endl;
         return;
     }
 
-    studentList->append(student);
-    studentList->sortList();
+    cout << "add student" << endl;
+    // studentList->append(student);
+    studentList->add(student);
+    // studentList->sortList();
 
     cout << "Student added!" << endl;
 }
@@ -124,7 +127,7 @@ void deleteStudent(LinkedList *studentList)
     }
 
     studentList->remove(indexOfId);
-    studentList->sortList();
+    // studentList->sortList();
 
     cout << " Deleted!" << endl;
 }

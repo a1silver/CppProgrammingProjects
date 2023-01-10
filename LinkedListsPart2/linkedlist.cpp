@@ -22,6 +22,143 @@ LinkedList::~LinkedList()
     }
 }
 
+void LinkedList::add(Node *current, Student *newS, bool isHead)
+{
+    if (current == nullptr && isHead) // Head doesn't exist
+    {
+        this->head = new Node(newS);
+        this->size = 1;
+        return;
+    }
+    Node *prev = this->getPrevious(current);
+    if (current->getNext() == nullptr) // still have to check to see if it goes before or after
+    {
+        if (newS->id < current->getStudent()->id)
+        {
+            Node *newN = new Node(newS);
+            if (prev != nullptr)
+                prev->setNext(newN);
+            else
+                this->head = newN;
+            newN->setNext(current);
+            this->size++;
+            return;
+        }
+        else
+        {
+            cout << 6 << endl;
+            current->setNext(new Node(newS));
+            cout << 7 << endl;
+            this->size++;
+        }
+        return;
+    }
+    if (newS->id < current->getStudent()->id)
+    {
+        Node *newN = new Node(newS);
+        if (prev != nullptr)
+            prev->setNext(newN);
+        else
+            this->head = newN;
+        newN->setNext(current);
+        this->size++;
+        return;
+    }
+    else
+    {
+        this->add(current->getNext(), newS, false);
+    }
+
+    /*
+    if(current != nullptr && this->size == 1) // Head exists, but it's the only element in the list
+    {
+        if(newS->id < this->head->getStudent()->id)
+        {
+            Node *newN = new Node(newS);
+            newN->setNext(this->head);
+            this->head = newN;
+        } else {
+            this->head->setNext(new Node(newS));
+            // this->add(current->getNext(), newS, false);
+        }
+        this->size++;
+        return;
+    }
+    // 3rd element and onwards
+    if(prev == nullptr)
+    {
+        if(newS->id < this->head->getStudent()->id)
+        {
+            Node *newN = new Node(newS);
+            newN->setNext(this->head);
+            this->head = newN;
+        } else {
+            // this->head->setNext(new Node(newS));
+            this->add(current->getNext(), newS, false);
+        }
+        this->size++;
+        return;
+    }
+    if(newS->id < current->getStudent()->id)
+    {
+        Node *newN = new Node(newS);
+        prev->setNext(newN);
+        newN->setNext(current);
+        this->size++;
+        return;
+    } else {
+        this->add(current->getNext(), newS, false);
+    }
+    */
+}
+
+void LinkedList::add(Student *newS)
+{
+    Node *current = this->head;
+    this->add(current, newS, true);
+}
+
+void LinkedList::updateTail()
+{
+    cout << "get head" << endl;
+    Node *current = this->head;
+    cout << "check to see if current is null" << endl;
+    if (current == nullptr)
+    {
+        cout << "set tail to null" << endl;
+        this->tail = nullptr;
+        return;
+    }
+    cout << "begin loop" << endl;
+    for (int i = 0; i < this->size; i++)
+    {
+        if (i == this->size - 1)
+        {
+            this->tail = current;
+            return;
+        }
+        current = current->getNext();
+    }
+}
+
+Node *LinkedList::getPrevious(Node *node)
+{
+    Node *current = this->head;
+    if (current == node)
+    {
+        return nullptr;
+    }
+    for (int i = 0; i < this->size; i++)
+    {
+        if (current->getNext() == node)
+        {
+            return current;
+        }
+        current = current->getNext();
+    }
+    return nullptr;
+}
+
 void LinkedList::append(Student *student)
 {
     Node *newNode = new Node(student);
@@ -199,6 +336,7 @@ float LinkedList::getAverageGpa()
 }
 */
 
+/*
 void LinkedList::bubbleSort(Node *current)
 {
     if (current == nullptr || current->getNext() == nullptr)
@@ -210,9 +348,7 @@ void LinkedList::bubbleSort(Node *current)
         current->setStudent(current->getNext()->getStudent());
         current->getNext()->setStudent(temp);
         bubbleSort(this->getPrevious(current));
-        /*
-        On god, the one line above this comment took me THREE HOURS to figure out.  It exists because once we swap two nodes, the first node (now the smaller node) may still be smaller than the one before it.  Because of this, we have to run the bubbleSort() function on the new current's previous node.
-        */
+        // On god, the one line above this comment took me THREE HOURS to figure out.  It exists because once we swap two nodes, the first node (now the smaller node) may still be smaller than the one before it.  Because of this, we have to run the bubbleSort() function on the new current's previous node.
         // swap(head->getStudent(), head->getNext()->getStudent());
     }
 
@@ -257,11 +393,14 @@ void LinkedList::swap(Student *a, Student *b)
     // b->lastname = temp.lastname;
     b->gpa = temp.gpa;
 }
+*/
 
+/*
 void LinkedList::sortList()
 {
     this->bubbleSort(this->head);
 }
+*/
 
 /*
 void LinkedList::sortList()
@@ -304,8 +443,7 @@ void LinkedList::printNode(Node *current)
     cout << current->getStudent()->lastname << ", ";
     cout << current->getStudent()->id << ", ";
     cout << current->getStudent()->gpa << endl;
-    current = current->getNext();
-    this->printNode(current);
+    this->printNode(current->getNext());
 }
 
 void LinkedList::printList()
@@ -316,11 +454,16 @@ void LinkedList::printList()
         return;
     }
     Node *current = this->head;
-    this->printNode(current);
+    this->printNode(this->head);
     cout << endl;
 }
 
 int LinkedList::getSize()
 {
     return this->size;
+}
+
+Node *LinkedList::getHead()
+{
+    return this->head;
 }

@@ -2,6 +2,7 @@
 
 Node::Node(Student *student)
 {
+    this->next = nullptr;
     this->student = student;
 }
 
@@ -23,9 +24,4 @@ void Node::setNext(Node *next)
 Student *Node::getStudent()
 {
     return this->student;
-}
-
-void Node::setStudent(Student *student)
-{
-    this->student = student;
 }
