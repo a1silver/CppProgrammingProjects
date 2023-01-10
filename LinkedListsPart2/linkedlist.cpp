@@ -155,6 +155,34 @@ int LinkedList::getIndexOfId(int id)
     return -1;
 }
 
+void LinkedList::getAverageGpa(Node *current, float *sum)
+{
+    if (current == nullptr)
+    {
+        return;
+    }
+    cout << "add current student to sum" << endl;
+    (*sum) += current->getStudent()->gpa;
+    cout << "recur" << endl;
+    this->getAverageGpa(current->getNext(), sum);
+}
+
+float *LinkedList::getAverageGpa() // Return a pointer so we can delete it later
+{
+    cout << "create sum" << endl;
+    float *sum = new float(0); // lmao fr I thought that setting this equal to zero would work (you have to do "new float(0)")
+    cout << "get current" << endl;
+    Node *current = this->head;
+    cout << "start recursion" << endl;
+    this->getAverageGpa(current, sum);
+    cout << "average the sum" << endl;
+    (*sum) /= this->getSize();
+    // *sum = *sum / this->getSize();;
+    cout << "return the sum" << endl;
+    return sum;
+}
+
+/*
 float LinkedList::getAverageGpa()
 {
     float sum = 0;
@@ -174,21 +202,12 @@ float LinkedList::getAverageGpa()
     }
     return sum / this->size;
 }
+*/
 
 void LinkedList::bubbleSort(Node *current)
 {
     if (current == nullptr || current->getNext() == nullptr)
         return;
-
-    cout << current->getStudent()->firstname << " ";
-    cout << current->getStudent()->lastname << ", ";
-    cout << current->getStudent()->id << ", ";
-    cout << current->getStudent()->gpa << endl;
-
-    cout << current->getNext()->getStudent()->firstname << " ";
-    cout << current->getNext()->getStudent()->lastname << ", ";
-    cout << current->getNext()->getStudent()->id << ", ";
-    cout << current->getNext()->getStudent()->gpa << endl;
 
     if (current->getStudent()->id > current->getNext()->getStudent()->id)
     {
@@ -246,7 +265,6 @@ void LinkedList::swap(Student *a, Student *b)
 
 void LinkedList::sortList()
 {
-    cout << "begin bubble sort" << endl;
     this->bubbleSort(this->head);
 }
 
