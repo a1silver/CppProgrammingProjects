@@ -178,9 +178,7 @@ void LinkedList::getAverageGpa(Node *current, float *sum)
     {
         return;
     }
-    cout << "add current student to sum" << endl;
     (*sum) += current->getStudent()->gpa;
-    cout << "recur" << endl;
     this->getAverageGpa(current->getNext(), sum);
 }
 

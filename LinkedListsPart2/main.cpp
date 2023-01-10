@@ -98,14 +98,12 @@ void readInStudent(LinkedList *studentList)
     cout << "Enter Student GPA: ";
     cin >> student->gpa;
 
-    cout << "check dupe ID" << endl;
     if (studentList->idExists(student->id))
     {
         cout << "A student with id " << student->id << " already exists!" << endl;
         return;
     }
 
-    cout << "add student" << endl;
     // studentList->append(student);
     studentList->add(student);
     // studentList->sortList();
