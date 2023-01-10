@@ -1,12 +1,13 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-struct Student
+class Student
 {
-    int id;
-    char firstname[20];
-    char lastname[20];
-    float gpa;
+    public:
+        int id;
+        char firstname[20];
+        char lastname[20];
+        float gpa;
 };
 
 #endif // STUDENT_H
