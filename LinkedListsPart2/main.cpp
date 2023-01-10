@@ -76,7 +76,16 @@ int main()
         }
         if (strcmp(cmd, QUIT_CMD) == 0)
         {
+            cout << "Clearing up memory..." << endl;
             delete studentList;
+            cout << "Done!" << endl;
+            break;
+        }
+        if (strcmp(cmd, EXIT_CMD) == 0)
+        {
+            cout << "Clearing up memory..." << endl;
+            delete studentList;
+            cout << "Done!" << endl;
             break;
         }
     }
