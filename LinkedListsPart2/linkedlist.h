@@ -14,6 +14,7 @@ private:
   void swap(Student *a, Student *b);
   Node *getPrevious(Node *node);
   void printNode(Node *current);
+  void getAverageGpa(Node *current, float *sum);
 
 public:
   LinkedList();
@@ -26,7 +27,7 @@ public:
   Student *get(int index);
   bool idExists(int id);
   int getIndexOfId(int id);
-  float getAverageGpa(); // fix average
+  float *getAverageGpa();
   void sortList();
   void printList();
   int getSize();
