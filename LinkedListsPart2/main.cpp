@@ -153,7 +153,7 @@ void help()
 
     char cmd[7];
     cin >> cmd;
-
+    // add print delete quit average help
     if (strcmp(cmd, ADD_CMD) == 0)
     {
         cout << "Command: ADD" << endl;
@@ -169,6 +169,11 @@ void help()
         cout << "Command: DELETE" << endl;
         cout << "Find and delete a student by ID.";
     }
+    else if (strcmp(cmd, AVERAGE_CMD) == 0)
+    {
+        cout << "Command: AVERAGE" << endl;
+        cout << "Get the average GPA of all students.";
+    }
     else if (strcmp(cmd, HELP_CMD) == 0)
     {
         cout << "Command: HELP" << endl;
@@ -181,7 +186,7 @@ void help()
     }
     else if (strcmp(cmd, HELP_ALL) == 0)
     {
-        cout << "Available commands: ADD, PRINT, DELETE, CLEAR, HELP, QUIT" << endl;
+        cout << "Available commands: ADD, PRINT, DELETE, AVERAGE, HELP, QUIT" << endl;
         cout << "Type HELP + (COMMAND) to view help for a specific command.";
     }
     cout << endl;
