@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
+#include <cctype>
 #include <vector>
 #include <algorithm>
 #include <ctype.h>
@@ -11,13 +12,14 @@
 using namespace std;
 
 // Const commands
-const char ADD_CMD[] = "ADD";
-const char PRINT_CMD[] = "PRINT";
-const char DELETE_CMD[] = "DELETE";
-const char QUIT_CMD[] = "QUIT";
-const char AVERAGE_CMD[] = "AVERAGE";
-const char HELP_CMD[] = "HELP";
-const char HELP_ALL[] = "ALL";
+const char ADD_CMD[] = "add";
+const char PRINT_CMD[] = "print";
+const char DELETE_CMD[] = "delete";
+const char QUIT_CMD[] = "quit";
+const char EXIT_CMD[] = "exit";
+const char AVERAGE_CMD[] = "average";
+const char HELP_CMD[] = "help";
+const char HELP_ALL[] = "all";
 
 void readInStudent(LinkedList *studentList);
 void deleteStudent(LinkedList *studentList);
@@ -45,6 +47,11 @@ int main()
     {
         cout << "> ";
         cin >> cmd;
+
+        for(int i = 0; i < strlen(cmd); i++)
+        {
+            cmd[i] = tolower(cmd[i]);
+        }
 
         // commands
         if (strcmp(cmd, ADD_CMD) == 0)
@@ -182,12 +189,12 @@ void help()
     }
     else if (strcmp(cmd, QUIT_CMD) == 0)
     {
-        cout << "Command: QUIT" << endl;
+        cout << "Command: QUIT | EXIT" << endl;
         cout << "Quit the program.";
     }
     else if (strcmp(cmd, HELP_ALL) == 0)
     {
-        cout << "Available commands: ADD, PRINT, DELETE, AVERAGE, HELP, QUIT" << endl;
+        cout << "Available commands: ADD, PRINT, DELETE, AVERAGE, HELP, QUIT, EXIT" << endl;
         cout << "Type HELP + (COMMAND) to view help for a specific command.";
     }
     cout << endl;
