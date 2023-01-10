@@ -115,9 +115,7 @@ void deleteStudent(LinkedList *studentList)
     cout << "Enter ID to delete: ";
     int id;
     cin >> id;
-    cout << "got ID" << endl;
     int indexOfId = studentList->getIndexOfId(id);
-    cout << "got index" << endl;
 
     if (indexOfId == -1)
     {
@@ -126,9 +124,7 @@ void deleteStudent(LinkedList *studentList)
     }
 
     studentList->remove(indexOfId);
-    cout << "removed" << endl;
     studentList->sortList();
-    cout << "sorted" << endl;
 
     cout << " Deleted!" << endl;
 }
@@ -139,7 +135,9 @@ void averageStudents(LinkedList *studentList) {
         cout << "No students to average!" << endl;
         return;
     }
-    cout << "The average GPA of all " << studentList->getSize() << " students is " << studentList->getAverageGpa() << "!" << endl;
+    float *avg = studentList->getAverageGpa();
+    cout << "The average GPA of all " << studentList->getSize() << " students is " << *avg << "!" << endl;
+    delete avg;
 }
 
 void help()

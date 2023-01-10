@@ -169,16 +169,11 @@ void LinkedList::getAverageGpa(Node *current, float *sum)
 
 float *LinkedList::getAverageGpa() // Return a pointer so we can delete it later
 {
-    cout << "create sum" << endl;
     float *sum = new float(0); // lmao fr I thought that setting this equal to zero would work (you have to do "new float(0)")
-    cout << "get current" << endl;
     Node *current = this->head;
-    cout << "start recursion" << endl;
     this->getAverageGpa(current, sum);
-    cout << "average the sum" << endl;
     (*sum) /= this->getSize();
     // *sum = *sum / this->getSize();;
-    cout << "return the sum" << endl;
     return sum;
 }
 
