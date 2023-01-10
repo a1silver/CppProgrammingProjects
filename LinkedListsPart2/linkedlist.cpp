@@ -76,29 +76,6 @@ void LinkedList::add(Student *newS)
     this->add(current, newS, true);
 }
 
-void LinkedList::updateTail()
-{
-    cout << "get head" << endl;
-    Node *current = this->head;
-    cout << "check to see if current is null" << endl;
-    if (current == nullptr)
-    {
-        cout << "set tail to null" << endl;
-        this->tail = nullptr;
-        return;
-    }
-    cout << "begin loop" << endl;
-    for (int i = 0; i < this->size; i++)
-    {
-        if (i == this->size - 1)
-        {
-            this->tail = current;
-            return;
-        }
-        current = current->getNext();
-    }
-}
-
 Node *LinkedList::getPrevious(Node *node)
 {
     Node *current = this->head;
@@ -115,59 +92,6 @@ Node *LinkedList::getPrevious(Node *node)
         current = current->getNext();
     }
     return nullptr;
-}
-
-void LinkedList::append(Student *student)
-{
-    Node *newNode = new Node(student);
-    newNode->setNext(nullptr);
-    if (this->tail == nullptr)
-    {
-        this->head = newNode;
-        this->tail = newNode;
-    }
-    else
-    {
-        this->tail->setNext(newNode);
-        this->tail = newNode;
-    }
-    this->size++;
-}
-
-void LinkedList::prepend(Student *student)
-{
-    Node *newNode = new Node(student);
-    newNode->setNext(this->head);
-    this->head = newNode;
-    if (this->tail == nullptr)
-    {
-        this->tail = this->head;
-    }
-    this->size++;
-}
-
-void LinkedList::insert(int index, Student *student)
-{
-    if (index == 0)
-    {
-        prepend(student);
-    }
-    else if (index >= size)
-    {
-        append(student);
-    }
-    else
-    {
-        Node *newNode = new Node(student);
-        Node *current = this->head;
-        for (int i = 0; i < index - 1; i++)
-        {
-            current = current->getNext();
-        }
-        newNode->setNext(current->getNext());
-        current->setNext(newNode);
-        this->size++;
-    }
 }
 
 void LinkedList::remove(int index)
