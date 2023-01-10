@@ -177,7 +177,8 @@ float LinkedList::getAverageGpa()
 
 void LinkedList::bubbleSort(Node *current)
 {
-    if (current == nullptr || current->getNext() == nullptr) return;
+    if (current == nullptr || current->getNext() == nullptr)
+        return;
 
     cout << current->getStudent()->firstname << " ";
     cout << current->getStudent()->lastname << ", ";
@@ -191,10 +192,13 @@ void LinkedList::bubbleSort(Node *current)
 
     if (current->getStudent()->id > current->getNext()->getStudent()->id)
     {
-        Student* temp = current->getStudent();
+        Student *temp = current->getStudent();
         current->setStudent(current->getNext()->getStudent());
         current->getNext()->setStudent(temp);
         bubbleSort(this->getPrevious(current));
+        /*
+        On god, the one line above this comment took me THREE HOURS to figure out.  It exists because once we swap two nodes, the first node (now the smaller node) may still be smaller than the one before it.  Because of this, we have to run the bubbleSort() function on the new current's previous node.
+        */
         // swap(head->getStudent(), head->getNext()->getStudent());
     }
 
