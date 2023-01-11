@@ -106,9 +106,30 @@ void LinkedList::remove(Node *current, int id)
     {
         Node *prev = this->getPrevious(current);
         Node *next = current->getNext();
-        delete current;
-        prev->setNext(next);
-        return;
+        if (prev != nullptr && next != nullptr) // both prev and next are valid nodes
+        {
+            delete current;
+            prev->setNext(next);
+            this->size--;
+            return;
+        }
+        else
+        {
+            if (prev == nullptr)
+            {
+                this->head = next;
+                delete current;
+                this->size--;
+                return;
+            }
+            if (next == nullptr)
+            {
+                prev->setNext(nullptr);
+                delete current;
+                this->size--;
+                return;
+            }
+        }
     }
     this->remove(current->getNext(), id);
 }
