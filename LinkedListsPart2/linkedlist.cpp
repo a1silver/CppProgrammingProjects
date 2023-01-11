@@ -47,9 +47,7 @@ void LinkedList::add(Node *current, Student *newS, bool isHead)
         }
         else
         {
-            cout << 6 << endl;
             current->setNext(new Node(newS));
-            cout << 7 << endl;
             this->size++;
         }
         return;
