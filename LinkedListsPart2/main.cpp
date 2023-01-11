@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "student.h"
-#include "node.h"
+#include "Node.h"
 #include "linkedlist.h"
 
 using namespace std;

@@ -1,7 +1,7 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include "node.h"
+#include "Node.h"
 #include "student.h"
 
 class LinkedList
