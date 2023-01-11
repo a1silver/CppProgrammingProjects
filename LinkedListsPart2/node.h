@@ -1,25 +1,17 @@
-#ifndef NODE_H
-#define NODE_H
-
+#pragma once
+#include <iostream>
 #include "student.h"
 
-class Node
-{
-public:
-    Node(Student *student);
-    ~Node();
-    Node *getNext();
-    void setNext(Node *next);
-    Student *getStudent();
+using namespace std;
 
-private:
-    Node *next;
-    Student *student;
+class Node {
+ public:
+  Node(Student*); // node constructor
+  Node* getNext(); // get next node pointer
+  Student* getStudent(); // get student pointer
+  void setNext(Node*); // set next corresponding node pointer
+  ~Node(); // node destructor
+
+  Student* nextStudent;
+  Node* nextPointer;
 };
-
-#endif // NODE_H
-/*
-This is the Node class!  
-It represents a Node in the linked list.  
-It contains a Student pointer and another Node pointer, which points to the next Node in the series.
-*/

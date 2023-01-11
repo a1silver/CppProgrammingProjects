@@ -1,27 +1,29 @@
-#include "node.h"
+#include <iostream>
+#include "Node.h"
+#include "student.h"
 
-Node::Node(Student *student)
-{
-    this->next = nullptr;
-    this->student = student;
+using namespace std;
+
+Node::Node(Student* studenttemp) {
+  nextStudent = studenttemp;
+  //added: initialize nextPointer
+  nextPointer = nullptr;
 }
 
-Node::~Node()
-{
-    delete student;
+Node* Node::getNext() {
+  return nextPointer;
 }
 
-Node *Node::getNext()
-{
-    return this->next;
+Student* Node::getStudent() {
+  return nextStudent;
 }
 
-void Node::setNext(Node *next)
-{
-    this->next = next;
+void Node::setNext(Node* nexttemp) {
+  nextPointer = nexttemp;
 }
 
-Student *Node::getStudent()
-{
-    return this->student;
+Node::~Node() {
+  cout << "Destructing Node" << endl;
+  //added: delete nextStudent;
+  delete nextStudent;
 }
