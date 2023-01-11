@@ -47,7 +47,7 @@ int main()
         cout << "> ";
         cin >> cmd;
 
-        for(int i = 0; i < strlen(cmd); i++)
+        for (int i = 0; i < strlen(cmd); i++)
         {
             cmd[i] = tolower(cmd[i]);
         }
@@ -119,6 +119,32 @@ void readInStudent(LinkedList *studentList)
     cout << "Student added!" << endl;
 }
 
+void deleteStudent(LinkedList *studentList)
+{
+    if (studentList->getSize() == 0)
+    {
+        cout << "No students to delete!" << endl;
+        return;
+    }
+
+    cout << "Enter ID to delete: ";
+    int id;
+    cin >> id;
+    bool idExists = studentList->idExists(id);
+
+    if (!idExists)
+    {
+        cout << "Student with ID " << id << " not found!" << endl;
+        return;
+    }
+
+    studentList->remove(id);
+    // studentList->sortList();
+
+    cout << " Deleted!" << endl;
+}
+
+/*
 // Delete a student by ID
 void deleteStudent(LinkedList *studentList)
 {
@@ -144,8 +170,10 @@ void deleteStudent(LinkedList *studentList)
 
     cout << " Deleted!" << endl;
 }
+*/
 
-void averageStudents(LinkedList *studentList) {
+void averageStudents(LinkedList *studentList)
+{
     if (studentList->getSize() == 0)
     {
         cout << "No students to average!" << endl;

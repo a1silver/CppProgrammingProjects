@@ -14,16 +14,16 @@ private:
   void getAverageGpa(Node *current, float *sum);
   Node *getPrevious(Node *node);
   void add(Node *current, Student *newS, bool isHead);
+  void remove(Node *current, int id);
 
 public:
   LinkedList();
   ~LinkedList();
 
   void add(Student *newS);
-  void remove(int index);
+  void remove(int id);
   Student *get(int index);
   bool idExists(int id);
-  int getIndexOfId(int id);
   float *getAverageGpa();
   void printList();
   int getSize();

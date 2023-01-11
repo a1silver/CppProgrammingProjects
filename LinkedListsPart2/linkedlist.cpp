@@ -20,6 +20,7 @@ LinkedList::~LinkedList()
         delete current;
         current = temp;
     }
+    delete tail;
 }
 
 void LinkedList::add(Node *current, Student *newS, bool isHead)
@@ -94,6 +95,31 @@ Node *LinkedList::getPrevious(Node *node)
     return nullptr;
 }
 
+void LinkedList::remove(Node *current, int id)
+{
+    if (current == nullptr)
+    {
+        return;
+    }
+
+    if (current->getStudent()->id == id)
+    {
+        Node *prev = this->getPrevious(current);
+        Node *next = current->getNext();
+        delete current;
+        prev->setNext(next);
+        return;
+    }
+    this->remove(current->getNext(), id);
+}
+
+void LinkedList::remove(int id)
+{
+    Node *current = this->head;
+    return this->remove(current, id);
+}
+
+/*
 void LinkedList::remove(int index)
 {
     if (index == 0)
@@ -133,6 +159,7 @@ void LinkedList::remove(int index)
         this->size--;
     }
 }
+*/
 
 Student *LinkedList::get(int index)
 {
@@ -158,6 +185,7 @@ bool LinkedList::idExists(int id)
     return false;
 }
 
+/*
 int LinkedList::getIndexOfId(int id)
 {
     Node *current = this->head;
@@ -171,6 +199,7 @@ int LinkedList::getIndexOfId(int id)
     }
     return -1;
 }
+*/
 
 void LinkedList::getAverageGpa(Node *current, float *sum)
 {
