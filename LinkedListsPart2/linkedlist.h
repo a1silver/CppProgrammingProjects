@@ -13,8 +13,8 @@ private:
   void printNode(Node *current);
   void getAverageGpa(Node *current, float *sum);
   Node *getPrevious(Node *node);
-  void add(Node *current, Student *newS, bool isHead);
-  void remove(Node *current, int id);
+  void add(Node *current, Node *prev, Student *newS, bool isHead);
+  void remove(Node *current, Node *prev, int id);
 
 public:
   LinkedList();

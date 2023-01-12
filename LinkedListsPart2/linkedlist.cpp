@@ -23,7 +23,7 @@ LinkedList::~LinkedList()
     delete tail;
 }
 
-void LinkedList::add(Node *current, Student *newS, bool isHead)
+void LinkedList::add(Node *current, Node *prev, Student *newS, bool isHead)
 {
     if (current == nullptr && isHead) // Head doesn't exist
     {
@@ -31,7 +31,7 @@ void LinkedList::add(Node *current, Student *newS, bool isHead)
         this->size = 1;
         return;
     }
-    Node *prev = this->getPrevious(current);
+    // Node *prev = this->getPrevious(current);
     if (current->getNext() == nullptr) // still have to check to see if it goes before or after
     {
         if (newS->id < current->getStudent()->id)
@@ -65,14 +65,14 @@ void LinkedList::add(Node *current, Student *newS, bool isHead)
     }
     else
     {
-        this->add(current->getNext(), newS, false);
+        this->add(current->getNext(), current, newS, false);
     }
 }
 
 void LinkedList::add(Student *newS)
 {
     Node *current = this->head;
-    this->add(current, newS, true);
+    this->add(current, nullptr, newS, true);
 }
 
 Node *LinkedList::getPrevious(Node *node)
@@ -93,7 +93,7 @@ Node *LinkedList::getPrevious(Node *node)
     return nullptr;
 }
 
-void LinkedList::remove(Node *current, int id)
+void LinkedList::remove(Node *current, Node *prev, int id)
 {
     if (current == nullptr)
     {
@@ -102,7 +102,7 @@ void LinkedList::remove(Node *current, int id)
 
     if (current->getStudent()->id == id)
     {
-        Node *prev = this->getPrevious(current);
+        // Node *prev = this->getPrevious(current);
         Node *next = current->getNext();
         if (prev != nullptr && next != nullptr) // both prev and next are valid nodes
         {
@@ -129,13 +129,13 @@ void LinkedList::remove(Node *current, int id)
             }
         }
     }
-    this->remove(current->getNext(), id);
+    this->remove(current->getNext(), current, id);
 }
 
 void LinkedList::remove(int id)
 {
     Node *current = this->head;
-    return this->remove(current, id);
+    return this->remove(current, nullptr, id);
 }
 
 /*
