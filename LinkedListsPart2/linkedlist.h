@@ -12,7 +12,6 @@ private:
   int size;
   void printNode(Node *current);
   void getAverageGpa(Node *current, float *sum);
-  Node *getPrevious(Node *node);
   void add(Node *current, Node *prev, Student *newS, bool isHead);
   void remove(Node *current, Node *prev, int id);
 
@@ -22,7 +21,6 @@ public:
 
   void add(Student *newS);
   void remove(int id);
-  Student *get(int index);
   bool idExists(int id);
   float *getAverageGpa();
   void printList();

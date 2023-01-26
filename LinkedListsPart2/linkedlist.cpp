@@ -75,24 +75,6 @@ void LinkedList::add(Student *newS)
     this->add(current, nullptr, newS, true);
 }
 
-Node *LinkedList::getPrevious(Node *node)
-{
-    Node *current = this->head;
-    if (current == node)
-    {
-        return nullptr;
-    }
-    for (int i = 0; i < this->size; i++)
-    {
-        if (current->getNext() == node)
-        {
-            return current;
-        }
-        current = current->getNext();
-    }
-    return nullptr;
-}
-
 void LinkedList::remove(Node *current, Node *prev, int id)
 {
     if (current == nullptr)
@@ -138,58 +120,6 @@ void LinkedList::remove(int id)
     return this->remove(current, nullptr, id);
 }
 
-/*
-void LinkedList::remove(int index)
-{
-    if (index == 0)
-    {
-        Node *toDelete = this->head;
-        head = this->head->getNext();
-        delete toDelete;
-        if (this->head == nullptr)
-        {
-            this->tail = nullptr;
-        }
-        this->size--;
-    }
-    else if (index >= size)
-    {
-        Node *current = this->head;
-        for (int i = 0; i < this->size - 1; i++)
-        {
-            current = current->getNext();
-        }
-        Node *toDelete = current->getNext();
-        current->setNext(nullptr);
-        this->tail = current;
-        delete toDelete;
-        this->size--;
-    }
-    else
-    {
-        Node *current = this->head;
-        for (int i = 0; i < index - 1; i++)
-        {
-            current = current->getNext();
-        }
-        Node *toDelete = current->getNext();
-        current->setNext(current->getNext()->getNext());
-        delete toDelete;
-        this->size--;
-    }
-}
-*/
-
-Student *LinkedList::get(int index)
-{
-    Node *current = this->head;
-    for (int i = 0; i < index; i++)
-    {
-        current = current->getNext();
-    }
-    return current->getStudent();
-}
-
 bool LinkedList::idExists(int id)
 {
     Node *current = this->head;
@@ -203,22 +133,6 @@ bool LinkedList::idExists(int id)
     }
     return false;
 }
-
-/*
-int LinkedList::getIndexOfId(int id)
-{
-    Node *current = this->head;
-    for (int i = 0; i < this->size; i++)
-    {
-        if (current->getStudent()->id == id)
-        {
-            return i;
-        }
-        current = current->getNext();
-    }
-    return -1;
-}
-*/
 
 void LinkedList::getAverageGpa(Node *current, float *sum)
 {
