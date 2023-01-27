@@ -8,7 +8,6 @@ class LinkedList
 {
 private:
   Node *head;
-  Node *tail;
   int size;
   void printNode(Node *current);
   void getAverageGpa(Node *current, float *sum);

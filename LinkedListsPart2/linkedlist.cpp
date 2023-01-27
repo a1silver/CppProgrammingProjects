@@ -7,7 +7,6 @@ using namespace std;
 LinkedList::LinkedList()
 {
     this->head = nullptr;
-    this->tail = nullptr;
     this->size = 0;
 }
 
@@ -20,7 +19,6 @@ LinkedList::~LinkedList()
         delete current;
         current = temp;
     }
-    delete tail;
 }
 
 void LinkedList::add(Node *current, Node *prev, Student *newS, bool isHead)
@@ -43,7 +41,6 @@ void LinkedList::add(Node *current, Node *prev, Student *newS, bool isHead)
                 this->head = newN;
             newN->setNext(current);
             this->size++;
-            return;
         }
         else
         {
@@ -91,7 +88,6 @@ void LinkedList::remove(Node *current, Node *prev, int id)
             delete current;
             prev->setNext(next);
             this->size--;
-            return;
         }
         else
         {
@@ -100,16 +96,15 @@ void LinkedList::remove(Node *current, Node *prev, int id)
                 this->head = next;
                 delete current;
                 this->size--;
-                return;
             }
             if (next == nullptr)
             {
                 prev->setNext(nullptr);
                 delete current;
                 this->size--;
-                return;
             }
         }
+        return;
     }
     this->remove(current->getNext(), current, id);
 }
@@ -123,7 +118,7 @@ void LinkedList::remove(int id)
 bool LinkedList::idExists(int id)
 {
     Node *current = this->head;
-    for (int i = 0; i < this->size; i++)
+    while(current != nullptr)
     {
         if (current->getStudent()->id == id)
         {
@@ -149,8 +144,7 @@ float *LinkedList::getAverageGpa() // Return a pointer so we can delete it later
     float *sum = new float(0); // lmao fr I thought that setting this equal to zero would work (you have to do "new float(0)")
     Node *current = this->head;
     this->getAverageGpa(current, sum);
-    (*sum) /= this->getSize();
-    // *sum = *sum / this->getSize();;
+    (*sum) /= this->size;
     return sum;
 }
 

@@ -20,17 +20,17 @@ const char AVERAGE_CMD[] = "average";
 const char HELP_CMD[] = "help";
 const char HELP_ALL[] = "all";
 
+// Function prototypes
 void readInStudent(LinkedList *studentList);
 void deleteStudent(LinkedList *studentList);
 void averageStudents(LinkedList *studentList);
-void sortStudents(LinkedList *studentList);
 void help();
 
 // Main method
 int main()
 {
 
-    // Vector containing student pointers
+    // LinkedList containing student pointers/nodes
     LinkedList *studentList = new LinkedList();
 
     // Set Float and Double Precision
@@ -109,6 +109,7 @@ void readInStudent(LinkedList *studentList)
     if (studentList->idExists(student->id))
     {
         cout << "A student with id " << student->id << " already exists!" << endl;
+        delete student;
         return;
     }
 
@@ -143,34 +144,6 @@ void deleteStudent(LinkedList *studentList)
 
     cout << " Deleted!" << endl;
 }
-
-/*
-// Delete a student by ID
-void deleteStudent(LinkedList *studentList)
-{
-    if (studentList->getSize() == 0)
-    {
-        cout << "No students to delete!" << endl;
-        return;
-    }
-
-    cout << "Enter ID to delete: ";
-    int id;
-    cin >> id;
-    int indexOfId = studentList->getIndexOfId(id);
-
-    if (indexOfId == -1)
-    {
-        cout << "Student with ID " << id << " not found!" << endl;
-        return;
-    }
-
-    studentList->remove(indexOfId);
-    // studentList->sortList();
-
-    cout << " Deleted!" << endl;
-}
-*/
 
 void averageStudents(LinkedList *studentList)
 {
