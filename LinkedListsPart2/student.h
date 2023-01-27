@@ -3,11 +3,11 @@
 
 class Student
 {
-    public:
-        int id;
-        char firstname[20];
-        char lastname[20];
-        float gpa;
+public:
+    int id;
+    char firstname[20];
+    char lastname[20];
+    float gpa;
 };
 
 #endif // STUDENT_H

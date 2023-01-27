@@ -42,17 +42,19 @@ int main()
     // Keeps track of the current command
     char cmd[8];
 
+    // Constantly get new commands until the user wants to quit.
     while (true)
     {
         cout << "> ";
         cin >> cmd;
 
+        // This for loop takes care of ignoring any case sensitivity
         for (int i = 0; i < strlen(cmd); i++)
         {
             cmd[i] = tolower(cmd[i]);
         }
 
-        // commands
+        // Commands
         if (strcmp(cmd, ADD_CMD) == 0)
         {
             readInStudent(studentList);
@@ -113,13 +115,12 @@ void readInStudent(LinkedList *studentList)
         return;
     }
 
-    // studentList->append(student);
     studentList->add(student);
-    // studentList->sortList();
 
     cout << "Student added!" << endl;
 }
 
+// Delete a student.  Asks for the ID to delete.  If the ID doesn't exist or the list size == 0 the function will return.
 void deleteStudent(LinkedList *studentList)
 {
     if (studentList->getSize() == 0)
@@ -140,11 +141,11 @@ void deleteStudent(LinkedList *studentList)
     }
 
     studentList->remove(id);
-    // studentList->sortList();
 
     cout << " Deleted!" << endl;
 }
 
+// Print the average gpa among all students in the list
 void averageStudents(LinkedList *studentList)
 {
     if (studentList->getSize() == 0)
@@ -157,10 +158,9 @@ void averageStudents(LinkedList *studentList)
     delete avg;
 }
 
+// Prints the help command & any command details for specified command
 void help()
 {
-    // add, print, delete, clear, help, quit
-
     cout << "Student List Help" << endl;
     cout << "Type \"ALL\" to view all commands." << endl;
     cout << "-----------------" << endl
@@ -168,7 +168,7 @@ void help()
 
     char cmd[7];
     cin >> cmd;
-    // add print delete quit average help
+
     if (strcmp(cmd, ADD_CMD) == 0)
     {
         cout << "Command: ADD" << endl;
