@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 #include <sstream>
 
@@ -10,9 +11,9 @@ using namespace std;
 
 HashTable::HashTable()
 {
-    this->size = 128;
-    this->array = new Node *[this->size];
-    for (int i = 0; i < this->size; i++)
+    this->capacity = 128;
+    this->array = new Node *[this->capacity];
+    for (int i = 0; i < this->capacity; i++)
     {
         this->array[i] = nullptr;
     }
@@ -20,53 +21,39 @@ HashTable::HashTable()
 
 HashTable::~HashTable()
 {
-    for (int i = 0; i < this->size; i++)
+    for (int i = 0; i < this->capacity; i++)
     {
         delete this->array[i];
     }
     delete[] this->array;
 }
 
-void print(const char *c)
-{
-    cout << c << endl;
-}
-
 void HashTable::add(Student *student)
 {
-    print("hash");
     int hash = this->hash(student->id);
-    print("get chain size");
     int chainSize = this->getChainSize(hash);
 
-    print("get indexed");
     Node *indexed = this->array[hash];
 
-    print("make new node");
     Node *newNode = new Node();
-    print("set new node's student");
     newNode->student = student;
     switch (chainSize)
     {
     case 0:
-        print("0 item - set index");
         this->array[hash] = newNode;
         break;
     case 1:
-        print("1 item - set next");
         indexed->next = newNode;
         break;
     case 2:
-        print("2 item - set next next");
         indexed->next->next = newNode;
         break;
     case 3:
-        print("2 item - set next next next");
         indexed->next->next->next = newNode;
         break;
     default:
-        print("rehash");
         this->resizeAndRehash();
+        this->add(student);
     }
 }
 
@@ -106,18 +93,13 @@ bool HashTable::remove(int id)
 
 bool HashTable::idExists(int id)
 {
-    print("start");
-    for (int i = 0; i < this->size; i++)
+    for (int i = 0; i < this->capacity; i++)
     {
-        cout << "[iter " << i << "] get current" << endl;
         Node *current = this->array[i];
-        cout << "[iter " << i << "] start while loop" << endl;
         while (current != nullptr)
         {
-            cout << "[iter " << i << "] check id equality" << endl;
             if (current->student->id == id)
             {
-                cout << "[iter " << i << "] found" << endl;
                 return true;
             }
             current = current->next;
@@ -129,14 +111,14 @@ bool HashTable::idExists(int id)
 void HashTable::resizeAndRehash()
 {
     // Store the prev size for later
-    int prevSize = this->size;
+    int prevSize = this->capacity;
     // Double the size
-    this->size *= 2;
+    this->capacity *= 2;
 
     // Create temporary array
-    Node **tempArray = new Node *[this->size];
+    Node **tempArray = new Node *[this->capacity];
     // Copy all elements to the temporary array
-    for (int i = 0; i < this->size; i++)
+    for (int i = 0; i < this->capacity; i++)
     {
         tempArray[i] = this->array[i];
     }
@@ -147,13 +129,20 @@ void HashTable::resizeAndRehash()
     }
 
     // Rehash and re-add all elements from the temp array to the new array
-    for (int i = 0; i < this->size; i++)
+    for (int i = 0; i < this->capacity; i++)
     {
-        Node *current = tempArray[i];
-        while (current != nullptr)
+        Node *currentNode = tempArray[i];
+        while(currentNode != nullptr)
         {
-            this->add(current->student);
-            current = current->next;
+            Student *student = new Student();
+            strcpy(student->fname, currentNode->student->fname);
+            strcpy(student->lname, currentNode->student->lname);
+            student->id = currentNode->student->id;
+            student->gpa = currentNode->student->gpa;
+            this->add(student);
+            Node *temp = currentNode->next;
+            delete currentNode;
+            currentNode = temp;
         }
     }
     // Free temporary array memory
@@ -173,7 +162,7 @@ int HashTable::hash(int id)
 
     for (int i = 0; i < ss.str().size(); i++)
     {
-        sum = ((sum % this->size) + ((int(ss.str()[i])) * factor) % this->size) % this->size;
+        sum = ((sum % this->capacity) + ((int(ss.str()[i])) * factor) % this->capacity) % this->capacity;
         factor = ((factor % INT16_MAX) * (31 % INT16_MAX)) % INT16_MAX;
     }
 
@@ -195,7 +184,7 @@ int HashTable::getChainSize(int hash)
 
 void HashTable::printList()
 {
-    for (int i = 0; i < this->size; i++)
+    for (int i = 0; i < this->capacity; i++)
     {
         Node *current = this->array[i];
         while (current != nullptr)

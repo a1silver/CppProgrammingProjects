@@ -3,8 +3,8 @@
 
 struct Student
 {
-    char fname[21];
-    char lname[21];
+    char fname[51];
+    char lname[51];
     int id;
     float gpa;
 };

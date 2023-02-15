@@ -15,11 +15,11 @@ public:
     bool idExists(int id);
     int getSize() const
     {
-        return this->size;
+        return this->capacity;
     };
 
 private:
-    int size;
+    int capacity;
     Node **array;
     int getChainSize(int hash);
     void resizeAndRehash();

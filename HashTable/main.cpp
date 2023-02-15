@@ -1,8 +1,13 @@
 #include <cctype>
 #include <cstring>
-#include <ctype.h>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <string>
+#include <vector>
+
+#include <stdlib.h>
+#include <time.h>
 
 #include "hashtable.h"
 #include "types.h"
@@ -13,6 +18,7 @@ using namespace std;
 const char ADD_CMD[] = "add";
 const char PRINT_CMD[] = "print";
 const char DELETE_CMD[] = "delete";
+const char GEN_CMD[] = "gen";
 const char QUIT_CMD[] = "quit";
 const char EXIT_CMD[] = "exit";
 const char HELP_CMD[] = "help";
@@ -21,6 +27,7 @@ const char HELP_ALL[] = "all";
 // Function prototypes
 void readInStudent(HashTable *hashtable);
 void deleteStudent(HashTable *hashtable);
+void generateStudents(HashTable *hashtable);
 void help();
 
 // Main method
@@ -63,6 +70,10 @@ int main()
         if (strcmp(cmd, DELETE_CMD) == 0)
         {
             deleteStudent(hashtable);
+        }
+        if (strcmp(cmd, GEN_CMD) == 0)
+        {
+            generateStudents(hashtable);
         }
         if (strcmp(cmd, HELP_CMD) == 0)
         {
@@ -143,6 +154,74 @@ void deleteStudent(HashTable *hashtable)
     else
     {
         cout << " Failed to delete.  Either the ID doesn't exist or an internal error occurred." << endl;
+    }
+}
+
+void generateStudents(HashTable *hashtable)
+{
+    cout << " How many students would you like to generate? ";
+    int amount;
+    cin >> amount;
+
+    vector<char*> firstNames, lastNames;
+    int firstNameCount = 0, lastNameCount = 0;
+
+    ifstream firstNameFile("firstnames.txt");
+    if(firstNameFile.is_open())
+    {
+        char temp[51];
+        while(!firstNameFile.eof())
+        {
+            firstNameFile >> temp;
+            firstNames.push_back(new char[51]);
+            // firstNames[firstNameCount] = new char[51];
+            strcpy(firstNames[firstNameCount], temp);
+            firstNameCount++;
+        }
+        firstNameFile.close();
+    }
+    ifstream lastNameFile("lastnames.txt");
+    if(lastNameFile.is_open())
+    {
+        char temp[51];
+        while(!lastNameFile.eof())
+        {
+            lastNameFile >> temp;
+            lastNames.push_back(new char[51]);
+            // lastNames[lastNameCount] = new char[51];
+            strcpy(lastNames[lastNameCount], temp);
+            lastNameCount++;
+        }
+        lastNameFile.close();
+    }
+
+    srand(time(0));
+
+    for(int i = 0; i < amount; i++)
+    {
+        Student *student = new Student();
+
+        int randomNameIndex = rand() % 1000;
+        strcpy(student->fname, firstNames[randomNameIndex]);
+
+        randomNameIndex = rand() % 1000;
+        strcpy(student->lname, lastNames[randomNameIndex]);
+
+        int id = 0;
+        while(true)
+        {
+            if(hashtable->idExists(id))
+            {
+                id++;
+            } else {
+                break;
+            }
+        }
+        student->id = id;
+
+        student->gpa = (float)rand() / ((float)RAND_MAX / 5.0f);
+
+        hashtable->add(student);
     }
 }
 
