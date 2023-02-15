@@ -17,6 +17,7 @@ using namespace std;
 // Const commands
 const char ADD_CMD[] = "add";
 const char PRINT_CMD[] = "print";
+const char FIND_CMD[] = "find";
 const char DELETE_CMD[] = "delete";
 const char GEN_CMD[] = "gen";
 const char QUIT_CMD[] = "quit";
@@ -26,6 +27,7 @@ const char HELP_ALL[] = "all";
 
 // Function prototypes
 void readInStudent(HashTable *hashtable);
+void findStudent(HashTable *hashtable);
 void deleteStudent(HashTable *hashtable);
 void generateStudents(HashTable *hashtable);
 void help();
@@ -41,7 +43,7 @@ int main()
     cout << fixed;
     cout << setprecision(2);
 
-    cout << "Student List Program w/ Linked Lists v1.0 by Morgan Hinz" << endl;
+    cout << "Student List Program w/ Hash Table v1.0 by Morgan Hinz" << endl;
 
     // Keeps track of the current command
     char cmd[8];
@@ -66,6 +68,10 @@ int main()
         if (strcmp(cmd, PRINT_CMD) == 0)
         {
             hashtable->printList();
+        }
+        if (strcmp(cmd, FIND_CMD) == 0)
+        {
+            findStudent(hashtable);
         }
         if (strcmp(cmd, DELETE_CMD) == 0)
         {
@@ -112,7 +118,7 @@ void readInStudent(HashTable *hashtable)
     cout << " Enter Student GPA: ";
     cin >> student->gpa;
 
-    if (hashtable->idExists(student->id))
+    if (hashtable->exists(student->id))
     {
         cout << " A student with id " << student->id << " already exists!" << endl;
         delete student;
@@ -123,6 +129,23 @@ void readInStudent(HashTable *hashtable)
     hashtable->add(student);
 
     cout << " Student added!" << endl;
+}
+
+void findStudent(HashTable *hashtable)
+{
+    cout << " Enter ID to search for: ";
+    int id;
+    cin >> id;
+    
+    Student *student = hashtable->find(id);
+
+    if(student == nullptr)
+    {
+        cout << " A student with ID " << id << " was not found!" << endl;
+    } else {
+        cout << " Student found!" << endl;
+        cout << " " << student->fname << " " << student->lname << ", " << student->id << ", " << student->gpa << endl;
+    }
 }
 
 // Delete a student.  Asks for the ID to delete.  If the ID doesn't exist or the list size == 0 the function will return.
@@ -210,7 +233,7 @@ void generateStudents(HashTable *hashtable)
         int id = 0;
         while(true)
         {
-            if(hashtable->idExists(id))
+            if(hashtable->exists(id))
             {
                 id++;
             } else {
@@ -219,7 +242,7 @@ void generateStudents(HashTable *hashtable)
         }
         student->id = id;
 
-        student->gpa = (float)rand() / ((float)RAND_MAX / 5.0f);
+        student->gpa = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / 5.0f + 1.0f);
 
         hashtable->add(student);
     }

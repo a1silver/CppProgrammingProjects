@@ -12,7 +12,8 @@ public:
     void add(Student *student);
     bool remove(int id);
     void printList();
-    bool idExists(int id);
+    bool exists(int id);
+    Student *find(int id);
     int getSize() const
     {
         return this->capacity;

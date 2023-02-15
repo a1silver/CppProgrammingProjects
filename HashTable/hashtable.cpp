@@ -91,7 +91,7 @@ bool HashTable::remove(int id)
     return false;
 }
 
-bool HashTable::idExists(int id)
+bool HashTable::exists(int id)
 {
     for (int i = 0; i < this->capacity; i++)
     {
@@ -108,6 +108,23 @@ bool HashTable::idExists(int id)
     return false;
 }
 
+Student *HashTable::find(int id)
+{
+    for (int i = 0; i < this->capacity; i++)
+    {
+        Node *current = this->array[i];
+        while (current != nullptr)
+        {
+            if(current->student->id == id)
+            {
+                return current->student;
+            }
+            current = current->next;
+        }
+    }
+    return nullptr;
+}
+
 void HashTable::resizeAndRehash()
 {
     // Store the prev size for later
@@ -116,20 +133,21 @@ void HashTable::resizeAndRehash()
     this->capacity *= 2;
 
     // Create temporary array
-    Node **tempArray = new Node *[this->capacity];
+    Node **tempArray = new Node *[prevSize];
     // Copy all elements to the temporary array
-    for (int i = 0; i < this->capacity; i++)
+    for (int i = 0; i < prevSize; i++)
     {
         tempArray[i] = this->array[i];
     }
-    // Clear the current array
-    for (int i = 0; i < prevSize; i++)
+    // delete[] this->array;
+    this->array = new Node *[this->capacity];
+    for (int i = 0; i < this->capacity; i++)
     {
         this->array[i] = nullptr;
     }
 
     // Rehash and re-add all elements from the temp array to the new array
-    for (int i = 0; i < this->capacity; i++)
+    for (int i = 0; i < prevSize; i++)
     {
         Node *currentNode = tempArray[i];
         while(currentNode != nullptr)
@@ -146,6 +164,11 @@ void HashTable::resizeAndRehash()
         }
     }
     // Free temporary array memory
+    // delete[] tempArray;
+    for (int i = 0; i < prevSize; i++)
+    {
+        tempArray[i] = nullptr;
+    }
     delete[] tempArray;
 }
 
