@@ -135,7 +135,6 @@ void readInStudent(HashTable *hashtable)
         return;
     }
 
-    cout << "add" << endl;
     hashtable->add(student);
 
     cout << "  Student added!" << endl;
