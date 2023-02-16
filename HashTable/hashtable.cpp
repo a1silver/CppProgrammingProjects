@@ -1,4 +1,5 @@
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 
@@ -12,6 +13,7 @@ using namespace std;
 HashTable::HashTable()
 {
     this->capacity = 128;
+    this->elements = 0;
     this->array = new Node *[this->capacity];
     for (int i = 0; i < this->capacity; i++)
     {
@@ -41,15 +43,19 @@ void HashTable::add(Student *student)
     {
     case 0:
         this->array[hash] = newNode;
+        this->elements++;
         break;
     case 1:
         indexed->next = newNode;
+        this->elements++;
         break;
     case 2:
         indexed->next->next = newNode;
+        this->elements++;
         break;
     case 3:
         indexed->next->next->next = newNode;
+        this->elements++;
         break;
     default:
         this->resizeAndRehash();
@@ -73,6 +79,7 @@ bool HashTable::remove(int id)
             {
                 delete current;
                 this->array[hash] = nullptr;
+                this->elements--;
                 return true;
             }
             else
@@ -80,6 +87,7 @@ bool HashTable::remove(int id)
                 prev->next = nullptr;
                 delete current;
                 this->array[hash] = nullptr;
+                this->elements--;
                 return true;
             }
         }
@@ -93,40 +101,37 @@ bool HashTable::remove(int id)
 
 bool HashTable::exists(int id)
 {
-    for (int i = 0; i < this->capacity; i++)
+    int hash = this->hash(id);
+    Node *current = this->array[hash];
+    while (current != nullptr)
     {
-        Node *current = this->array[i];
-        while (current != nullptr)
+        if (current->student->id == id)
         {
-            if (current->student->id == id)
-            {
-                return true;
-            }
-            current = current->next;
+            return true;
         }
+        current = current->next;
     }
     return false;
 }
 
 Student *HashTable::find(int id)
 {
-    for (int i = 0; i < this->capacity; i++)
+    int hash = this->hash(id);
+    Node *current = this->array[hash];
+    while (current != nullptr)
     {
-        Node *current = this->array[i];
-        while (current != nullptr)
+        if (current->student->id == id)
         {
-            if(current->student->id == id)
-            {
-                return current->student;
-            }
-            current = current->next;
+            return current->student;
         }
+        current = current->next;
     }
     return nullptr;
 }
 
 void HashTable::resizeAndRehash()
 {
+    /*
     // Store the prev size for later
     int prevSize = this->capacity;
     // Double the size
@@ -135,9 +140,13 @@ void HashTable::resizeAndRehash()
     // Create temporary array
     Node **tempArray = new Node *[prevSize];
     // Copy all elements to the temporary array
-    for (int i = 0; i < prevSize; i++)
+    for (int i = 0; i < this->capacity; i++)
     {
-        tempArray[i] = this->array[i];
+        if(i < prevSize)
+        {
+            tempArray[i] = this->array[i];
+        }
+        this->array[i] = nullptr;
     }
     // delete[] this->array;
     this->array = new Node *[this->capacity];
@@ -150,7 +159,7 @@ void HashTable::resizeAndRehash()
     for (int i = 0; i < prevSize; i++)
     {
         Node *currentNode = tempArray[i];
-        while(currentNode != nullptr)
+        while (currentNode != nullptr)
         {
             Student *student = new Student();
             strcpy(student->fname, currentNode->student->fname);
@@ -170,6 +179,33 @@ void HashTable::resizeAndRehash()
         tempArray[i] = nullptr;
     }
     delete[] tempArray;
+    */
+    this->elements = 0;
+    int oldCapacity = this->capacity;
+    Node **temp = this->array;
+
+    this->capacity *= 2;
+    this->array = new Node *[this->capacity];
+
+    for (int i = 0; i < this->capacity; i++)
+    {
+        this->array[i] = nullptr;
+    }
+    for (int i = 0; i < oldCapacity; i++)
+    {
+        Node *current = temp[i];
+        while (current != nullptr)
+        {
+            Student *student = new Student();
+            strcpy(student->fname, current->student->fname);
+            strcpy(student->lname, current->student->lname);
+            student->id = current->student->id;
+            student->gpa = current->student->gpa;
+            this->add(student);
+            current = current->next;
+        }
+    }
+    delete[] temp;
 }
 
 /*
@@ -207,13 +243,25 @@ int HashTable::getChainSize(int hash)
 
 void HashTable::printList()
 {
+    int maxCols = 3;
+    int entryWidth = 45 + sizeof(int) * 2 + sizeof(float) * 2 + 1;
+    // entryWidth /= 2;
+    int col = 1;
     for (int i = 0; i < this->capacity; i++)
     {
         Node *current = this->array[i];
         while (current != nullptr)
         {
-            cout << current->student->fname << " " << current->student->lname << ", " << current->student->id << ", " << current->student->gpa << endl;
+            cout << setw(entryWidth) << left;
+            current->student->print();
+            col++;
+            if (col > maxCols)
+            {
+                col = 1;
+                cout << endl;
+            }
             current = current->next;
         }
     }
+    cout << endl;
 }

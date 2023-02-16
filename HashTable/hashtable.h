@@ -16,11 +16,16 @@ public:
     Student *find(int id);
     int getSize() const
     {
+        return this->elements;
+    }
+    int getCapacity() const
+    {
         return this->capacity;
     };
 
 private:
     int capacity;
+    int elements;
     Node **array;
     int getChainSize(int hash);
     void resizeAndRehash();

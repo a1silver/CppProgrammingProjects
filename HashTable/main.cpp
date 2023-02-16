@@ -22,6 +22,7 @@ const char DELETE_CMD[] = "delete";
 const char GEN_CMD[] = "gen";
 const char QUIT_CMD[] = "quit";
 const char EXIT_CMD[] = "exit";
+const char DEBUG_CMD[] = "debug";
 const char HELP_CMD[] = "help";
 const char HELP_ALL[] = "all";
 
@@ -43,7 +44,8 @@ int main()
     cout << fixed;
     cout << setprecision(2);
 
-    cout << "Student List Program w/ Hash Table v1.0 by Morgan Hinz" << endl;
+    cout << "Student List Program w/ Hash Tables v1.0 by Morgan Hinz" << endl;
+    cout << "Type \"help\" at any time to see the list of commands." << endl;
 
     // Keeps track of the current command
     char cmd[8];
@@ -51,6 +53,8 @@ int main()
     // Constantly get new commands until the user wants to quit.
     while (true)
     {
+        cout << "_______________________________________________________" << endl
+             << endl;
         cout << "> ";
         cin >> cmd;
 
@@ -99,6 +103,12 @@ int main()
             cout << "Done!" << endl;
             break;
         }
+        if (strcmp(cmd, DEBUG_CMD) == 0)
+        {
+            cout << "  Debug Information" << endl;
+            cout << "  List size: " << hashtable->getSize() << endl;
+            cout << "  List capacity: " << hashtable->getCapacity() << endl;
+        }
     }
 
     return 0;
@@ -109,18 +119,18 @@ void readInStudent(HashTable *hashtable)
 {
     Student *student = new Student();
 
-    cout << " Enter First Name: ";
+    cout << "  Enter First Name: ";
     cin >> student->fname;
-    cout << " Enter Last Name: ";
+    cout << "  Enter Last Name: ";
     cin >> student->lname;
-    cout << " Enter Student ID: ";
+    cout << "  Enter Student ID: ";
     cin >> student->id;
-    cout << " Enter Student GPA: ";
+    cout << "  Enter Student GPA: ";
     cin >> student->gpa;
 
     if (hashtable->exists(student->id))
     {
-        cout << " A student with id " << student->id << " already exists!" << endl;
+        cout << "  A student with id " << student->id << " already exists!" << endl;
         delete student;
         return;
     }
@@ -128,36 +138,38 @@ void readInStudent(HashTable *hashtable)
     cout << "add" << endl;
     hashtable->add(student);
 
-    cout << " Student added!" << endl;
+    cout << "  Student added!" << endl;
 }
 
 void findStudent(HashTable *hashtable)
 {
-    cout << " Enter ID to search for: ";
+    cout << "  Enter ID to search for: ";
     int id;
     cin >> id;
-    
+
     Student *student = hashtable->find(id);
 
-    if(student == nullptr)
+    if (student == nullptr)
     {
-        cout << " A student with ID " << id << " was not found!" << endl;
-    } else {
-        cout << " Student found!" << endl;
-        cout << " " << student->fname << " " << student->lname << ", " << student->id << ", " << student->gpa << endl;
+        cout << "  A student with ID " << id << " was not found!" << endl;
+    }
+    else
+    {
+        cout << "  Student found!" << endl;
+        cout << "  " << student->fname << " " << student->lname << ", " << student->id << ", " << student->gpa << endl;
     }
 }
 
 // Delete a student.  Asks for the ID to delete.  If the ID doesn't exist or the list size == 0 the function will return.
 void deleteStudent(HashTable *hashtable)
 {
-    if (hashtable->getSize() == 0)
+    if (hashtable->getCapacity() == 0)
     {
-        cout << " No students to delete!" << endl;
+        cout << "  No students to delete!" << endl;
         return;
     }
 
-    cout << " Enter ID to delete: ";
+    cout << "  Enter ID to delete: ";
     int id;
     cin >> id;
     /*
@@ -172,46 +184,46 @@ void deleteStudent(HashTable *hashtable)
 
     if (hashtable->remove(id))
     {
-        cout << " Student deleted!" << endl;
+        cout << "  Student deleted!" << endl;
     }
     else
     {
-        cout << " Failed to delete.  Either the ID doesn't exist or an internal error occurred." << endl;
+        cout << "  Failed to delete.  Either the ID doesn't exist or an internal error occurred." << endl;
     }
 }
 
 void generateStudents(HashTable *hashtable)
 {
-    cout << " How many students would you like to generate? ";
+    cout << "  How many students would you like to generate? ";
     int amount;
     cin >> amount;
 
-    vector<char*> firstNames, lastNames;
+    vector<char *> firstNames, lastNames;
     int firstNameCount = 0, lastNameCount = 0;
 
     ifstream firstNameFile("firstnames.txt");
-    if(firstNameFile.is_open())
+    if (firstNameFile.is_open())
     {
-        char temp[51];
-        while(!firstNameFile.eof())
+        char temp[21];
+        while (!firstNameFile.eof())
         {
             firstNameFile >> temp;
-            firstNames.push_back(new char[51]);
-            // firstNames[firstNameCount] = new char[51];
+            firstNames.push_back(new char[21]);
+            // firstNames[firstNameCount] = new char[21];
             strcpy(firstNames[firstNameCount], temp);
             firstNameCount++;
         }
         firstNameFile.close();
     }
     ifstream lastNameFile("lastnames.txt");
-    if(lastNameFile.is_open())
+    if (lastNameFile.is_open())
     {
-        char temp[51];
-        while(!lastNameFile.eof())
+        char temp[21];
+        while (!lastNameFile.eof())
         {
             lastNameFile >> temp;
-            lastNames.push_back(new char[51]);
-            // lastNames[lastNameCount] = new char[51];
+            lastNames.push_back(new char[21]);
+            // lastNames[lastNameCount] = new char[21];
             strcpy(lastNames[lastNameCount], temp);
             lastNameCount++;
         }
@@ -220,7 +232,9 @@ void generateStudents(HashTable *hashtable)
 
     srand(time(0));
 
-    for(int i = 0; i < amount; i++)
+    int id = 0; // Putting this line outside of the while loop definitely saves hella time :)
+
+    for (int i = 0; i < amount; i++)
     {
         Student *student = new Student();
 
@@ -230,13 +244,14 @@ void generateStudents(HashTable *hashtable)
         randomNameIndex = rand() % 1000;
         strcpy(student->lname, lastNames[randomNameIndex]);
 
-        int id = 0;
-        while(true)
+        while (true)
         {
-            if(hashtable->exists(id))
+            if (hashtable->exists(id))
             {
                 id++;
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -246,6 +261,8 @@ void generateStudents(HashTable *hashtable)
 
         hashtable->add(student);
     }
+    cout << "  Successfully generated " << amount << " students." << endl;
+    cout << "  New list size: " << hashtable->getSize() << endl;
 }
 
 // Prints the help command & any command details for specified command
@@ -258,6 +275,12 @@ void help()
 
     char cmd[7];
     cin >> cmd;
+
+    // This for loop takes care of ignoring any case sensitivity
+    for (int i = 0; i < strlen(cmd); i++)
+    {
+        cmd[i] = tolower(cmd[i]);
+    }
 
     if (strcmp(cmd, ADD_CMD) == 0)
     {
