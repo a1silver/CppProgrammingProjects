@@ -291,6 +291,11 @@ void help()
         cout << "Command: PRINT" << endl;
         cout << "Print all of the students in the list.";
     }
+    else if (strcmp(cmd, FIND_CMD) == 0)
+    {
+        cout << "Command: FIND" << endl;
+        cout << "Find a student in the list by ID and print it.";
+    }
     else if (strcmp(cmd, DELETE_CMD) == 0)
     {
         cout << "Command: DELETE" << endl;
@@ -308,7 +313,7 @@ void help()
     }
     else if (strcmp(cmd, HELP_ALL) == 0)
     {
-        cout << "Available commands: ADD, PRINT, DELETE, HELP, QUIT, EXIT" << endl;
+        cout << "Available commands: ADD, PRINT, FIND, DELETE, HELP, QUIT, EXIT" << endl;
         cout << "Type HELP + (COMMAND) to view help for a specific command.";
     }
     cout << endl;
