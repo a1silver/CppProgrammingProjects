@@ -93,16 +93,17 @@ bool HashTable::remove(int id)
         {
             if (first)
             {
+	        Node *temp = current->next;
                 delete current;
-                this->array[hash] = nullptr;
+                this->array[hash] = temp;
                 this->elements--;
                 return true;
             }
             else
             {
-                prev->next = nullptr; // Make sure the previous node isn't pointing to invalid memory
+                prev->next = current->next; // Make sure the previous node isn't pointing to invalid memory
                 delete current;
-                this->array[hash] = nullptr;
+                this->array[hash] = prev;
                 this->elements--;
                 return true;
             }
