@@ -53,7 +53,7 @@ public:
 /*
     This is the Heap class.  It represents a Max Heap.  A max heap is a binary tree where every node is larger than its child.
 
-    This class defines the crucial operations for a max heap - insertion and extraction.  
+    This class defines the crucial operations for a max heap - insertion and extraction.
     Insertion works by placing the new value at the end of the array and "sifting up" through all parent nodes until the value is correctly placed.
     Extraction works by retrieving the root node, or largest node.  It then replaces the root node with the node at the end of the array.  Re-heaping then begins at the top of the array and "sifts down" until the all values in the heap are correctly placed.
 */

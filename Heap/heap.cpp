@@ -90,7 +90,7 @@ void Heap::insert(int value)
 
     heap[heapSize] = value; // Insert value at the end of the array
 
-    int i = heapSize; // Start at the end of the array
+    int i = heapSize;                          // Start at the end of the array
     while (i > 0 && heap[i] > heap[parent(i)]) // Continue until we're at the root node or the new value is correctly placed
     {
         swap(heap[i], heap[parent(i)]);
@@ -108,16 +108,18 @@ int Heap::extractMax()
         return -1;
     }
 
-    int max = heap[0]; // Retrieve the root node
+    int max = heap[0];            // Retrieve the root node
     heap[0] = heap[heapSize - 1]; // Set the root node to the last node in the array
     heapSize--;
     maxHeapify(0); // Start re-heaping at the very top of the array
     return max;
 }
 
-void Heap::printHeap(int i, int depth) {
+void Heap::printHeap(int i, int depth)
+{
     // If the index is greater than the heap size
-    if (i >= this->getHeapSize()) return;
+    if (i >= this->getHeapSize())
+        return;
 
     // Get both the left and the right
     int right = 2 * i + 2;
@@ -133,5 +135,3 @@ void Heap::printHeap(int i, int depth) {
     // Print the children of the left node second
     printHeap(left, depth + 1);
 }
-
-

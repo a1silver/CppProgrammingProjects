@@ -134,10 +134,12 @@ int main()
                     cout << numberCount << " numbers were found.  How many do you want to add? ";
                     int amount;
                     cin >> amount;
-                    if(amount < 0)
+                    if (amount < 0)
                     {
                         cout << "Canceled." << endl;
-                    } else {
+                    }
+                    else
+                    {
                         if (amount > numberCount)
                         {
                             amount = numberCount;
