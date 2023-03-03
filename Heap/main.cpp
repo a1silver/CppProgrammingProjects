@@ -134,29 +134,38 @@ int main()
                     cout << numberCount << " numbers were found.  How many do you want to add? ";
                     int amount;
                     cin >> amount;
-
-                    int skipped = 0;
-
-                    for (int i = 0; i < amount; i++)
+                    if(amount < 0)
                     {
-                        if (heap->isHeapFull())
+                        cout << "Canceled." << endl;
+                    } else {
+                        if (amount > numberCount)
                         {
-                            cout << "Heap is full, you can't add any more numbers." << endl;
-                            amount = i;
-                            break;
+                            amount = numberCount;
                         }
 
-                        if (numbers[i] <= 0 || numbers[i] > 1000)
+                        int skipped = 0;
+
+                        for (int i = 0; i < amount; i++)
                         {
-                            skipped++;
+                            if (heap->isHeapFull())
+                            {
+                                cout << "Heap is full, you can't add any more numbers." << endl;
+                                amount = i;
+                                break;
+                            }
+
+                            if (numbers[i] <= 0 || numbers[i] > 1000)
+                            {
+                                skipped++;
+                            }
+                            else
+                            {
+                                heap->insert(numbers[i]);
+                            }
                         }
-                        else
-                        {
-                            heap->insert(numbers[i]);
-                        }
+
+                        cout << "Added " << (amount - skipped) << " numbers." << endl;
                     }
-
-                    cout << "Added " << (amount - skipped) << " numbers." << endl;
                 }
             }
         }
