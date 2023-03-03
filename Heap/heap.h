@@ -33,7 +33,6 @@ public:
     ~Heap();
 
     // The most important operations for a max heap
-    int getMax();
     void insert(int value);
     int extractMax();
 
