@@ -5,16 +5,16 @@
 
 class Stack
 {
+private:
+    LLNode *top;
+
 public:
     Stack();
-    ~Stack();
+
+    bool isEmpty();
     void push(char data);
     char pop();
     char peek();
-    void display();
-
-private:
-    LLNode *head;
 };
 
 #endif // STACK_H

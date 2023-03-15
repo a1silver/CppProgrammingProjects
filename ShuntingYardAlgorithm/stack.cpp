@@ -7,50 +7,49 @@ using namespace std;
 
 Stack::Stack()
 {
-    this->head = nullptr;
+    top = nullptr;
 }
 
-Stack::~Stack()
+bool Stack::isEmpty()
 {
-    LLNode *current = this->head;
-    while (current != nullptr)
-    {
-        LLNode *temp = current->next;
-        delete current;
-        current = temp;
-    }
+    return (top == nullptr);
 }
 
 void Stack::push(char data)
 {
-    LLNode *oldHead = this->head;
-    this->head = new LLNode(data);
-    this->head->next = oldHead;
+    LLNode *node = new LLNode(data);
+
+    if (isEmpty())
+    {
+        top = node;
+    }
+    else
+    {
+        node->next = top;
+        top = node;
+    }
 }
 
 char Stack::pop()
 {
-    LLNode *top = this->head;
-    this->head = top->next;
+    if (isEmpty())
+    {
+        throw runtime_error("Stack is empty!");
+    }
+
     char data = top->data;
-    delete top;
+    LLNode *temp = top;
+    top = top->next;
+    delete temp;
     return data;
 }
 
 char Stack::peek()
 {
-    return this->head->data;
-}
-
-void Stack::display()
-{
-    LLNode *current = this->head;
-
-    while (current != nullptr)
+    if (isEmpty())
     {
-        cout << current->data << " ";
-        current = current->next;
+        throw runtime_error("Stack is empty!");
     }
 
-    cout << endl;
+    return top->data;
 }

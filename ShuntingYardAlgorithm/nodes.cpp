@@ -12,3 +12,16 @@ TreeNode::TreeNode(char data)
     this->right = nullptr;
     this->data = data;
 }
+
+bool TreeNode::isOperator()
+{
+    return (this->data == '+' || this->data == '-' || 
+            this->data == '*' || this->data == '/' || 
+            this->data == '%' || this->data == '^'
+            )
+}
+
+bool TreeNode::isOperand()
+{
+    return !isOperator();
+}

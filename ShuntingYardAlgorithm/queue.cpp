@@ -7,74 +7,59 @@ using namespace std;
 
 Queue::Queue()
 {
-    this->head = nullptr;
-    this->tail = nullptr;
+    front = nullptr;
+    rear = nullptr;
 }
 
-Queue::~Queue()
+bool Queue::isEmpty()
 {
-    LLNode *current = this->head;
-    while (current != nullptr)
-    {
-        LLNode *temp = current->next;
-        delete current;
-        current = temp;
-    }
-    cout << (this->tail == nullptr) << endl;
+    return (front == nullptr && rear == nullptr);
 }
 
 void Queue::enqueue(char data)
 {
-    LLNode *newNode = new LLNode(data);
-    
-    if (this->head == nullptr && this->tail == nullptr)
-    {
-        this->head = this->tail = newNode;
-        return;
-    }
+    LLNode *node = new LLNode(data);
 
-    this->tail->next = newNode;
-    this->tail = newNode;
+    if (isEmpty())
+    {
+        this->front = rear = node;
+    }
+    else
+    {
+        rear->next = node;
+        rear = node;
+    }
 }
 
 char Queue::dequeue()
 {
-    LLNode *temp = this->head;
-    if(this->head == nullptr)
+    if (isEmpty())
     {
-        return '\0';
+        throw runtime_error("Queue is empty!");
     }
-    if(this->head == this->tail)
+
+    char data = front->data;
+    LLNode *temp = front;
+
+    if (front == rear)
     {
-        this->head = this->tail = nullptr;
+        front = rear = nullptr;
     }
     else
     {
-        this->head = this->head->next;
+        front = front->next;
     }
-    char data = temp->data;
+
     delete temp;
     return data;
 }
 
 char Queue::peek()
 {
-    if (this->head == nullptr)
+    if (isEmpty())
     {
-        return '\0';
-    }
-    return this->head->data;
-}
-
-void Queue::display()
-{
-    LLNode *current = this->head;
-
-    while (current != nullptr)
-    {
-        cout << current->data << " ";
-        current = current->next;
+        throw runtime_error("Queue is empty!");
     }
 
-    cout << endl;
+    return front->data;
 }

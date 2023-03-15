@@ -3,17 +3,22 @@
 
 struct LLNode
 {
-    LLNode(char data);
     LLNode *next;
     char data;
+
+    LLNode(char data);
 };
 
 struct TreeNode
 {
-    TreeNode(char data);
     TreeNode *left;
     TreeNode *right;
     char data;
+
+    TreeNode(char data);
+    
+    bool isOperator();
+    bool isOperand();
 };
 
 #endif // NODES_H
