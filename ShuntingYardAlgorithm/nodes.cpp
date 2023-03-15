@@ -18,7 +18,7 @@ bool TreeNode::isOperator()
     return (this->data == '+' || this->data == '-' || 
             this->data == '*' || this->data == '/' || 
             this->data == '%' || this->data == '^'
-            )
+            );
 }
 
 bool TreeNode::isOperand()
