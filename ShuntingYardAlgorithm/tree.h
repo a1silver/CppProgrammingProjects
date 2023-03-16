@@ -3,20 +3,20 @@
 
 #include "nodes.h"
 
-class Tree {
+class ExpressionTree {
     private:
-        TreeNode* root;
+        TreeNode<char>* root;
 
-        void inorderTraversal(TreeNode* node);
-        void preorderTraversal(TreeNode* node);
-        void postorderTraversal(TreeNode* node);
+        void inorderTraversal(TreeNode<char>* node);
+        void preorderTraversal(TreeNode<char>* node);
+        void postorderTraversal(TreeNode<char>* node);
 
     public:
-        Tree();
+        ExpressionTree();
 
         bool isEmpty();
         void insert(char data);
-        bool search(char data);        
+        void setRoot(TreeNode<char> *newRoot);
 
         void printInorder();
         void printPreorder();

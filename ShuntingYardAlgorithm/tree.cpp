@@ -3,19 +3,19 @@
 
 using namespace std;
 
-Tree::Tree()
+ExpressionTree::ExpressionTree()
 {
     root = nullptr;
 }
 
-bool Tree::isEmpty()
+bool ExpressionTree::isEmpty()
 {
     return (root == nullptr);
 }
 
-void Tree::insert(char data)
+void ExpressionTree::insert(char data)
 {
-    TreeNode *node = new TreeNode(data);
+    TreeNode<char> *node = new TreeNode<char>(data);
 
     if (isEmpty())
     {
@@ -23,7 +23,7 @@ void Tree::insert(char data)
     }
     else
     {
-        TreeNode *current = root;
+        TreeNode<char> *current = root;
         while (true)
         {
             if (data < current->data)
@@ -54,7 +54,12 @@ void Tree::insert(char data)
     }
 }
 
-void Tree::inorderTraversal(TreeNode *node)
+void ExpressionTree::setRoot(TreeNode<char> *newRoot)
+{
+    this->root = newRoot;
+}
+
+void ExpressionTree::inorderTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
@@ -73,7 +78,7 @@ void Tree::inorderTraversal(TreeNode *node)
     }
 }
 
-void Tree::preorderTraversal(TreeNode *node)
+void ExpressionTree::preorderTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
@@ -90,7 +95,7 @@ void Tree::preorderTraversal(TreeNode *node)
     }
 }
 
-void Tree::postorderTraversal(TreeNode *node)
+void ExpressionTree::postorderTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
@@ -100,19 +105,19 @@ void Tree::postorderTraversal(TreeNode *node)
     }
 }
 
-void Tree::printInorder()
+void ExpressionTree::printInorder()
 {
     inorderTraversal(root);
     cout << endl;
 }
 
-void Tree::printPreorder()
+void ExpressionTree::printPreorder()
 {
     preorderTraversal(root);
     cout << endl;
 }
 
-void Tree::printPostorder()
+void ExpressionTree::printPostorder()
 {
     postorderTraversal(root);
     cout << endl;
