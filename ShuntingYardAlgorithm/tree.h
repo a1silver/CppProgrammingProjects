@@ -7,21 +7,20 @@ class ExpressionTree {
     private:
         TreeNode<char>* root;
 
-        void inorderTraversal(TreeNode<char>* node);
-        void preorderTraversal(TreeNode<char>* node);
-        void postorderTraversal(TreeNode<char>* node);
+        void infixTraversal(TreeNode<char>* node);
+        void prefixTraversal(TreeNode<char>* node);
+        void postfixTraversal(TreeNode<char>* node);
 
     public:
         ExpressionTree();
         ~ExpressionTree();
 
         bool isEmpty();
-        void insert(char data);
         void setRoot(TreeNode<char> *newRoot);
 
-        void printInorder();
-        void printPreorder();
-        void printPostorder();
+        void printInfix();
+        void printPrefix();
+        void printPostfix();
 };
 
 #endif // TREE_H

@@ -18,53 +18,12 @@ bool ExpressionTree::isEmpty()
     return (root == nullptr);
 }
 
-void ExpressionTree::insert(char data)
-{
-    TreeNode<char> *node = new TreeNode<char>(data);
-
-    if (isEmpty())
-    {
-        root = node;
-    }
-    else
-    {
-        TreeNode<char> *current = root;
-        while (true)
-        {
-            if (data < current->data)
-            {
-                if (current->left == nullptr)
-                {
-                    current->left = node;
-                    break;
-                }
-                else
-                {
-                    current = current->left;
-                }
-            }
-            else
-            {
-                if (current->right == nullptr)
-                {
-                    current->right = node;
-                    break;
-                }
-                else
-                {
-                    current = current->right;
-                }
-            }
-        }
-    }
-}
-
 void ExpressionTree::setRoot(TreeNode<char> *newRoot)
 {
     this->root = newRoot;
 }
 
-void ExpressionTree::inorderTraversal(TreeNode<char> *node)
+void ExpressionTree::infixTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
@@ -75,15 +34,15 @@ void ExpressionTree::inorderTraversal(TreeNode<char> *node)
         else
         {
             cout << "( ";
-            inorderTraversal(node->right);
+            infixTraversal(node->right);
             cout << node->data << " ";
-            inorderTraversal(node->left);
+            infixTraversal(node->left);
             cout << ") ";
         }
     }
 }
 
-void ExpressionTree::preorderTraversal(TreeNode<char> *node)
+void ExpressionTree::prefixTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
@@ -94,36 +53,36 @@ void ExpressionTree::preorderTraversal(TreeNode<char> *node)
         else
         {
             cout << node->data << " ";
-            preorderTraversal(node->right);
-            preorderTraversal(node->left);
+            prefixTraversal(node->right);
+            prefixTraversal(node->left);
         }
     }
 }
 
-void ExpressionTree::postorderTraversal(TreeNode<char> *node)
+void ExpressionTree::postfixTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
-        postorderTraversal(node->right);
-        postorderTraversal(node->left);
+        postfixTraversal(node->right);
+        postfixTraversal(node->left);
         cout << node->data << " ";
     }
 }
 
-void ExpressionTree::printInorder()
+void ExpressionTree::printInfix()
 {
-    inorderTraversal(root);
+    infixTraversal(root);
     cout << endl;
 }
 
-void ExpressionTree::printPreorder()
+void ExpressionTree::printPrefix()
 {
-    preorderTraversal(root);
+    prefixTraversal(root);
     cout << endl;
 }
 
-void ExpressionTree::printPostorder()
+void ExpressionTree::printPostfix()
 {
-    postorderTraversal(root);
+    postfixTraversal(root);
     cout << endl;
 }
