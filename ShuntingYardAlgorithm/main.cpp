@@ -110,64 +110,85 @@ int main()
     return 0;
 }
 
+/*
+    This function prompts the user to input an expression.
+    The input should only contain numbers, operators, and spaces.
+    The input should be 101 characters or less.
+*/
 Queue *inputExpression()
 {
-    cout << "Enter in your expression.  Numbers should be single digits only.  Separate each token with a space.  Expression shouldn't exceed 100 characters in length (including spaces).";
+    cout << "Enter in your expression.  Numbers should be single digits only.  Separate each token with a space.  Expression shouldn't exceed 100 characters in length (including spaces)." << endl;
     cout << " >> ";
-
     cin.ignore();
-
-    char expression[101];
+    char expression[102];
     cin.getline(expression, 101, '\n');
 
+    // Create the queue pointer.  This will be returned later for easier queue modification / manipulation.
     Queue *queue = new Queue();
 
-    for (int i = 0; i < 101; i++)
+    // Loop through the inputted expression
+    for (int i = 0; i < 102; i++)
     {
-        if (expression[i] == '\0')
+        if (expression[i] == '\0') // If the current character is a null character, we're at the end...
         {
+            // ... and then we break from the loop
             break;
         }
+        // If the current character is a space...
         if (expression[i] == ' ')
         {
+            // ... we don't need to include it in the expression.
+            // We only want numbers and operators in our final expression queue.
             continue;
         }
 
         queue->enqueue(expression[i]);
     }
 
+    // Return the queue pointer
     return queue;
 }
 
+/*
+    This function takes care of performing the Shunting Yard Algorithm.
+
+    The queue pointer created in the above function is passed in.
+    The expression contained inside will be transformed into postfix notation and will be used by the next function to create an expression tree.
+*/
 void shuntingYardify(Queue *expression)
 {
+    // Create the output queue and operator stack
     Queue outputQueue;
     Stack operatorStack;
 
+    // Continuously read tokens from the expression until it's empty
     while (!expression->isEmpty())
     {
-        TreeNode<char> *node = new TreeNode<char>(expression->dequeue());
+        TreeNode<char> *node = new TreeNode<char>(expression->dequeue()); // We can take advantage of TreeNode::isOperator() and TreeNode::isNumber() here
 
-        if (node->data >= '0' && node->data <= '9')
+        if (node->isNumber()) // If the current token is a number...
         {
-            outputQueue.enqueue(node->data);
+            outputQueue.enqueue(node->data); // ... add it to the output queue
         }
-        else if (node->isOperator())
+        else if (node->isOperator()) // If the current token is an operator...
         {
+            // The following while loop is what takes care of preserving the order of operations (PEMDAS)
             while (
-                (operatorStack.peek() != '(') && (precedence(operatorStack.peek()) >= precedence(node->data)))
+                (operatorStack.peek() != '\0' && operatorStack.peek() != '(') // Something exists on the operator stack, AND the top of the operator stack isn't an open parentheses
+                && 
+                (precedence(operatorStack.peek()) >= precedence(node->data))) // The precedence of the top of the operator stack is greater than the precedence of the current token
             {
-                outputQueue.enqueue(operatorStack.pop());
+                outputQueue.enqueue(operatorStack.pop()); // Pop off the top of the operator stack and put it into the output queue
             }
-            operatorStack.push(node->data);
+            operatorStack.push(node->data); // Finally put the current token onto the operator stack
         }
-        else if (node->data == '(')
+        else if (node->data == '(') // The current token is an open parentheses
         {
-            operatorStack.push(node->data);
+            operatorStack.push(node->data); // Simply put the current token onto the operator stack
         }
-        else if (node->data == ')')
+        else if (node->data == ')') // The current token is a closing parentheses
         {
-            while (operatorStack.peek() != '(')
+            while (operatorStack.peek() != '(') // Find operators & put them in the output queue until the top of the operator stack is an open parentheses
             {
                 if (operatorStack.peek() == '\0') // The operator stack is empty before we've closed the parentheses
                 {
@@ -175,19 +196,21 @@ void shuntingYardify(Queue *expression)
                 }
                 else
                 {
-                    outputQueue.enqueue(operatorStack.pop());
+                    outputQueue.enqueue(operatorStack.pop()); // Pop off the top of the operator stack and put it into the output queue
                 }
             }
-            if (operatorStack.peek() == '(')
+            if (operatorStack.peek() != '\0' && operatorStack.peek() == '(') // Ensure that the top of the operator stack is an open parentheses...
             {
-                operatorStack.pop();
+                operatorStack.pop(); // ... and remove it from the operator stack
             }
         }
     }
+    // Put all remaining operators on the operator stack into the output queue
     while (!operatorStack.isEmpty())
     {
-        if (operatorStack.peek() == '(')
+        if (operatorStack.peek() == '(') // If there's still a parentheses in the operator stack...
         {
+            // We have mismatched parentheses
             throw runtime_error("Expression has one more more mismatched parentheses");
         }
         else
@@ -195,10 +218,12 @@ void shuntingYardify(Queue *expression)
             outputQueue.enqueue(operatorStack.pop());
         }
     }
+    // Make sure there's nothing left in the expression queue from earlier
     while (!expression->isEmpty())
     {
         expression->dequeue();
     }
+    // Copy the entirety of the output queue into the expression queue from earlier
     while (!outputQueue.isEmpty())
     {
         expression->enqueue(outputQueue.dequeue());
