@@ -221,7 +221,6 @@ void constructExpressionTree(Queue *postfix, ExpressionTree *tree)
             stack.push(node);
         }
     }
-    cout << (stack.peek() == nullptr) << endl;
     tree->setRoot(stack.pop());
 }
 
