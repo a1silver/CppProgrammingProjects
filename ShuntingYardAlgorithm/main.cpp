@@ -206,7 +206,7 @@ void shuntingYardify(Queue *expression)
 }
 
 /*
-    Construc
+    Construct the expression tree from the given postfix expression
 */
 void constructExpressionTree(Queue *postfix, ExpressionTree *tree)
 {
@@ -248,6 +248,7 @@ int precedence(char op)
         return 1;
     case '*':
     case '/':
+    case '%':
         // Multiply and divide have middle priority
         return 2;
     case '^':
