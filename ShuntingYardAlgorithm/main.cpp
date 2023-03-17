@@ -232,6 +232,9 @@ void shuntingYardify(Queue *expression)
 
 /*
     Construct the expression tree from the given postfix expression
+    
+    The queue pointer from above is passed in.  
+    Instead of the queue containing the inputted infix expression, it now contains the postfix expression generated from shuntingYardify(Queue*).
 */
 void constructExpressionTree(Queue *postfix, ExpressionTree *tree)
 {
@@ -239,25 +242,30 @@ void constructExpressionTree(Queue *postfix, ExpressionTree *tree)
                                This stack contains pointers that will be transferred to the expression tree,
                                so we don't want to create a dynamically allocated object here (and then have to delete it)
                            */
-
+    
+    // Continuously read tokens from the expression until it's empty
     while (!postfix->isEmpty())
     {
-        TreeNode<char> *node = new TreeNode<char>(postfix->dequeue());
+        TreeNode<char> *node = new TreeNode<char>(postfix->dequeue()); // We can take advantage of TreeNode::isOperand() here.  It will also make the forming of the expression tree easier.
 
-        if (node->isOperand())
+        if (node->isOperand()) // If the current token is an operand...
         {
-            stack.push(node);
+            stack.push(node); // ... push the TreeNode onto the stack
         }
-        else
+        else // The current token is an operator...
         {
+            // Get the top two TreeNodes on the stack
             TreeNode<char> *leftChild = stack.pop();
             TreeNode<char> *rightChild = stack.pop();
+
+            // Set the current node's left and right children
             node->left = leftChild;
             node->right = rightChild;
-            stack.push(node);
+
+            stack.push(node); // Push the newly formed node onto the stack
         }
     }
-    tree->setRoot(stack.pop());
+    tree->setRoot(stack.pop()); // Set the expression tree's root TreeNode to the top of the stack (the full expression tree)
 }
 
 /*
