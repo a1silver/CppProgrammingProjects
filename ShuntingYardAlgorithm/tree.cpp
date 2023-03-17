@@ -8,6 +8,11 @@ ExpressionTree::ExpressionTree()
     root = nullptr;
 }
 
+ExpressionTree::~ExpressionTree()
+{
+    delete root;
+}
+
 bool ExpressionTree::isEmpty()
 {
     return (root == nullptr);
@@ -70,9 +75,9 @@ void ExpressionTree::inorderTraversal(TreeNode<char> *node)
         else
         {
             cout << "( ";
-            inorderTraversal(node->left);
-            cout << node->data << " ";
             inorderTraversal(node->right);
+            cout << node->data << " ";
+            inorderTraversal(node->left);
             cout << ") ";
         }
     }
@@ -89,8 +94,8 @@ void ExpressionTree::preorderTraversal(TreeNode<char> *node)
         else
         {
             cout << node->data << " ";
-            preorderTraversal(node->left);
             preorderTraversal(node->right);
+            preorderTraversal(node->left);
         }
     }
 }
@@ -99,8 +104,8 @@ void ExpressionTree::postorderTraversal(TreeNode<char> *node)
 {
     if (node != nullptr)
     {
-        postorderTraversal(node->left);
         postorderTraversal(node->right);
+        postorderTraversal(node->left);
         cout << node->data << " ";
     }
 }

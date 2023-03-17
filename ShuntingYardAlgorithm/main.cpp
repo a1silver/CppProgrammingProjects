@@ -2,7 +2,7 @@
 #include <cstring>
 
 #include "queue.h"
-#include "stack.h"
+#include "stacks.h"
 #include "tree.h"
 
 using namespace std;
@@ -18,9 +18,9 @@ const char QUIT_CMD[] = "QUIT";
 const char EXIT_CMD[] = "EXIT";
 
 // Function prototypes
-Queue<char> *inputExpression();
-void shuntingYardify(Queue<char> *expression);
-void constructExpressionTree(Queue<char> *postfix, ExpressionTree *tree);
+Queue *inputExpression();
+void shuntingYardify(Queue *expression);
+void constructExpressionTree(Queue *postfix, ExpressionTree *tree);
 int precedence(char op);
 
 int main()
@@ -40,36 +40,51 @@ int main()
 
         if (strcmp(cmd, INPUT_CMD) == 0)
         {
-            if(!tree->isEmpty())
+            if (!tree->isEmpty())
             {
                 cout << "An expression has already been entered, please type \"CLEAR\" to clear the current expression." << endl;
             }
             else
             {
-                Queue<char> *queue = inputExpression();
-                shuntingYardify(queue);
-                constructExpressionTree(queue, tree);
+                Queue *queue = inputExpression();
+                try
+                {
+                    shuntingYardify(queue);
+                    constructExpressionTree(queue, tree);
+                    cout << "Done." << endl;
+                }
+                catch (runtime_error &ex)
+                {
+                    cout << ex.what() << endl;
+                }
                 delete queue;
             }
         }
         if (strcmp(cmd, DISPLAY_CMD) == 0)
         {
-            cout << "You can display in either \"INFIX\", \"PREFIX\", or \"POSTFIX\" form." << endl;
-            cout << " >> ";
-            char opt[8];
-            cin >> opt;
+            if (tree->isEmpty())
+            {
+                cout << "There is no current expression!" << endl;
+            }
+            else
+            {
+                cout << "You can display in either \"INFIX\", \"PREFIX\", or \"POSTFIX\" form." << endl;
+                cout << " >> ";
+                char opt[8];
+                cin >> opt;
 
-            if (strcmp(opt, INFIX_DISPLAY_OPT) == 0)
-            {
-                tree->printInorder();
-            }
-            if (strcmp(opt, PREFIX_DISPLAY_OPT) == 0)
-            {
-                tree->printPreorder();
-            }
-            if (strcmp(opt, POSTFIX_DISPLAY_OPT) == 0)
-            {
-                tree->printPostorder();
+                if (strcmp(opt, INFIX_DISPLAY_OPT) == 0)
+                {
+                    tree->printInorder();
+                }
+                if (strcmp(opt, PREFIX_DISPLAY_OPT) == 0)
+                {
+                    tree->printPreorder();
+                }
+                if (strcmp(opt, POSTFIX_DISPLAY_OPT) == 0)
+                {
+                    tree->printPostorder();
+                }
             }
         }
         if (strcmp(cmd, CLEAR_CMD) == 0)
@@ -83,26 +98,34 @@ int main()
             delete tree;
             break;
         }
+
+        cout << endl;
     }
 
     return 0;
 }
 
-Queue<char> *inputExpression()
+Queue *inputExpression()
 {
     cout << "Enter in your expression.  Numbers should be single digits only.  Separate each token with a space.  Expression shouldn't exceed 100 characters in length (including spaces).";
     cout << " >> ";
 
+    cin.ignore();
+
     char expression[101];
-    cin >> expression;
+    cin.getline(expression, 101, '\n');
 
-    Queue<char> *queue = new Queue<char>();
+    Queue *queue = new Queue();
 
-    for(int i = 0; i < 101; i++)
+    for (int i = 0; i < 101; i++)
     {
-        if(expression[i] == '\0')
+        if (expression[i] == '\0')
         {
             break;
+        }
+        if (expression[i] == ' ')
+        {
+            continue;
         }
 
         queue->enqueue(expression[i]);
@@ -111,64 +134,79 @@ Queue<char> *inputExpression()
     return queue;
 }
 
-void shuntingYardify(Queue<char> *expression)
+void shuntingYardify(Queue *expression)
 {
-    Queue<char> temp;
-    Queue<char> *outputQueue = expression; // This line is simply to let the below code make more sense.
-    Stack<char> *operatorStack;
+    Queue outputQueue;
+    Stack operatorStack;
 
     while (!expression->isEmpty())
     {
-        temp.enqueue(expression->dequeue());
-    }
+        TreeNode<char> *node = new TreeNode<char>(expression->dequeue());
 
-    while (!temp.isEmpty())
-    {
-        TreeNode<char> token(temp.dequeue()); // We can take advantage of TreeNode's isOperand() and isOperator() this way
-        
-        if (token.isOperand())
+        if (node->data >= '0' && node->data <= '9')
         {
-            outputQueue->enqueue(token.data);
+            outputQueue.enqueue(node->data);
+        }
+        else if (node->isOperator())
+        {
+            while (
+                (operatorStack.peek() != '(') && (precedence(operatorStack.peek()) >= precedence(node->data)))
+            {
+                outputQueue.enqueue(operatorStack.pop());
+            }
+            operatorStack.push(node->data);
+        }
+        else if (node->data == '(')
+        {
+            operatorStack.push(node->data);
+        }
+        else if (node->data == ')')
+        {
+            while (operatorStack.peek() != '(')
+            {
+                if (operatorStack.peek() == '\0') // The operator stack is empty before we've closed the parentheses
+                {
+                    throw runtime_error("Expression has one more more mismatched parentheses");
+                }
+                else
+                {
+                    outputQueue.enqueue(operatorStack.pop());
+                }
+            }
+            if (operatorStack.peek() == '(')
+            {
+                operatorStack.pop();
+            }
+        }
+    }
+    while (!operatorStack.isEmpty())
+    {
+        if (operatorStack.peek() == '(')
+        {
+            throw runtime_error("Expression has one more more mismatched parentheses");
         }
         else
         {
-            if (token.data == ')')
-            {
-                while (operatorStack->peek() != '(')
-                {
-                    outputQueue->enqueue(operatorStack->pop());
-                }
-            }
-            else
-            {
-                try {
-                    if (precedence(operatorStack->peek()) > precedence(token.data))
-                    {
-                        outputQueue->enqueue(operatorStack->pop());
-                        operatorStack->push(token.data);
-                    }
-                    else
-                    {
-                        operatorStack->push(token.data);
-                    }
-                }
-                catch (runtime_error& ex)
-                {
-                    operatorStack->push(token.data);
-                }
-            }
+            outputQueue.enqueue(operatorStack.pop());
         }
+    }
+    while (!expression->isEmpty())
+    {
+        expression->dequeue();
+    }
+    while (!outputQueue.isEmpty())
+    {
+        expression->enqueue(outputQueue.dequeue());
     }
 }
 
-void constructExpressionTree(Queue<char> *postfix, ExpressionTree *tree)
+void constructExpressionTree(Queue *postfix, ExpressionTree *tree)
 {
-    Stack<TreeNode<char> *> stack;
+    ExpressionStack stack; // This stack contains pointers so we don't want to create a dynamically allocated object here
 
     while (!postfix->isEmpty())
     {
-        char symbol = postfix->dequeue();
-        TreeNode<char> *node = new TreeNode<char>(symbol);
+        TreeNode<char> *node = new TreeNode<char>(postfix->dequeue());
 
         if (node->isOperand())
         {
@@ -176,26 +214,30 @@ void constructExpressionTree(Queue<char> *postfix, ExpressionTree *tree)
         }
         else
         {
-            node->right = stack.pop();
-            node->left = stack.pop();
+            TreeNode<char> *leftChild = stack.pop();
+            TreeNode<char> *rightChild = stack.pop();
+            node->left = leftChild;
+            node->right = rightChild;
             stack.push(node);
         }
     }
-
+    cout << (stack.peek() == nullptr) << endl;
     tree->setRoot(stack.pop());
 }
 
-int precedence(char op) {
-    switch(op) {
-        case '+':
-        case '-':
-            return 1;
-        case '*':
-        case '/':
-            return 2;
-        case '^':
-            return 3;
-        default:
-            return 0;
+int precedence(char op)
+{
+    switch (op)
+    {
+    case '+':
+    case '-':
+        return 1;
+    case '*':
+    case '/':
+        return 2;
+    case '^':
+        return 3;
+    default:
+        return 0;
     }
 }

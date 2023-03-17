@@ -13,6 +13,7 @@ class ExpressionTree {
 
     public:
         ExpressionTree();
+        ~ExpressionTree();
 
         bool isEmpty();
         void insert(char data);

@@ -6,39 +6,36 @@
 
 using namespace std;
 
-template <class T>
 class Queue
 {
     private:
-        LLNode<T>* front;
-        LLNode<T>* rear;
+        LLNode<char>* front;
+        LLNode<char>* rear;
     public:
         Queue();
         ~Queue();
         
         bool isEmpty();
-        void enqueue(T data);
-        T dequeue();
-        T peek();
+        void enqueue(char data);
+        char dequeue();
+        char peek();
 };
 
 
 // Implementations
 
-template <class T>
-Queue<T>::Queue()
+Queue::Queue()
 {
     front = nullptr;
     rear = nullptr;
 }
 
-template <class T>
-Queue<T>::~Queue()
+Queue::~Queue()
 {
-    LLNode<T> *current = front;
+    LLNode<char> *current = front;
     while (current != nullptr)
     {
-        LLNode<T> *temp = current->next;
+        LLNode<char> *temp = current->next;
         delete current;
         current = temp;
     }
@@ -46,16 +43,14 @@ Queue<T>::~Queue()
     rear = nullptr;
 }
 
-template <class T>
-bool Queue<T>::isEmpty()
+bool Queue::isEmpty()
 {
     return (front == nullptr && rear == nullptr);
 }
 
-template <class T>
-void Queue<T>::enqueue(T data)
+void Queue::enqueue(char data)
 {
-    LLNode<T> *node = new LLNode<T>(data);
+    LLNode<char> *node = new LLNode<char>(data);
 
     if (isEmpty())
     {
@@ -68,16 +63,15 @@ void Queue<T>::enqueue(T data)
     }
 }
 
-template <class T>
-T Queue<T>::dequeue()
+char Queue::dequeue()
 {
-    if (isEmpty())
+    if (front == nullptr)
     {
-        throw runtime_error("Queue is empty!");
+        return '\0';
     }
 
-    T data = front->data;
-    LLNode<T> *temp = front;
+    char data = front->data;
+    LLNode<char> *temp = front;
 
     if (front == rear)
     {
@@ -92,12 +86,11 @@ T Queue<T>::dequeue()
     return data;
 }
 
-template <class T>
-T Queue<T>::peek()
+char Queue::peek()
 {
     if (isEmpty())
     {
-        throw runtime_error("Queue is empty!");
+        return '\0';
     }
 
     return front->data;
