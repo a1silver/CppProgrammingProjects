@@ -21,6 +21,7 @@ struct TreeNode
     
     bool isOperator();
     bool isOperand();
+    bool isNumber();
 };
 
 
@@ -54,6 +55,12 @@ template <class T>
 bool TreeNode<T>::isOperand()
 {
     return !isOperator();
+}
+
+template <class T>
+bool TreeNode<T>::isOperand()
+{
+    return node->data >= '0' && node->data <= '9';
 }
 
 #endif // NODES_H
