@@ -60,7 +60,7 @@ bool TreeNode<T>::isOperand()
 template <class T>
 bool TreeNode<T>::isNumber()
 {
-    return node->data >= '0' && node->data <= '9';
+    return this->data >= '0' && this->data <= '9';
 }
 
 #endif // NODES_H
