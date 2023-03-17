@@ -58,7 +58,7 @@ bool TreeNode<T>::isOperand()
 }
 
 template <class T>
-bool TreeNode<T>::isOperand()
+bool TreeNode<T>::isNumber()
 {
     return node->data >= '0' && node->data <= '9';
 }
