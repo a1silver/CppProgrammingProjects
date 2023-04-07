@@ -76,11 +76,14 @@ int main()
             }
             if (strcmp(opt, ADD_OPT_FILE) == 0)
             {
+                cout << " Enter file name > ";
+                char filename[261];
+                cin >> filename;
                 cout << "Reading in numbers... ";
                 vector<int> numbers;
                 int numberCount = 0;
 
-                ifstream numbersFile("numbers.txt");
+                ifstream numbersFile(filename);
                 if (numbersFile.is_open())
                 {
                     int val;
@@ -91,26 +94,28 @@ int main()
                         numberCount++;
                     }
                     numbersFile.close();
-                }
 
-                int skipped = 0;
-                for (int i = 0; i < numberCount; i++)
-                {
-                    if (numbers[i] <= 0 || numbers[i] > 1000)
+                    int skipped = 0;
+                    for (int i = 0; i < numberCount; i++)
                     {
-                        skipped++;
+                        if (numbers[i] <= 0 || numbers[i] > 1000)
+                        {
+                            skipped++;
+                        }
+                        else
+                        {
+                            b->add(numbers[i]);
+                        }
                     }
-                    else
-                    {
-                        b->add(numbers[i]);
-                    }
-                }
 
-                if (skipped > 0)
-                {
-                    cout << "Warning: " << skipped << " numbers were skipped.  Make sure your numbers are between 1 and 1000, exclusive." << endl;
+                    if (skipped > 0)
+                    {
+                        cout << "Warning: " << skipped << " numbers were skipped.  Make sure your numbers are between 1 and 1000, exclusive." << endl;
+                    }
+                    cout << "Added " << (numberCount - skipped) << " numbers." << endl;
+                } else {
+                    cout << "Failed to open file: " << filename << endl;
                 }
-                cout << "Added " << (numberCount - skipped) << " numbers." << endl;
             }
         }
         if (strcmp(cmd, REMOVE_CMD) == 0)
