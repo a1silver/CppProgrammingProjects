@@ -11,6 +11,7 @@
 #include "bst.h"
 using namespace std;
 
+// Command
 const char ADD_CMD[] = "ADD";
 const char ADD_OPT_MANUAL[] = "MANUAL";
 const char ADD_MANUAL_FLAG_DONE[] = "DONE";
@@ -18,47 +19,54 @@ const char ADD_OPT_FILE[] = "FILE";
 const char REMOVE_CMD[] = "REMOVE";
 const char SEARCH_CMD[] = "SEARCH";
 const char DISPLAY_CMD[] = "DISPLAY";
+const char CLEAR_CMD[] = "CLEAR";
 const char QUIT_CMD[] = "QUIT";
 const char EXIT_CMD[] = "EXIT";
 
 int main()
 {
-    BST *b = new BST();
+    BinarySearchTree *b = new BinarySearchTree();
 
     cout << "Binary Search Tree by Morgan Hinz" << endl;
 
+    // Command loop
     while (true)
     {
+        // Display info and get user input
         cout << "--------------------------------------------" << endl;
         cout << "ADD, REMOVE, SEARCH, DISPLAY, or QUIT | EXIT" << endl;
         cout << " > ";
         char cmd[8];
         cin >> cmd;
 
-        if (strcmp(cmd, ADD_CMD) == 0)
+        // Compare commands
+        if (strcmp(cmd, ADD_CMD) == 0) // Adding numbers
         {
+            // Display info and get user input
             cout << "MANUAL or FILE" << endl;
             cout << " > ";
             char opt[7];
             cin >> opt;
 
-            if (strcmp(opt, ADD_OPT_MANUAL) == 0)
+            // Compare command options
+            if (strcmp(opt, ADD_OPT_MANUAL) == 0) // Manual input
             {
                 cout << "Enter space-separated integers to add to the heap. Type \"DONE\" when finished." << endl;
 
+                // Useful variables
                 char input[17];
                 char count = 0;
                 int skipped = 0;
-                while (true)
+                while (true) // Continuously get space-separated user input
                 {
                     cin >> input;
-                    if (strcmp(input, ADD_MANUAL_FLAG_DONE) == 0)
+                    if (strcmp(input, ADD_MANUAL_FLAG_DONE) == 0) // The user indicated that they're done inputting numbers
                     {
                         break;
                     }
                     int value;
-                    sscanf(input, "%d", &value);
-                    if (value <= 0 || value > 999)
+                    sscanf(input, "%d", &value);   // Scan the input for numbers
+                    if (value <= 0 || value > 999) // We only want numbers between 0 and 999 (inclusive)
                     {
                         skipped++;
                     }
@@ -74,18 +82,22 @@ int main()
                 }
                 cout << "Added " << (count - skipped) << " numbers." << endl;
             }
-            if (strcmp(opt, ADD_OPT_FILE) == 0)
+            if (strcmp(opt, ADD_OPT_FILE) == 0) // File input
             {
+                // Prompt user for file name
                 cout << " Enter file name > ";
                 char filename[261];
                 cin >> filename;
+
+                // Get all numbers in the file (space separated)
                 cout << "Reading in numbers... ";
                 vector<int> numbers;
                 int numberCount = 0;
 
-                ifstream numbersFile(filename);
-                if (numbersFile.is_open())
+                ifstream numbersFile(filename); // Create the file stream
+                if (numbersFile.is_open())      // If we can access the file
                 {
+                    // Continuously read space-separated integers from the file until the end of the stream is reached
                     int val;
                     while (!numbersFile.eof())
                     {
@@ -95,6 +107,7 @@ int main()
                     }
                     numbersFile.close();
 
+                    // Sort through all the numbers to make sure they're valid
                     int skipped = 0;
                     for (int i = 0; i < numberCount; i++)
                     {
@@ -113,37 +126,58 @@ int main()
                         cout << "Warning: " << skipped << " numbers were skipped.  Make sure your numbers are between 1 and 1000, exclusive." << endl;
                     }
                     cout << "Added " << (numberCount - skipped) << " numbers." << endl;
-                } else {
+                }
+                else
+                {
                     cout << "Failed to open file: " << filename << endl;
                 }
             }
         }
-        if (strcmp(cmd, REMOVE_CMD) == 0)
+        if (strcmp(cmd, REMOVE_CMD) == 0) // Remove a number
         {
-            cout << " Enter value to remove > ";
+            // Prompt user for number to remove
+            cout << "Enter value to remove > ";
             int number;
             cin >> number;
-            b->remove(number);
-        }
-        if (strcmp(cmd, SEARCH_CMD) == 0)
-        {
-            cout << " Enter value to search for > ";
-            int number;
-            cin >> number;
-            if (b->search(number))
+
+            if (b->search(number)) // If the number exists...
             {
-                cout << "Found " << number << " in the tree." << endl;
+                b->remove(number); // Remove it
             }
             else
             {
-                cout << "Did not find " << number << " in the tree." << endl;
+                cout << "That number isn't in the tree!" << endl; // Notify the user otherwise.
             }
         }
-        if (strcmp(cmd, DISPLAY_CMD) == 0)
+        if (strcmp(cmd, SEARCH_CMD) == 0) // Find a certain number
         {
-            b->display();
+            // Prompt user for number to search for
+            cout << "Enter value to search for > ";
+            int number;
+            cin >> number;
+
+            if (b->search(number)) // If the number exists...
+            {
+                cout << "Found " << number << " in the tree." << endl; // Tell the user it exists
+            }
+            else
+            {
+                cout << "Did not find " << number << " in the tree." << endl; // Notify the user otherwise.
+            }
         }
-        if (strcmp(cmd, QUIT_CMD) == 0 || strcmp(cmd, EXIT_CMD) == 0)
+        if (strcmp(cmd, DISPLAY_CMD) == 0) // Print the BST
+        {
+            cout << endl;
+            b->display();
+            cout << endl;
+        }
+        if (strcmp(cmd, CLEAR_CMD) == 0) // Clear the BST
+        {
+            delete b;
+            b = new BinarySearchTree();
+            cout << "Cleared the tree!" << endl;
+        }
+        if (strcmp(cmd, QUIT_CMD) == 0 || strcmp(cmd, EXIT_CMD) == 0) // Quit the program
         {
             break;
         }

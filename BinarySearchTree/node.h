@@ -10,3 +10,7 @@ struct Node
 };
 
 #endif // NODE_H
+
+/*
+    The Node struct represents a tree node.  It contains a left and right Node pointer and an integer holding the Node's data.
+*/
