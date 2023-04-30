@@ -1,8 +1,11 @@
 #ifndef NODE_H
 #define NODE_H
-
 struct Node {
-    Node(int);
+    Node();
+    Node(Node *, int);
+
+    bool isRed();
+    bool isBlack();
 
     int data;
 
@@ -10,7 +13,7 @@ struct Node {
     Node *left;
     Node *right;
     
-    int color;
+    char color; // 'r' is red, 'b' is black
 };
 
 #endif // NODE_H
