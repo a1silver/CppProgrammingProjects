@@ -16,7 +16,7 @@ class RBT {
         void rotateLeft(Node *);
         void rotateRight(Node *);
         Node *getUncle(Node *);
-        void display(Node *, vector<char>, bool, int);
+        void display(Node *, vector<char>, bool);
     public:
         RBT();
         ~RBT();

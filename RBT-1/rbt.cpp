@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// Terminal formatting codes
+// Found on: https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
 #define underline "\033[4m"
 #define red "\033[31m"
 #define reset "\033[0m"
@@ -22,9 +24,11 @@ RBT::~RBT()
     this->recursiveDestructor(this->root);
 }
 
+// Remove all the nodes in the tree
 void RBT::recursiveDestructor(Node *current)
 {
-    if(current == this->nullNode) {
+    if (current == this->nullNode)
+    {
         return;
     }
     Node *left = current->left;
@@ -36,10 +40,12 @@ void RBT::recursiveDestructor(Node *current)
     this->recursiveDestructor(right);
 }
 
+// Add a node to the tree
 void RBT::add(int data)
 {
     Node *newNode = new Node(this->nullNode, data);
 
+    // Find the node that the new node should be added to
     Node *addTo = nullptr;
     Node *current = this->root;
     while (current != this->nullNode)
@@ -89,6 +95,7 @@ void RBT::add(int data)
     this->fixAdd(newNode);
 }
 
+// Runs through cases 3, 4, and 5 to maintain the properties of a Red-Black Tree
 void RBT::fixAdd(Node *current)
 {
     Node *uncle = this->getUncle(current);
@@ -157,6 +164,11 @@ void RBT::fixAdd(Node *current)
     this->root->color = 'b';
 }
 
+/*
+    Get the uncle of any node.
+    Will return the node's parent's left node if the given node is on the right.
+    Will return the node's parent's right node if the given node is on the left.
+*/
 Node *RBT::getUncle(Node *node)
 {
     if (node->parent == node->parent->parent->right)
@@ -169,6 +181,7 @@ Node *RBT::getUncle(Node *node)
     }
 }
 
+// Rotate the subtrees of an origin node to the left
 void RBT::rotateLeft(Node *origin)
 {
     Node *right = origin->right;
@@ -185,8 +198,8 @@ void RBT::rotateLeft(Node *origin)
     {
         this->root = right;
     }
-    else if (origin == origin->parent->left)
-    { // Origin is to the left of the parent
+    else if (origin == origin->parent->left) // Origin is to the left of the parent
+    {
         origin->parent->left = right;
     }
     else
@@ -198,6 +211,7 @@ void RBT::rotateLeft(Node *origin)
     origin->parent = right;
 }
 
+// Rotate the substrees of an origin node to the right
 void RBT::rotateRight(Node *origin)
 {
     Node *left = origin->left;
@@ -214,8 +228,8 @@ void RBT::rotateRight(Node *origin)
     {
         this->root = left;
     }
-    else if (origin == origin->parent->right)
-    { // Origin is to the right of the parent
+    else if (origin == origin->parent->right) // Origin is to the right of the parent
+    {
         origin->parent->right = left;
     }
     else
@@ -227,59 +241,38 @@ void RBT::rotateRight(Node *origin)
     origin->parent = left;
 }
 
-/*
-void RBT::display(Node *current, bool left, int depth)
+// Recursive helper function to display the tree
+void RBT::display(Node *current, vector<char> indent, bool left)
 {
-    if (current == nullptr) // We're at the end of the list
+    if (current == this->nullNode) // We've reached the end of a subtree
     {
         return;
     }
-    display(current->right, false, depth + 1); // First display the right subtree (at the top)
-
-    if (current != this->nullNode)
-    {
-        cout << setw(depth * 5) << ""; // Set up correct formatting
-        // Add "arrows" showing the parent-child nodes
-        if (left)
-        {
-            cout << "\\";
-        }
-        else
-        {
-            if (current != this->root)
-            {
-                cout << "/";
-            }
-        }
-
-        cout << underline << (current->isRed() ? red : "") << current->data << reset << endl; // Add a bit of underlining and print the data
-    }
-
-    display(current->left, true, depth + 1); // Then display the left subtree (at the bottom)
-}
-*/
-void RBT::display(Node *current, vector<char> indent, bool left, int depth) {
-    if (current == this->nullNode) { // We've reached the end of a subtree
-        return;
-    }
+    // Printing and updating the indentation
     vector<char>::iterator it;
-    for(it = indent.begin(); it != indent.end(); it++) {
+    for (it = indent.begin(); it != indent.end(); it++)
+    {
         cout << *it << "  ";
     }
-    if(left) {
+    if (left)
+    {
         indent.push_back(' ');
-    } else {
+    }
+    else
+    {
         indent.push_back('|');
     }
-    // cout << setw(depth * 3);
+    // Printing node value, position, and color
     cout << (current == this->root ? "T" : (left ? "L" : "R")) << "--->";
     cout << (current->isRed() ? red : "") << underline << current->data << reset << endl;
-    display(current->left, indent, false, depth + 1);
-    display(current->right, indent, true, depth + 1);
+    // Display the subtrees
+    display(current->left, indent, false);
+    display(current->right, indent, true);
 }
 
+// Wrapper function to display the tree
 void RBT::display()
 {
     vector<char> indent;
-    this->display(this->root, indent, false, 0);
+    this->display(this->root, indent, false);
 }
