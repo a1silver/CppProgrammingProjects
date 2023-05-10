@@ -242,6 +242,7 @@ void RBT::rotateRight(Node *origin)
 }
 
 // Recursive helper function to display the tree
+// The vector parameter is used to add lines that connect nodes at the same level in the tree to make visualization of the tree structure easier.
 void RBT::display(Node *current, vector<char> indent, bool left)
 {
     if (current == this->nullNode) // We've reached the end of a subtree
@@ -266,8 +267,8 @@ void RBT::display(Node *current, vector<char> indent, bool left)
     cout << (current == this->root ? "T" : (left ? "L" : "R")) << "--->";
     cout << (current->isRed() ? red : "") << underline << current->data << reset << endl;
     // Display the subtrees
-    display(current->left, indent, false);
-    display(current->right, indent, true);
+    display(current->left, indent, true);
+    display(current->right, indent, false);
 }
 
 // Wrapper function to display the tree
