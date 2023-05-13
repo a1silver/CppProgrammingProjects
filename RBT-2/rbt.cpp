@@ -340,7 +340,7 @@ void RBT::rotateLeft(Node *origin)
 
     right->parent = origin->parent;
 
-    if (origin->parent == nullptr)
+    if (origin->parent == nullptr) // We're at the top of the tree
     {
         this->root = right;
     }
@@ -370,7 +370,7 @@ void RBT::rotateRight(Node *origin)
 
     left->parent = origin->parent;
 
-    if (origin->parent == nullptr)
+    if (origin->parent == nullptr) // We're at the top of the tree
     {
         this->root = left;
     }
@@ -387,23 +387,25 @@ void RBT::rotateRight(Node *origin)
     origin->parent = left;
 }
 
-void RBT::transplant(Node *first, Node *second)
+// Replace the node being deleted with its successor or predecessor node while maintaining properties of the Red-Black Tree
+void RBT::transplant(Node *toDelete, Node *replacement)
 {
-    if (first->parent == nullptr)
+    if (toDelete->parent == nullptr) // We're at the top of the tree
     {
-        this->root = second;
+        this->root = replacement;
     }
-    else if (first = first->parent->left)
+    else if (toDelete = toDelete->parent->left)
     {
-        first->parent->left = second;
+        toDelete->parent->left = replacement;
     }
     else
     {
-        first->parent->right = second;
+        toDelete->parent->right = replacement;
     }
-    second->parent = first->parent;
+    replacement->parent = toDelete->parent;
 }
 
+// Get the "minimum" (left-most) value starting at any node
 Node *RBT::getMinimum(Node *origin)
 {
     while (origin->left != this->nullNode)
@@ -413,8 +415,10 @@ Node *RBT::getMinimum(Node *origin)
     return origin;
 }
 
-// Recursive helper function to display the tree
-// The vector parameter is used to add lines that connect nodes at the same level in the tree to make visualization of the tree structure easier.
+/*
+    Recursive helper function to display the tree
+    The vector parameter is used to add lines that connect nodes at the same level in the tree to make visualization of the tree structure easier.
+*/
 void RBT::display(Node *current, vector<char> indent, bool left)
 {
     if (current == this->nullNode) // We've reached the end of a subtree
@@ -422,8 +426,7 @@ void RBT::display(Node *current, vector<char> indent, bool left)
         return;
     }
     // Printing and updating the indentation
-    vector<char>::iterator it;
-    for (it = indent.begin(); it != indent.end(); it++)
+    for (vector<char>::iterator it = indent.begin(); it != indent.end(); it++)
     {
         cout << *it << "  ";
     }
@@ -450,20 +453,22 @@ void RBT::display()
     this->display(this->root, indent, false);
 }
 
+// Search for a value in the tree
 bool RBT::search(int value)
 {
-    Node *current = this->root;
+    Node *current = this->root; // Start at the root
     while (true)
     {
-        if (current == this->nullNode)
+        if (current == this->nullNode) // If we've reached a "null node," the value doesn't exist
         {
             return false;
         }
-        if (current->data == value)
+        if (current->data == value) // We've found the correct node
         {
             return true;
         }
 
+        // Advance to the next node depending on if the value is less than or greater than the current node
         if (current->data > value)
         {
             current = current->left;
