@@ -187,20 +187,21 @@ bool RBT::remove(int data)
         }
     }
 
-    if (toDelete == this->nullNode)
+    if (toDelete == this->nullNode) // We didn't find the correct node
     {
         return false;
     }
 
+    // Store the node that we want to delete and the color of that node for later use
     Node *toDeleteOriginal = toDelete;
     char originalColor = toDeleteOriginal->color;
 
-    if (toDelete->left == this->nullNode)
+    if (toDelete->left == this->nullNode) // The node to delete has one non-leaf child to the right
     {
         toFix = toDelete->right;
         this->transplant(toDelete, toDelete->right);
     }
-    else if (toDelete->right == this->nullNode)
+    else if (toDelete->right == this->nullNode) // The node to delete has one non-leaf child to the left
     {
         toFix = toDelete->left;
         this->transplant(toDelete, toDelete->left);
@@ -240,10 +241,10 @@ void RBT::fixRemove(Node *toFix)
 
     while (toFix != root && toFix->isBlack())
     {
-        if (toFix == toFix->parent->left)
+        if (toFix == toFix->parent->left) // The node to fix is on the left side of its parent
         {
-            current = toFix->parent->right;
-            if (current->isRed())
+            current = toFix->parent->right; // Store the right sibling for easier use
+            if (current->isRed()) // Case 1: The right child of our current node is red
             {
                 current->color = 'b';
                 toFix->parent->color = 'r';
@@ -251,14 +252,14 @@ void RBT::fixRemove(Node *toFix)
                 current = toFix->parent->right;
             }
 
-            if (current->left->isBlack() && current->right->isBlack())
+            if (current->left->isBlack() && current->right->isBlack()) // Case 2: Both children of our current node are black
             {
                 current->color = 'r';
                 toFix = toFix->parent;
             }
             else
             {
-                if (current->right->isBlack())
+                if (current->right->isBlack()) // Case 3: Only the right child of our current node is black
                 {
                     current->left->color = 'b';
                     current->color = 'r';
@@ -266,6 +267,7 @@ void RBT::fixRemove(Node *toFix)
                     current = toFix->parent->right;
                 }
 
+                 // Case 4:    
                 current->color = toFix->parent->color;
                 toFix->parent->color = 'b';
                 current->right->color = 'b';
@@ -273,7 +275,7 @@ void RBT::fixRemove(Node *toFix)
                 toFix = root;
             }
         }
-        else
+        else // Same as above but all uses of right and left are swapped (doing the same thing but the tree is mirrored)
         {
             current = toFix->parent->left;
             if (current->isRed())
@@ -307,7 +309,7 @@ void RBT::fixRemove(Node *toFix)
             }
         }
     }
-    toFix->color = 0;
+    toFix->color = 0; // The node to fix should become black
 }
 
 /*
