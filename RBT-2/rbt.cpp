@@ -208,9 +208,9 @@ bool RBT::remove(int data)
     }
     else
     {
-        toDeleteOriginal = this->getMinimum(toDelete->right);
-        originalColor = toDeleteOriginal->color;
-        toFix = toDeleteOriginal->right;
+        toDeleteOriginal = this->getMinimum(toDelete->right); // Get the minimum subtree of the right child of the node we want to delete
+        originalColor = toDeleteOriginal->color;              // Update the color of the minimum subtree
+        toFix = toDeleteOriginal->right;                      // We now want to fix the right child of our minimum subtree
         if (toDeleteOriginal->parent == toDelete)
         {
             toFix->parent = toDeleteOriginal;
@@ -244,7 +244,7 @@ void RBT::fixRemove(Node *toFix)
         if (toFix == toFix->parent->left) // The node to fix is on the left side of its parent
         {
             current = toFix->parent->right; // Store the right sibling for easier use
-            if (current->isRed()) // Case 1: The right child of our current node is red
+            if (current->isRed())           // Case 1: The right child of the parent of our current node is red
             {
                 current->color = 'b';
                 toFix->parent->color = 'r';
@@ -252,7 +252,7 @@ void RBT::fixRemove(Node *toFix)
                 current = toFix->parent->right;
             }
 
-            if (current->left->isBlack() && current->right->isBlack()) // Case 2: Both children of our current node are black
+            if (current->left->isBlack() && current->right->isBlack()) // Case 2: Both the right and the leftChild of our current node are BLACK
             {
                 current->color = 'r';
                 toFix = toFix->parent;
@@ -267,7 +267,7 @@ void RBT::fixRemove(Node *toFix)
                     current = toFix->parent->right;
                 }
 
-                 // Case 4:    
+                // Case 4: Only the right child of our current node is red
                 current->color = toFix->parent->color;
                 toFix->parent->color = 'b';
                 current->right->color = 'b';
