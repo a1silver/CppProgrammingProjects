@@ -164,7 +164,11 @@ void RBT::fixAdd(Node *current)
     this->root->color = 'b';
 }
 
-// Remove a node from the tree
+/*
+    Remove a node from the tree.
+
+    Based off of https://www.programiz.com/dsa/red-black-tree's deletion and deletion fix algorithms.
+*/
 bool RBT::remove(int data)
 {
     Node *toDelete = this->root;
@@ -235,6 +239,11 @@ bool RBT::remove(int data)
     return true;
 }
 
+/*
+    Maintain the red-black tree properties after deletion.
+    
+    Based off of https://www.programiz.com/dsa/red-black-tree's deletion and deletion fix algorithms.
+*/
 void RBT::fixRemove(Node *toFix)
 {
     Node *current;
