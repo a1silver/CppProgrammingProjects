@@ -5,18 +5,21 @@
 
 using namespace std;
 
-struct Node; // Forward declarations
+// Forward declarations
+struct Node;
 
-struct Edge {
+struct Edge
+{
     Node *end;
     float weight;
 };
 
 struct Node
 {
-    char label[51];
-    vector<Edge> connections;
+    char label[3];
+    vector<Edge *> connections;
     bool isConnectedTo(Node *);
+    Edge *getConnectionTo(Node *);
 };
 
 #endif // TYPES_H

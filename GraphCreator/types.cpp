@@ -6,13 +6,18 @@ using namespace std;
 
 bool Node::isConnectedTo(Node *otherNode)
 {
-    vector<Edge>::iterator it;
+    return this->getConnectionTo(otherNode) != nullptr;
+}
+
+Edge *Node::getConnectionTo(Node *otherNode)
+{
+    vector<Edge *>::iterator it;
     for (it = this->connections.begin(); it != this->connections.end(); it++)
     {
-        if ((*it).end == otherNode)
+        if ((*it)->end == otherNode)
         {
-            return true;
+            return *it;
         }
     }
-    return false;
+    return nullptr;
 }
