@@ -5,6 +5,9 @@
 #include "graph.h"
 #include "types.h"
 
+#define reset "\033[0m"
+#define green "\033[32m"
+
 using namespace std;
 
 Graph::Graph()
@@ -21,6 +24,16 @@ Graph::~Graph()
     }
     this->nodes.clear();
     // todo
+}
+
+bool Graph::isFull()
+{
+    return this->nodeCount == 20;
+}
+
+bool Graph::isEmpty()
+{
+    return this->nodeCount == 0;
 }
 
 bool Graph::add(Node *node)
@@ -136,7 +149,9 @@ void Graph::printAdjacencyMatrix()
                 if (len == 1)
                 {
                     cout << " " << this->nodes[i]->label << " ";
-                } else {
+                }
+                else
+                {
                     cout << this->nodes[i]->label << " ";
                 }
                 continue;
@@ -154,7 +169,15 @@ void Graph::printAdjacencyMatrix()
                 continue;
             }
 
-            cout << " " << (adjacencyMatrix[i][j] ? "X" : "O") << " ";
+            bool cell = adjacencyMatrix[i][j];
+            if (cell)
+            {
+                cout << " " << green << "X" << reset << " ";
+            }
+            else
+            {
+                cout << " O ";
+            }
         }
         cout << endl;
     }

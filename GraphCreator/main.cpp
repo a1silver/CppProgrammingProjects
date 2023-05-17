@@ -52,6 +52,11 @@ int main()
 
             if (strcmp(opt, OPT_NODE) == 0)
             {
+                if (graph->isFull())
+                {
+                    cout << "There can be no more than 20 nodes in the graph." << endl;
+                    continue;
+                }
                 Node *newNode = new Node();
                 cout << "Enter up to 2 characters for the node label: ";
                 char label[2];

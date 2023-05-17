@@ -16,6 +16,8 @@ private:
 public:
     Graph();
     ~Graph();
+    bool isFull();
+    bool isEmpty();
     bool add(Node *);
     bool remove(char *);
     bool removeConnection(Node *, Node *);
