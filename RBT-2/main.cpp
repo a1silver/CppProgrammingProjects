@@ -26,7 +26,7 @@ int main()
 {
     RBT *rbt = new RBT();
 
-    cout << "Red-Black Tree Part 1 (Insertion)" << endl;
+    cout << "Red-Black Tree Part 1 & 2 (Insertion and Deletion)" << endl;
 
     // Command loop
     while (true)
