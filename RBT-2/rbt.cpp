@@ -171,68 +171,73 @@ void RBT::fixAdd(Node *current)
 */
 bool RBT::remove(int data)
 {
-    Node *toDelete = this->root;
+    Node *foundNode = this->root;
     Node *toFix;
+    Node *foundNodeOriginal;
 
     // Find the node that should be deleted
-    while (toDelete != this->nullNode)
+    while (foundNode != this->nullNode)
     {
-        if (toDelete->data == data)
+        if (foundNode->data == data)
         {
             break;
         }
-        else if (toDelete->data >= data)
+
+        if (foundNode->data <= data)
         {
-            toDelete = toDelete->left;
+            foundNode = foundNode->right;
         }
         else
         {
-            toDelete = toDelete->right;
+            foundNode = foundNode->left;
         }
     }
 
-    if (toDelete == this->nullNode) // We didn't find the correct node
+    if (foundNode == this->nullNode) // We didn't find the correct node
     {
         return false;
     }
 
     // Store the node that we want to delete and the color of that node for later use
-    Node *toDeleteOriginal = toDelete;
-    char originalColor = toDeleteOriginal->color;
+    foundNodeOriginal = foundNode;
+    char foundNodeOriginalColor = foundNodeOriginal->color;
 
-    if (toDelete->left == this->nullNode) // The node to delete has one non-leaf child to the right
+    if (foundNode->left == this->nullNode) // The node to delete has one non-leaf child to the right
     {
-        toFix = toDelete->right;
-        this->transplant(toDelete, toDelete->right);
+        toFix = foundNode->right;
+        this->transplant(foundNode, foundNode->right);
     }
-    else if (toDelete->right == this->nullNode) // The node to delete has one non-leaf child to the left
+    else if (foundNode->right == this->nullNode) // The node to delete has one non-leaf child to the left
     {
-        toFix = toDelete->left;
-        this->transplant(toDelete, toDelete->left);
+        toFix = foundNode->left;
+        this->transplant(foundNode, foundNode->left);
     }
     else
     {
-        toDeleteOriginal = this->getMinimum(toDelete->right); // Get the minimum subtree of the right child of the node we want to delete
-        originalColor = toDeleteOriginal->color;              // Update the color of the minimum subtree
-        toFix = toDeleteOriginal->right;                      // We now want to fix the right child of our minimum subtree
-        if (toDeleteOriginal->parent == toDelete)
+        foundNodeOriginal = this->getMinimum(foundNode->right); // Get the in-order successor (the smallest node of the found node's right subtree)
+        foundNodeOriginalColor = foundNodeOriginal->color;      // Update the color of the minimum subtree
+        toFix = foundNodeOriginal->right;                       // We now want to fix the right child of our minimum subtree
+
+        if (foundNodeOriginal->parent == foundNode)
         {
-            toFix->parent = toDeleteOriginal;
+            toFix->parent = foundNodeOriginal;
         }
         else
         {
-            this->transplant(toDeleteOriginal, toDeleteOriginal->right);
-            toDeleteOriginal->right = toDelete->right;
-            toDeleteOriginal->right->parent = toDeleteOriginal;
+            this->transplant(foundNodeOriginal, foundNodeOriginal->right);
+            foundNodeOriginal->right = foundNode->right;
+            foundNodeOriginal->right->parent = foundNodeOriginal;
         }
 
-        this->transplant(toDelete, toDeleteOriginal);
-        toDeleteOriginal->left = toDelete->left;
-        toDeleteOriginal->left->parent = toDeleteOriginal;
-        toDeleteOriginal->color = toDelete->color;
+        this->transplant(foundNode, foundNodeOriginal);
+        foundNodeOriginal->left = foundNode->left;
+        foundNodeOriginal->left->parent = foundNodeOriginal;
+        foundNodeOriginal->color = foundNode->color;
     }
-    delete toDelete;
-    if (originalColor == 'b')
+
+    delete foundNode;
+
+    if (foundNodeOriginalColor == 'b') // We only need to fix the Red-Black tree properties if we're removing a black node, removing red nodes doesn't violate the properties of a Red-Black tree
     {
         this->fixRemove(toFix);
     }
@@ -241,7 +246,7 @@ bool RBT::remove(int data)
 
 /*
     Maintain the red-black tree properties after deletion.
-    
+
     Based off of https://www.programiz.com/dsa/red-black-tree's deletion and deletion fix algorithms.
 */
 void RBT::fixRemove(Node *toFix)
@@ -313,12 +318,12 @@ void RBT::fixRemove(Node *toFix)
                 current->color = toFix->parent->color;
                 toFix->parent->color = 'b';
                 current->left->color = 'b';
-                this->rotateLeft(toFix->parent);
+                this->rotateRight(toFix->parent);
                 toFix = root;
             }
         }
     }
-    toFix->color = 0; // The node to fix should become black
+    toFix->color = 'b'; // The node to fix should become black
 }
 
 /*
@@ -343,19 +348,16 @@ void RBT::rotateLeft(Node *origin)
 {
     Node *right = origin->right;
     origin->right = right->left;
-
     if (right->left != this->nullNode)
     {
         right->left->parent = origin;
     }
-
     right->parent = origin->parent;
-
     if (origin->parent == nullptr) // We're at the top of the tree
     {
         this->root = right;
     }
-    else if (origin == origin->parent->left) // Origin is to the left of the parent
+    else if (origin == origin->parent->left) // Origin is to the right of the parent
     {
         origin->parent->left = right;
     }
@@ -363,7 +365,6 @@ void RBT::rotateLeft(Node *origin)
     {
         origin->parent->right = right;
     }
-
     right->left = origin;
     origin->parent = right;
 }
@@ -373,19 +374,16 @@ void RBT::rotateRight(Node *origin)
 {
     Node *left = origin->left;
     origin->left = left->right;
-
     if (left->right != this->nullNode)
     {
         left->right->parent = origin;
     }
-
     left->parent = origin->parent;
-
-    if (origin->parent == nullptr) // We're at the top of the tree
+    if (origin->parent == nullptr)
     {
         this->root = left;
     }
-    else if (origin == origin->parent->right) // Origin is to the right of the parent
+    else if (origin == origin->parent->right)
     {
         origin->parent->right = left;
     }
@@ -393,7 +391,6 @@ void RBT::rotateRight(Node *origin)
     {
         origin->parent->left = left;
     }
-
     left->right = origin;
     origin->parent = left;
 }
@@ -403,9 +400,9 @@ void RBT::transplant(Node *toDelete, Node *replacement)
 {
     if (toDelete->parent == nullptr) // We're at the top of the tree
     {
-        this->root = replacement;
+        root = replacement;
     }
-    else if (toDelete = toDelete->parent->left)
+    else if (toDelete == toDelete->parent->left)
     {
         toDelete->parent->left = replacement;
     }
@@ -416,7 +413,7 @@ void RBT::transplant(Node *toDelete, Node *replacement)
     replacement->parent = toDelete->parent;
 }
 
-// Get the "minimum" (left-most) value starting at any node
+// Get the "minimum" (predecessor) node of any node
 Node *RBT::getMinimum(Node *origin)
 {
     while (origin->left != this->nullNode)

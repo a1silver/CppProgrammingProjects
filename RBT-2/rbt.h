@@ -20,6 +20,12 @@ class RBT {
         void transplant(Node *, Node *);
         Node *getMinimum(Node *);
         void display(Node *, vector<char>, bool);
+        bool case1(Node *);
+        bool case2(Node *);
+        bool case3(Node *);
+        bool case4(Node *);
+        bool case5(Node *);
+        bool case6(Node *);
     public:
         RBT();
         ~RBT();
