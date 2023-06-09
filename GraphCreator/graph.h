@@ -12,6 +12,8 @@ class Graph
 private:
     vector<Node *> nodes;
     int nodeCount;
+    Edge *getShortestConnector(Node *);
+    int minDistanceIndex(vector<float>, vector<bool>);
 
 public:
     Graph();
@@ -24,6 +26,10 @@ public:
     Node *find(char *);
     void listNodes();
     void printAdjacencyMatrix();
+    void printShortestPath(Node *, Node *);
+    void printAllPaths(Node *);
+    int indexOf(Node *);
+    int indexOf(char *);
 };
 
 #endif // GRAPH_H

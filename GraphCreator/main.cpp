@@ -15,6 +15,8 @@ const char CLEAR_CMD[] = "clear";
 const char LIST_CMD[] = "list";     // Show all nodes
 const char ADJMAT_CMD[] = "adjmat"; // Adjacency matrix
 const char SHORTEST_CMD[] = "shortest";
+const char OPT_ALL[] = "all";
+const char OPT_SINGLE[] = "single";
 const char QUIT_CMD[] = "quit";
 const char EXIT_CMD[] = "exit";
 
@@ -131,6 +133,7 @@ int main()
                     continue;
                 }
 
+                edge->start = first;
                 edge->end = second;
 
                 first->connections.push_back(edge);
@@ -246,6 +249,64 @@ int main()
         }
         if (strcmp(cmd, SHORTEST_CMD) == 0)
         {
+            cout << "ALL or SINGLE: ";
+            char opt[7];
+            cin >> opt;
+
+            if (strcmp(opt, OPT_ALL) == 0)
+            {
+                cout << "Enter the label of the first node (up to 2 characters): ";
+                char label1[2];
+                cin >> label1;
+
+                Node *first = graph->find(label1);
+                if (first == nullptr)
+                {
+                    cout << "A node with the label \"" << label1 << "\" wasn't found." << endl
+                         << endl;
+                    continue;
+                }
+                graph->printAllPaths(first);
+            }
+            if (strcmp(opt, OPT_SINGLE) == 0)
+            {
+                cout << "Enter the label of the first node (up to 2 characters): ";
+                char label1[2];
+                cin >> label1;
+                cout << "Enter the label of the second node (up to 2 characters): ";
+                char label2[2];
+                cin >> label2;
+
+                if (strcmp(label1, label2) == 0)
+                {
+                    cout << "Both labels can't be the same." << endl
+                         << endl;
+                    continue;
+                }
+
+                Node *first = graph->find(label1);
+                Node *second = graph->find(label2);
+                if (first == nullptr)
+                {
+                    cout << "A node with the label \"" << label1 << "\" wasn't found." << endl
+                         << endl;
+                    continue;
+                }
+                if (second == nullptr)
+                {
+                    cout << "A node with the label \"" << label2 << "\" wasn't found." << endl
+                         << endl;
+                    continue;
+                }
+                if (strcmp(first->label, second->label) == 0) // This shouldn't ever happen
+                {
+                    cout << "Both labels can't be the same." << endl
+                         << endl;
+                    continue;
+                }
+
+                graph->printShortestPath(first, second);
+            }
         }
         if (strcmp(cmd, QUIT_CMD) == 0 || strcmp(cmd, EXIT_CMD) == 0)
         {

@@ -10,6 +10,7 @@ struct Node;
 
 struct Edge
 {
+    Node *start;
     Node *end;
     float weight;
 };
