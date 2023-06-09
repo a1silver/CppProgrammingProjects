@@ -26,6 +26,7 @@ int main()
 
     cout << "Directional Graph Creator by Morgan Hinz" << endl;
 
+    // Get user commands
     while (true)
     {
         cout << "ADD, REMOVE, CLEAR, LIST, ADJMAT, SHORTEST, or QUIT | EXIT" << endl;

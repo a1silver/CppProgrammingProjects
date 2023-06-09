@@ -33,3 +33,18 @@ public:
 };
 
 #endif // GRAPH_H
+
+/*
+    This header file contains the definition for the Graph class.
+
+    The Graph class holds vital fields and functions to perform operation for a graph.
+    A graph is used to find the shortest path between two nodes (Djikstra's algorithm).
+
+    Some important functions are:
+     - add
+     - remove
+     - find
+     - printShortestPath
+     - printAllPaths
+     - printAdjacencyMatrix
+*/
