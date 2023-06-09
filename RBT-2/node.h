@@ -17,3 +17,9 @@ struct Node {
 };
 
 #endif // NODE_H
+
+/*
+    This header file contains the definition for the Node struct.
+
+    The Node struct represents a Node object.  A Node contains a left child, right child, parent node, a data value, and a color (red or black).
+*/

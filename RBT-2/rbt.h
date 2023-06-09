@@ -20,12 +20,6 @@ class RBT {
         void transplant(Node *, Node *);
         Node *getMinimum(Node *);
         void display(Node *, vector<char>, bool);
-        bool case1(Node *);
-        bool case2(Node *);
-        bool case3(Node *);
-        bool case4(Node *);
-        bool case5(Node *);
-        bool case6(Node *);
     public:
         RBT();
         ~RBT();
@@ -36,3 +30,9 @@ class RBT {
 };
 
 #endif // RBT_H
+
+/*
+    This header file contains the definition for the RBT class.
+
+    The RBT class represents a Red-Black tree, which is a self-balancing binary search tree.
+*/
