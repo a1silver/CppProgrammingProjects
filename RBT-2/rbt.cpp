@@ -98,20 +98,19 @@ void RBT::add(int data)
 // Runs through cases 3, 4, and 5 to maintain the properties of a Red-Black Tree
 void RBT::fixAdd(Node *current)
 {
-    Node *uncle = this->getUncle(current);
-    bool isUncleOnLeft = (uncle == current->parent->parent->left);
-    while (current->parent->isRed()) // We don't need to fix insertion if the parent's color is red, as that wouldn't violate the RBT properties.
+    Node *uncle;
+    while (current->parent->isRed()) // We don't need to fix insertion if the parent's color is black, as that wouldn't violate the RBT properties.
     {
-        if (isUncleOnLeft)
+        if (current->parent == current->parent->parent->right)
         {
+            uncle = current->parent->parent->left;
             if (uncle->isRed()) // Case 3: Both the parent and the uncle of the current node is red
             {
                 // Set the parent and uncle to black, and set the grandparent to red
                 uncle->color = 'b';
                 current->parent->color = 'b';
                 current->parent->parent->color = 'r';
-
-                current = current->parent->parent; // Used for checking to see if the current's grandparent is the root (at the end);
+                current = current->parent->parent; // Used for checking to see if the current's grandparent is the root (at the end)
             }
             else // Case 4: The uncle is black.  Parent is left and node is right OR parent is right and node is left
             {
@@ -131,14 +130,15 @@ void RBT::fixAdd(Node *current)
         }
         else
         {
+            uncle = current->parent->parent->right;
+
             if (uncle->isRed()) // Case 3: Both the parent and the uncle of the current node is red
             {
                 // Set the parent and uncle to black, and set the grandparent to red
                 uncle->color = 'b';
                 current->parent->color = 'b';
                 current->parent->parent->color = 'r';
-
-                current = current->parent->parent; // Used for checking to see if the current's grandparent is the root (at the end);
+                current = current->parent->parent; // Used for checking to see if the current's grandparent is the root (at the end)
             }
             else // Case 4: The uncle is black.  Parent is left and node is right OR parent is right and node is left
             {
@@ -286,7 +286,7 @@ void RBT::fixRemove(Node *toFix)
                 toFix->parent->color = 'b';
                 current->right->color = 'b';
                 this->rotateLeft(toFix->parent);
-                toFix = root;
+                toFix = this->root;
             }
         }
         else // Same as above but all uses of right and left are swapped (doing the same thing but the tree is mirrored)
@@ -319,7 +319,7 @@ void RBT::fixRemove(Node *toFix)
                 toFix->parent->color = 'b';
                 current->left->color = 'b';
                 this->rotateRight(toFix->parent);
-                toFix = root;
+                toFix = this->root;
             }
         }
     }
@@ -400,7 +400,7 @@ void RBT::transplant(Node *toDelete, Node *replacement)
 {
     if (toDelete->parent == nullptr) // We're at the top of the tree
     {
-        root = replacement;
+        this->root = replacement;
     }
     else if (toDelete == toDelete->parent->left)
     {
