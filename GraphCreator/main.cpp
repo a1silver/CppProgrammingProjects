@@ -254,6 +254,12 @@ int main()
             char opt[7];
             cin >> opt;
 
+            // This for loop takes care of ignoring any case sensitivity
+            for (int i = 0; i < strlen(opt); i++)
+            {
+                opt[i] = tolower(opt[i]);
+            }
+
             if (strcmp(opt, OPT_ALL) == 0)
             {
                 cout << "Enter the label of the first node (up to 2 characters): ";
