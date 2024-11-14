@@ -5,22 +5,23 @@
 #include <vector>
 #include <map>
 
+using namespace std;
+
 class Room {
  public:
-  std::vector<Item*>* requirements;
-  std::vector<Item*>* items;
-  std::map<char*, Room*>* exits;
+  vector<Item*> *requirements;
+  vector<Item*> *items;
+  map<char*, Room*> *exits;
 
-  char* name; // 50 and a null
-  char* description; // 250 and a null
+  char *name; 
+  char *description;
   
-  Room();
+  Room(char* nameIn, char* descriptionIn);
   ~Room();
 
-  void setNnD(char* nameIn, char* descriptionIn);
-  void addRequirement(Item* itemIn);
-  void addItem(Item* itemIn);
-  void setExit(char directionIn[6], Room* roomIn);
+  void addRequirement(Item *itemIn);
+  void addItem(Item *itemIn);
+  void setExit(char *directionIn, Room *roomIn);
 };
 
 #endif // ROOM_H

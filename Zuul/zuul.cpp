@@ -126,268 +126,191 @@ int main()
   strcpy(mat2->description, mat2Description);
 
   // Initializing the rooms
-  Room *darkHallway = new Room();
-  Room *dungeon1b = new Room();
-  Room *dungeon1a = new Room();
-  Room *dungeon1 = new Room();
-  Room *dungeon1d = new Room();
-  Room *dungeon1e = new Room();
-  Room *dungeon1c = new Room();
-  Room *oldAirway = new Room();
-  Room *dungeon1f = new Room();
-  Room *barredWindowN1 = new Room();
-  Room *rockShelfW = new Room();
-  Room *barredWindowS1 = new Room();
-  Room *windowHallwayN = new Room();
-  Room *rockShelfN = new Room();
-  Room *chasm = new Room();
-  Room *rockShelfS = new Room();
-  Room *windowHallwayS = new Room();
-  Room *barredWindowN2 = new Room();
-  Room *rockShelfE = new Room();
-  Room *barredWindowS2 = new Room();
-  Room *turretNE = new Room();
-  Room *windowHallwayE1 = new Room();
-  Room *barredWindowE = new Room();
-  Room *windowHallwayE2 = new Room();
-  Room *turretSE = new Room();
+  Room *darkHallway = new Room((char*)"Dark Hallway", (char*)"You emerge out of an awkward dream.  You ask yourself, \"Where am I?\"  As you slowly get your bearings, you notice you're in a disturbingly dark room.");
+  Room *dungeon1b = new Room((char*)"Dungeon 1B", (char*)"You're in section 1B of the main dungeon.");
+  Room *dungeon1a = new Room((char*)"Dungeon 1A", (char*)"You're in section 1A of the main dungeon.");
+  Room *dungeon1 = new Room((char*)"Dungeon 1", (char*)"You're in the main dungeon.");
+  Room *dungeon1d = new Room((char*)"Dungeon 1D", (char*)"You're in section 1D of the main dungeon.");
+  Room *dungeon1e = new Room((char*)"Dungeon 1E", (char*)"You're in section 1E of the main dungeon.");
+  Room *dungeon1c = new Room((char*)"Dungeon 1C", (char*)"You're in section 1C of the main dungeon.");
+  Room *oldAirway = new Room((char*)"Old Airway", (char*)"You're in an old airway of the castle.  A great place for someone to hide.");
+  Room *dungeon1f = new Room((char*)"Dungeon 1F", (char*)"You're in section 1F of the main dungeon.");
+  Room *chasm = new Room((char*)"Chasm", (char*)"You're in the underground part of the castle and find an odd hole in the ground... could you possibly throw a rope to get across?");
 
-  // Creating the rooms
-  char darkHallwayName[] = "Dark Hallway";
-  char darkHallwayDescription[] = "You emerge out of an awkward dream.  You ask yourself, \"Where am I?\"  As you slowly get your bearings, you notice you're in a disturbingly dark room.";
-  darkHallway->setNnD(darkHallwayName, darkHallwayDescription);
-  darkHallway->addItem(flashlight);
-  darkHallway->setExit(EXIT_EAST, dungeon1);
-
-  char dungeon1bName[] = "Dungeon 1B";
-  char dungeon1bDescription[] = "You're in section 1B of the main dungeon.";
-  dungeon1b->setNnD(dungeon1bName, dungeon1bDescription);
-  dungeon1b->setExit(EXIT_EAST, dungeon1c);
-  dungeon1b->setExit(EXIT_SOUTH, dungeon1a);
-
-  char dungeon1aName[] = "Dungeon 1A";
-  char dungeon1aDescription[] = "You're in section 1A of the main dungeon.";
-  dungeon1a->setNnD(dungeon1aName, dungeon1aDescription);
-  dungeon1a->addItem(screwdriver);
-  dungeon1a->setExit(EXIT_NORTH, dungeon1b);
-  dungeon1a->setExit(EXIT_SOUTH, dungeon1);
-
-  char dungeon1Name[] = "Dungeon 1";
-  char dungeon1Description[] = "You're in the main dungeon.";
-  dungeon1->setNnD(dungeon1Name, dungeon1Description);
-  dungeon1->setExit(EXIT_NORTH, dungeon1a);
-  dungeon1->setExit(EXIT_SOUTH, dungeon1d);
-  dungeon1->setExit(EXIT_EAST, oldAirway);
-  dungeon1->setExit(EXIT_WEST, darkHallway);
-
-  char dungeon1dName[] = "Dungeon 1D";
-  char dungeon1dDescription[] = "You're in section 1D of the main dungeon.";
-  dungeon1d->setNnD(dungeon1dName, dungeon1dDescription);
-  dungeon1d->addItem(dungeon1cKey);
-  dungeon1d->setExit(EXIT_NORTH, dungeon1);
-  dungeon1d->setExit(EXIT_SOUTH, dungeon1e);
-
-  char dungeon1eName[] = "Dungeon 1E";
-  char dungeon1eDescription[] = "You're in section 1E of the main dungeon.";
-  dungeon1e->setNnD(dungeon1eName, dungeon1eDescription);
-  dungeon1e->setExit(EXIT_NORTH, dungeon1d);
-  dungeon1e->setExit(EXIT_EAST, dungeon1f);
-
-  char dungeon1cName[] = "Dungeon 1C";
-  char dungeon1cDescription[] = "You're in section 1C of the main dungeon.";
-  dungeon1c->setNnD(dungeon1cName, dungeon1cDescription);
-  dungeon1c->addItem(rope);
-  dungeon1c->addRequirement(dungeon1cKey);
-  dungeon1c->setExit(EXIT_WEST, dungeon1b);
-
-  char oldAirwayName[] = "Old Airway";
-  char oldAirwayDescription[] = "You're in an old airway of the castle.  A great place for someone to hide.";
-  oldAirway->setNnD(oldAirwayName, oldAirwayDescription);
-  oldAirway->addItem(lint);
-  oldAirway->addRequirement(screwdriver);
-  oldAirway->addRequirement(hammer);
-  oldAirway->setExit(EXIT_WEST, dungeon1);
-  oldAirway->setExit(EXIT_EAST, rockShelfW);
-
-  char dungeon1fName[] = "Dungeon 1F";
-  char dungeon1fDescription[] = "You're in section 1F of the main dungeon.";
-  dungeon1f->setNnD(dungeon1fName, dungeon1fDescription);
-  dungeon1f->addItem(hammer);
-  dungeon1f->setExit(EXIT_WEST, dungeon1e);
-
-  // For loops cuz im lazy and don't wanna write thousands of lines of code
+  Room *rockShelfN = nullptr;
+  Room *rockShelfS = nullptr;
+  Room *rockShelfE = nullptr;
+  Room *rockShelfW = nullptr;
   for (int i = 0; i < 4; i++)
   {
-    char direction[6];
-    switch (i)
-    {
-    case 0:
-      strcpy(direction, DIR_NORTH_FULL);
-      break;
-    case 1:
-      strcpy(direction, DIR_SOUTH_FULL);
-      break;
-    case 2:
-      strcpy(direction, DIR_EAST_FULL);
-      break;
-    case 3:
-      strcpy(direction, DIR_WEST_FULL);
-      break;
-    }
     char namePrefix[] = "Rock Shelf ";
     char descriptionPrefix[] = "You're on Rock Shelf ";
     switch (i)
     {
     case 0:
-      rockShelfN->setNnD(strcat(namePrefix, direction), strcat(descriptionPrefix, direction));
-      rockShelfN->addItem(ironBar);
-      rockShelfN->setExit(EXIT_NORTH, windowHallwayN);
-      rockShelfN->setExit(EXIT_SOUTH, chasm);
+      rockShelfN = new Room((char*)strcat(namePrefix, DIR_NORTH_FULL), (char*)strcat(descriptionPrefix, DIR_NORTH_FULL));
       break;
     case 1:
-      rockShelfS->setNnD(strcat(namePrefix, direction), strcat(descriptionPrefix, direction));
-      rockShelfS->setExit(EXIT_NORTH, chasm);
-      rockShelfS->setExit(EXIT_SOUTH, windowHallwayS);
+      rockShelfS = new Room((char*)strcat(namePrefix, DIR_SOUTH_FULL), (char*)strcat(descriptionPrefix, DIR_SOUTH_FULL));
       break;
     case 2:
-      rockShelfE->setNnD(strcat(namePrefix, direction), strcat(descriptionPrefix, direction));
-      rockShelfE->addItem(turretNeKey);
-      rockShelfE->setExit(EXIT_EAST, barredWindowE);
-      rockShelfE->setExit(EXIT_WEST, chasm);
+      rockShelfE = new Room((char*)strcat(namePrefix, DIR_EAST_FULL), (char*)strcat(descriptionPrefix, DIR_EAST_FULL));
       break;
     case 3:
-      rockShelfW->setNnD(strcat(namePrefix, direction), strcat(descriptionPrefix, direction));
-      rockShelfW->setExit(EXIT_EAST, chasm);
-      rockShelfW->setExit(EXIT_WEST, oldAirway);
+      rockShelfW = new Room((char*)strcat(namePrefix, DIR_WEST_FULL), (char*)strcat(descriptionPrefix, DIR_WEST_FULL));
       break;
     }
   }
 
-  char chasmName[] = "Chasm";
-  char chasmDescription[] = "You're in the underground part of the castle and find an odd hole in the ground... could you possibly throw a rope to get across?";
-  chasm->setNnD(chasmName, chasmDescription);
-  chasm->addRequirement(rope);
-  chasm->addRequirement(lint);
-  chasm->setExit(EXIT_NORTH, rockShelfN);
-  chasm->setExit(EXIT_SOUTH, rockShelfS);
-  chasm->setExit(EXIT_EAST, rockShelfE);
-  chasm->setExit(EXIT_WEST, rockShelfW);
-
-  // For loops cuz im lazy and don't wanna write thousands of lines of code
+  Room *barredWindowN1 = nullptr;
+  Room *barredWindowN2 = nullptr;
+  Room *barredWindowS1 = nullptr;
+  Room *barredWindowS2 = nullptr;
+  Room *barredWindowE = nullptr;
   for (int i = 0; i < 5; i++)
   {
-    char direction[5];
-    switch (i)
-    {
-    case 0:
-      strcpy(direction, DIR_NORTH_1);
-      break;
-    case 1:
-      strcpy(direction, DIR_NORTH_2);
-      break;
-    case 2:
-      strcpy(direction, DIR_SOUTH_1);
-      break;
-    case 3:
-      strcpy(direction, DIR_SOUTH_2);
-      break;
-    case 4:
-      strcpy(direction, DIR_EAST);
-      break;
-    }
     char namePrefix[] = "Barred Window ";
     char descriptionPrefix[] = "You've found yourself in the castle's Barred Window ";
     char descriptionSuffix[] = "...";
-    char finalRoomDescription[] = "Congratulations, you successfully escaped the castle!  Thanks for playing.";
     switch (i)
     {
     case 0:
-      barredWindowN1->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      barredWindowN1->setExit(EXIT_EAST, windowHallwayN);
+      barredWindowN1 = new Room((char*)strcat(namePrefix, DIR_NORTH_1), (char*)strcat(strcat(descriptionPrefix, DIR_NORTH_1), descriptionSuffix));
       break;
     case 1:
-      barredWindowN2->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      barredWindowN2->setExit(EXIT_WEST, windowHallwayN);
-      barredWindowN2->setExit(EXIT_EAST, turretNE);
+      barredWindowN2 = new Room((char*)strcat(namePrefix, DIR_NORTH_2), (char*)strcat(strcat(descriptionPrefix, DIR_NORTH_2), descriptionSuffix));
       break;
     case 2:
-      barredWindowS1->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      barredWindowS1->addItem(turretSeKey);
-      barredWindowS1->setExit(EXIT_EAST, windowHallwayS);
+      barredWindowS1 = new Room((char*)strcat(namePrefix, DIR_SOUTH_1), (char*)strcat(strcat(descriptionPrefix, DIR_SOUTH_1), descriptionSuffix));
       break;
     case 3:
-      barredWindowS2->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      barredWindowS2->setExit(EXIT_WEST, windowHallwayS);
-      barredWindowS2->setExit(EXIT_EAST, turretSE);
+      barredWindowS2 = new Room((char*)strcat(namePrefix, DIR_SOUTH_2), (char*)strcat(strcat(descriptionPrefix, DIR_SOUTH_2), descriptionSuffix));
       break;
     case 4:
-      barredWindowE->setNnD(strcat(namePrefix, direction), finalRoomDescription);
-      barredWindowE->addRequirement(ironBar);
-      barredWindowE->addRequirement(mat1);
-      barredWindowE->addRequirement(mat2);
+      barredWindowE = new Room((char*)strcat(namePrefix, DIR_EAST), (char*)"Congratulations, you successfully escaped the castle!  Thanks for playing.");
       break;
     }
   }
 
-  // For loops cuz im lazy and don't wanna write thousands of lines of code
+  Room *windowHallwayN = nullptr;
+  Room *windowHallwayS = nullptr;
+  Room *windowHallwayE1 = nullptr;
+  Room *windowHallwayE2 = nullptr;
   for (int i = 0; i < 4; i++)
   {
-    char direction[5];
-    switch (i)
-    {
-    case 0:
-      strcpy(direction, DIR_NORTH);
-      break;
-    case 1:
-      strcpy(direction, DIR_SOUTH);
-      break;
-    case 2:
-      strcpy(direction, DIR_EAST_1);
-      break;
-    case 3:
-      strcpy(direction, DIR_EAST_2);
-      break;
-    }
     char namePrefix[] = "Window Hallway ";
     char descriptionPrefix[] = "You're in the castle's window hallway ";
     char descriptionSuffix[] = ".";
     switch (i)
     {
     case 0:
-      windowHallwayN->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      windowHallwayN->setExit(EXIT_WEST, barredWindowN1);
-      windowHallwayN->setExit(EXIT_EAST, barredWindowN2);
-      windowHallwayN->setExit(EXIT_SOUTH, rockShelfN);
+      windowHallwayN = new Room((char*)strcat(namePrefix, DIR_NORTH), (char*)strcat(strcat(descriptionPrefix, DIR_NORTH), descriptionSuffix));
       break;
     case 1:
-      windowHallwayS->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      windowHallwayS->setExit(EXIT_WEST, barredWindowS1);
-      windowHallwayS->setExit(EXIT_EAST, barredWindowS2);
-      windowHallwayS->setExit(EXIT_NORTH, rockShelfS);
+      windowHallwayS = new Room((char*)strcat(namePrefix, DIR_SOUTH), (char*)strcat(strcat(descriptionPrefix, DIR_SOUTH), descriptionSuffix));
       break;
     case 2:
-      windowHallwayE1->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      windowHallwayE1->addItem(mat1);
-      windowHallwayE1->setExit(EXIT_NORTH, turretNE);
+      windowHallwayE1 = new Room((char*)strcat(namePrefix, DIR_EAST_1), (char*)strcat(strcat(descriptionPrefix, DIR_EAST_1), descriptionSuffix));
       break;
     case 3:
-      windowHallwayE2->setNnD(strcat(namePrefix, direction), strcat(strcat(descriptionPrefix, direction), descriptionSuffix));
-      windowHallwayE2->addItem(mat2);
-      windowHallwayE2->setExit(EXIT_SOUTH, turretSE);
+      windowHallwayE2 = new Room((char*)strcat(namePrefix, DIR_EAST_2), (char*)strcat(strcat(descriptionPrefix, DIR_EAST_2), descriptionSuffix));
       break;
     }
   }
 
-  char turretNeName[] = "Northeast Turret";
-  char turretNeDescription[] = "You're in the castle's Northeast Turret.";
-  turretNE->setNnD(turretNeName, turretNeDescription);
+  Room *turretNE = new Room((char*)"Northeast Turret", (char*)"You're in the castle's Northeast Turret.");
+  Room *turretSE = new Room((char*)"Southeast Turret", (char*)"You're in the castle's Southeast Turret.");
+
+  // Set exits and items
+  darkHallway->addItem(flashlight);
+  darkHallway->setExit(EXIT_EAST, dungeon1);
+
+  dungeon1b->setExit(EXIT_EAST, dungeon1c);
+  dungeon1b->setExit(EXIT_SOUTH, dungeon1a);
+
+  dungeon1a->addItem(screwdriver);
+  dungeon1a->setExit(EXIT_NORTH, dungeon1b);
+  dungeon1a->setExit(EXIT_SOUTH, dungeon1);
+
+  dungeon1->setExit(EXIT_NORTH, dungeon1a);
+  dungeon1->setExit(EXIT_SOUTH, dungeon1d);
+  dungeon1->setExit(EXIT_EAST, oldAirway);
+  dungeon1->setExit(EXIT_WEST, darkHallway);
+
+  dungeon1d->addItem(dungeon1cKey);
+  dungeon1d->setExit(EXIT_NORTH, dungeon1);
+  dungeon1d->setExit(EXIT_SOUTH, dungeon1e);
+
+  dungeon1e->setExit(EXIT_NORTH, dungeon1d);
+  dungeon1e->setExit(EXIT_EAST, dungeon1f);
+
+  dungeon1c->addItem(rope);
+  dungeon1c->addRequirement(dungeon1cKey);
+  dungeon1c->setExit(EXIT_WEST, dungeon1b);
+
+  oldAirway->addItem(lint);
+  oldAirway->addRequirement(screwdriver);
+  oldAirway->addRequirement(hammer);
+  oldAirway->setExit(EXIT_WEST, dungeon1);
+  oldAirway->setExit(EXIT_EAST, rockShelfW);
+
+  dungeon1f->addItem(hammer);
+  dungeon1f->setExit(EXIT_WEST, dungeon1e);
+  
+  rockShelfN->addItem(ironBar);
+  rockShelfN->setExit(EXIT_NORTH, windowHallwayN);
+  rockShelfN->setExit(EXIT_SOUTH, chasm);
+  
+  rockShelfS->setExit(EXIT_NORTH, chasm);
+  rockShelfS->setExit(EXIT_SOUTH, windowHallwayS);
+  
+  rockShelfE->addItem(turretNeKey);
+  rockShelfE->setExit(EXIT_EAST, barredWindowE);
+  rockShelfE->setExit(EXIT_WEST, chasm);
+  
+  rockShelfW->setExit(EXIT_EAST, chasm);
+  rockShelfW->setExit(EXIT_WEST, oldAirway);
+
+  chasm->addRequirement(rope);
+  chasm->addRequirement(lint);
+  chasm->setExit(EXIT_NORTH, rockShelfN);
+  chasm->setExit(EXIT_SOUTH, rockShelfS);
+  chasm->setExit(EXIT_EAST, rockShelfE);
+  chasm->setExit(EXIT_WEST, rockShelfW);
+  
+  barredWindowN1->setExit(EXIT_EAST, windowHallwayN);
+  
+  barredWindowN2->setExit(EXIT_WEST, windowHallwayN);
+  barredWindowN2->setExit(EXIT_EAST, turretNE);
+  
+  barredWindowS1->addItem(turretSeKey);
+  barredWindowS1->setExit(EXIT_EAST, windowHallwayS);
+  
+  barredWindowS2->setExit(EXIT_WEST, windowHallwayS);
+  barredWindowS2->setExit(EXIT_EAST, turretSE);
+  
+  barredWindowE->addRequirement(ironBar);
+  barredWindowE->addRequirement(mat1);
+  barredWindowE->addRequirement(mat2);
+  
+  windowHallwayN->setExit(EXIT_WEST, barredWindowN1);
+  windowHallwayN->setExit(EXIT_EAST, barredWindowN2);
+  windowHallwayN->setExit(EXIT_SOUTH, rockShelfN);
+  
+  windowHallwayS->setExit(EXIT_WEST, barredWindowS1);
+  windowHallwayS->setExit(EXIT_EAST, barredWindowS2);
+  windowHallwayS->setExit(EXIT_NORTH, rockShelfS);
+
+  windowHallwayE1->addItem(mat1);
+  windowHallwayE1->setExit(EXIT_NORTH, turretNE);
+  
+  windowHallwayE2->addItem(mat2);
+  windowHallwayE2->setExit(EXIT_SOUTH, turretSE);
+
   turretNE->addRequirement(turretNeKey);
   turretNE->setExit(EXIT_WEST, barredWindowN2);
   turretNE->setExit(EXIT_SOUTH, windowHallwayE1);
 
-  char turretSeName[] = "Southeast Turret";
-  char turretSeDescription[] = "You're in the castle's Southeast Turret.";
-  turretSE->setNnD(turretSeName, turretSeDescription);
   turretSE->addRequirement(turretSeKey);
   turretSE->setExit(EXIT_WEST, barredWindowS2);
   turretSE->setExit(EXIT_NORTH, windowHallwayE2);
@@ -420,7 +343,7 @@ int main()
     if (strcmp(cmd1, CMD_LOOK) == 0)
     {
       // Dropping items
-      if (strcmp(currentRoom->name, darkHallwayName) == 0)
+      if (strcmp(currentRoom->name, darkHallway->name) == 0)
       {
         if (find(inventory->begin(), inventory->end(), flashlight) != inventory->end()) // Player needs a flashlight to look around
         {

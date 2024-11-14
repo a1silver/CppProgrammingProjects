@@ -8,14 +8,14 @@
 
 using namespace std;
 
-Room::Room()
+Room::Room(char *nameIn, char *descriptionIn)
 {
   // Initialize fields!  Don't want those segmentation faults.
   requirements = new vector<Item *>();
   items = new vector<Item *>();
   exits = new map<char *, Room *>();
-  name = new char[51];
-  description = new char[251];
+  name = nameIn;
+  description = descriptionIn;
 };
 
 Room::~Room()
@@ -40,13 +40,6 @@ Room::~Room()
   delete exits;
   delete name;
   delete description;
-}
-
-void Room::setNnD(char nameIn[51], char descriptionIn[251])
-{
-  // Sets both the name and the description at the same time
-  strcpy(name, nameIn);
-  strcpy(description, descriptionIn);
 }
 
 void Room::addRequirement(Item *itemIn)
@@ -77,7 +70,7 @@ void Room::addItem(Item *itemIn)
   return;
 }
 
-void Room::setExit(char directionIn[6], Room *roomIn)
+void Room::setExit(char *directionIn, Room *roomIn)
 {
   // Add an exit to the room
   if (exits->size() == 0)
