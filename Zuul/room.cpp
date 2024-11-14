@@ -14,8 +14,11 @@ Room::Room(char *nameIn, char *descriptionIn)
   requirements = new vector<Item *>();
   items = new vector<Item *>();
   exits = new map<char *, Room *>();
-  name = nameIn;
-  description = descriptionIn;
+
+  this->name = new char[257]; // 32 characters + null
+  this->description = new char[257]; // 256 characters + null
+  strcpy(this->name, nameIn);
+  strcpy(this->description, descriptionIn);
 };
 
 Room::~Room()
@@ -91,4 +94,20 @@ void Room::setExit(char *directionIn, Room *roomIn)
       return;
     }
   }
+}
+
+char* Room::getRoomListStr()
+{
+  char *roomStr = new char[1024];
+  roomStr[0] = '\0';
+
+  map<char *, Room *>::iterator it;
+  for (auto it = exits->begin(); it != exits->end(); it++)
+  {
+    strcat(roomStr, it->first);
+    if (std::next(it) != exits->end()) {
+      strcat(roomStr, ", ");
+    }
+  }
+  return roomStr;
 }

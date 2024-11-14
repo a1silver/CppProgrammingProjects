@@ -3,9 +3,9 @@
 
 class Item {
   public:
-   char* name; // 15 and a null;
-   char* description; // 100 and a null;
-   Item();
+   char *name;
+   char *description;
+   Item(char *nameIn, char *descriptionIn);
    ~Item();
    bool equals(Item* other);
 };

@@ -14,30 +14,17 @@ char EXIT_SOUTH[] = "SOUTH";
 char EXIT_EAST[] = "EAST";
 char EXIT_WEST[] = "WEST";
 
-// Char constants for room names
-const char DIR_NORTH_FULL[] = "North";
-const char DIR_SOUTH_FULL[] = "South";
-const char DIR_EAST_FULL[] = "East";
-const char DIR_WEST_FULL[] = "West";
-const char DIR_NORTH[] = "N";
-const char DIR_SOUTH[] = "S";
-const char DIR_NORTH_1[] = "N1";
-const char DIR_NORTH_2[] = "N2";
-const char DIR_SOUTH_1[] = "S1";
-const char DIR_SOUTH_2[] = "S2";
-const char DIR_EAST[] = "E";
-const char DIR_EAST_1[] = "E1";
-const char DIR_EAST_2[] = "E2";
-
 // look, take, drop, move, inventory, help, quit
 const char CMD_LOOK[] = "LOOK";
 const char CMD_TAKE[] = "TAKE";
+const char CMD_GET[] = "GET";
 const char CMD_DROP[] = "DROP";
 const char CMD_MOVE[] = "MOVE";
+const char CMD_GO[] = "GO";
 const char CMD_INVT[] = "INVT";
 const char CMD_HELP[] = "HELP";
 const char CMD_QUIT[] = "QUIT";
-const char CMD_NULL[] = "NONE";
+const char CMD_EXIT[] = "EXIT";
 
 // Method prototypes
 void printRoom(Room *currentRoom);
@@ -48,82 +35,17 @@ int main()
   // This is so much damn fun.
   // Galbraith if you're reading this please please please for the love of god let us use strings :(
 
-  // Flashlight
-  char flashlightName[] = "FLASHLIGHT";
-  char flashlightDescription[] = "This item is an imperative for finding other items!";
-  Item *flashlight = new Item();
-  strcpy(flashlight->name, flashlightName);
-  strcpy(flashlight->description, flashlightDescription);
-
-  // Screwdriver
-  char screwdriverName[] = "SCREWDRIVER";
-  char screwdriverDescription[] = "Electricians used this item to open maintenance vents.";
-  Item *screwdriver = new Item();
-  strcpy(screwdriver->name, screwdriverName);
-  strcpy(screwdriver->description, screwdriverDescription);
-
-  // Dungeon 1c Key
-  char key1cName[] = "DUNGEON-1C-KEY";
-  char key1cDescription[] = "This key grants access to the Dungeon 1C.";
-  Item *dungeon1cKey = new Item();
-  strcpy(dungeon1cKey->name, key1cName);
-  strcpy(dungeon1cKey->description, key1cDescription);
-
-  // Rope
-  char ropeName[] = "ROPE";
-  char ropeDescription[] = "Ropes could be useful to cross large spaces or scale up tall things like cliffs!";
-  Item *rope = new Item();
-  strcpy(rope->name, ropeName);
-  strcpy(rope->description, ropeDescription);
-
-  // Rope
-  char lintName[] = "LINTBALL";
-  char lintDescription[] = "Your ropes may be frayed, repair them by whipping them with some old lint!";
-  Item *lint = new Item();
-  strcpy(lint->name, lintName);
-  strcpy(lint->description, lintDescription);
-
-  // Hammer
-  char hammerName[] = "HAMMER";
-  char hammerDescription[] = "Used along with the screwdriver!  Commonly used by electricians.";
-  Item *hammer = new Item();
-  strcpy(hammer->name, hammerName);
-  strcpy(hammer->description, hammerDescription);
-
-  // Turret SE Key
-  char turretSeKeyName[] = "TURRET-SE-KEY";
-  char turretSeKeyDescription[] = "This key grants access to the Southeast Turret.";
-  Item *turretSeKey = new Item();
-  strcpy(turretSeKey->name, turretSeKeyName);
-  strcpy(turretSeKey->description, turretSeKeyDescription);
-
-  // Iron Bar
-  char ironBarName[] = "IRONBAR";
-  char ironBarDescription[] = "You may need to pry open a window with this!";
-  Item *ironBar = new Item();
-  strcpy(ironBar->name, ironBarName);
-  strcpy(ironBar->description, ironBarDescription);
-
-  // Turret NE Key
-  char turretNeKeyName[] = "TURRET-NE-KEY";
-  char turretNeKeyDescription[] = "This key grants access to the Northeast Turret.";
-  Item *turretNeKey = new Item();
-  strcpy(turretNeKey->name, turretNeKeyName);
-  strcpy(turretNeKey->description, turretNeKeyDescription);
-
-  // Mattress 1
-  char mat1Name[] = "MATTRESS-1";
-  char mat1Description[] = "Using a mattress could save your life in case you need to jump out of a window!";
-  Item *mat1 = new Item();
-  strcpy(mat1->name, mat1Name);
-  strcpy(mat1->description, mat1Description);
-
-  // Mattress 2
-  char mat2Name[] = "MATTRESS-2";
-  char mat2Description[] = "Using a mattress could save your life in case you need to jump out of a window!";
-  Item *mat2 = new Item();
-  strcpy(mat2->name, mat2Name);
-  strcpy(mat2->description, mat2Description);
+  Item *flashlight = new Item((char*)"FLASHLIGHT", (char*)"A flashlight is needed to search the dark rooms.");
+  Item *screwdriver = new Item((char*)"SCREWDRIVER", (char*)"Electricians used this item to open maintenance vents.");
+  Item *dungeon1cKey = new Item((char*)"DUNGEON-1C-KEY", (char*)"This key grants access to the Dungeon 1C.");
+  Item *rope = new Item((char*)"ROPE", (char*)"Ropes could be useful to cross large spaces or scale up tall things like cliffs!");
+  Item *lint = new Item((char*)"LINTBALL", (char*)"Your ropes may be frayed, repair them by whipping them with some old lint!");
+  Item *hammer = new Item((char*)"HAMMER", (char*)"Used along with the screwdriver!  Commonly used by electricians.");
+  Item *turretSeKey = new Item((char*)"TURRET-SE-KEY", (char*)"This key grants access to the Southeast Turret.");
+  Item *ironBar = new Item((char*)"IRONBAR", (char*)"You may need to pry open a window with this!");
+  Item *turretNeKey = new Item((char*)"TURRET-NE-KEY", (char*)"This key grants access to the Northeast Turret.");
+  Item *mat1 = new Item((char*)"MATTRESS-1", (char*)"Using a mattress could save your life in case you need to jump out of a window!");
+  Item *mat2 = new Item((char*)"MATTRESS-2", (char*)"Using a mattress could save your life in case you need to jump out of a window!");
 
   // Initializing the rooms
   Room *darkHallway = new Room((char*)"Dark Hallway", (char*)"You emerge out of an awkward dream.  You ask yourself, \"Where am I?\"  As you slowly get your bearings, you notice you're in a disturbingly dark room.");
@@ -137,86 +59,21 @@ int main()
   Room *dungeon1f = new Room((char*)"Dungeon 1F", (char*)"You're in section 1F of the main dungeon.");
   Room *chasm = new Room((char*)"Chasm", (char*)"You're in the underground part of the castle and find an odd hole in the ground... could you possibly throw a rope to get across?");
 
-  Room *rockShelfN = nullptr;
-  Room *rockShelfS = nullptr;
-  Room *rockShelfE = nullptr;
-  Room *rockShelfW = nullptr;
-  for (int i = 0; i < 4; i++)
-  {
-    char namePrefix[] = "Rock Shelf ";
-    char descriptionPrefix[] = "You're on Rock Shelf ";
-    switch (i)
-    {
-    case 0:
-      rockShelfN = new Room((char*)strcat(namePrefix, DIR_NORTH_FULL), (char*)strcat(descriptionPrefix, DIR_NORTH_FULL));
-      break;
-    case 1:
-      rockShelfS = new Room((char*)strcat(namePrefix, DIR_SOUTH_FULL), (char*)strcat(descriptionPrefix, DIR_SOUTH_FULL));
-      break;
-    case 2:
-      rockShelfE = new Room((char*)strcat(namePrefix, DIR_EAST_FULL), (char*)strcat(descriptionPrefix, DIR_EAST_FULL));
-      break;
-    case 3:
-      rockShelfW = new Room((char*)strcat(namePrefix, DIR_WEST_FULL), (char*)strcat(descriptionPrefix, DIR_WEST_FULL));
-      break;
-    }
-  }
+  Room *rockShelfN = new Room((char*)"Rock Shelf North", (char*)"You're on Rock Shelf North");
+  Room *rockShelfS = new Room((char*)"Rock Shelf South", (char*)"You're on Rock Shelf South");
+  Room *rockShelfE = new Room((char*)"Rock Shelf East", (char*)"You're on Rock Shelf East");
+  Room *rockShelfW = new Room((char*)"Rock Shelf West", (char*)"You're on Rock Shelf West");
 
-  Room *barredWindowN1 = nullptr;
-  Room *barredWindowN2 = nullptr;
-  Room *barredWindowS1 = nullptr;
-  Room *barredWindowS2 = nullptr;
-  Room *barredWindowE = nullptr;
-  for (int i = 0; i < 5; i++)
-  {
-    char namePrefix[] = "Barred Window ";
-    char descriptionPrefix[] = "You've found yourself in the castle's Barred Window ";
-    char descriptionSuffix[] = "...";
-    switch (i)
-    {
-    case 0:
-      barredWindowN1 = new Room((char*)strcat(namePrefix, DIR_NORTH_1), (char*)strcat(strcat(descriptionPrefix, DIR_NORTH_1), descriptionSuffix));
-      break;
-    case 1:
-      barredWindowN2 = new Room((char*)strcat(namePrefix, DIR_NORTH_2), (char*)strcat(strcat(descriptionPrefix, DIR_NORTH_2), descriptionSuffix));
-      break;
-    case 2:
-      barredWindowS1 = new Room((char*)strcat(namePrefix, DIR_SOUTH_1), (char*)strcat(strcat(descriptionPrefix, DIR_SOUTH_1), descriptionSuffix));
-      break;
-    case 3:
-      barredWindowS2 = new Room((char*)strcat(namePrefix, DIR_SOUTH_2), (char*)strcat(strcat(descriptionPrefix, DIR_SOUTH_2), descriptionSuffix));
-      break;
-    case 4:
-      barredWindowE = new Room((char*)strcat(namePrefix, DIR_EAST), (char*)"Congratulations, you successfully escaped the castle!  Thanks for playing.");
-      break;
-    }
-  }
+  Room *barredWindowN1 = new Room((char*)"Barred Window N1", (char*)"You've found yourself in the castle's Barred Window N1...");
+  Room *barredWindowN2 = new Room((char*)"Barred Window N2", (char*)"You've found yourself in the castle's Barred Window N2...");
+  Room *barredWindowS1 = new Room((char*)"Barred Window S1", (char*)"You've found yourself in the castle's Barred Window S1...");
+  Room *barredWindowS2 = new Room((char*)"Barred Window S2", (char*)"You've found yourself in the castle's Barred Window S2...");
+  Room *barredWindowE = new Room((char*)"Barred Window E", (char*)"Congratulations, you successfully escaped the castle!  Thanks for playing.");
 
-  Room *windowHallwayN = nullptr;
-  Room *windowHallwayS = nullptr;
-  Room *windowHallwayE1 = nullptr;
-  Room *windowHallwayE2 = nullptr;
-  for (int i = 0; i < 4; i++)
-  {
-    char namePrefix[] = "Window Hallway ";
-    char descriptionPrefix[] = "You're in the castle's window hallway ";
-    char descriptionSuffix[] = ".";
-    switch (i)
-    {
-    case 0:
-      windowHallwayN = new Room((char*)strcat(namePrefix, DIR_NORTH), (char*)strcat(strcat(descriptionPrefix, DIR_NORTH), descriptionSuffix));
-      break;
-    case 1:
-      windowHallwayS = new Room((char*)strcat(namePrefix, DIR_SOUTH), (char*)strcat(strcat(descriptionPrefix, DIR_SOUTH), descriptionSuffix));
-      break;
-    case 2:
-      windowHallwayE1 = new Room((char*)strcat(namePrefix, DIR_EAST_1), (char*)strcat(strcat(descriptionPrefix, DIR_EAST_1), descriptionSuffix));
-      break;
-    case 3:
-      windowHallwayE2 = new Room((char*)strcat(namePrefix, DIR_EAST_2), (char*)strcat(strcat(descriptionPrefix, DIR_EAST_2), descriptionSuffix));
-      break;
-    }
-  }
+  Room *windowHallwayN = new Room((char*)"Window Hallway N", (char*)"You're in the castle's Window Hallway N.");
+  Room *windowHallwayS = new Room((char*)"Window Hallway S", (char*)"You're in the castle's Window Hallway S.");
+  Room *windowHallwayE1 = new Room((char*)"Window Hallway E1", (char*)"You're in the castle's Window Hallway E1.");
+  Room *windowHallwayE2 = new Room((char*)"Window Hallway E2", (char*)"You're in the castle's Window Hallway E2.");
 
   Room *turretNE = new Room((char*)"Northeast Turret", (char*)"You're in the castle's Northeast Turret.");
   Room *turretSE = new Room((char*)"Southeast Turret", (char*)"You're in the castle's Southeast Turret.");
@@ -322,25 +179,33 @@ int main()
   // Time to actually start the game!
 
   // Print entry message
-  cout << "Welcome to Escape the Castle, the epic sequel to Escape the Hotel, a Java Adventure Game." << endl;
-  cout << "If, at any point during the game you forget what commands to use, type \"HELP\" and you will be presented with the command list." << endl;
-  cout << "The goal of this game is to escape the castle using items that you find around the map!  Good luck." << endl
-       << endl;
+  cout << "Welcome to Escape the Castle, the epic sequel to Escape the Hotel, a Java Adventure Game." << endl << endl;
+  cout << "If, at any point during the game you forget what commands to use, type \"HELP\" and you will be presented with the command list." << endl << endl;
+  cout << "The goal of this game is to escape the castle using items that you find around the map!  Good luck." << endl;
 
   // Get commands forever until a quit command is sent
   while (true)
   {
+    cout << "============================================================" << endl;
+
     // Print the room
     printRoom(currentRoom);
 
     // Get the command & arg
-    cout << "Enter your command > ";
-    char cmd1[101];
-    cin >> cmd1;
-    char cmd2[101];
+    cout << "> ";
+    char command[101];
+    cin >> command;
+    for (int i = 0; i < strlen(command); i++) // ignore case
+    {
+      command[i] = toupper(command[i]);
+    }
+
+    cout << endl << "============================================================" << endl;
+
+    char argument[101];
 
     // Check & run "commands"
-    if (strcmp(cmd1, CMD_LOOK) == 0)
+    if (strcmp(command, CMD_LOOK) == 0)
     {
       // Dropping items
       if (strcmp(currentRoom->name, darkHallway->name) == 0)
@@ -388,23 +253,29 @@ int main()
         }
       }
     }
-    if (strcmp(cmd1, CMD_TAKE) == 0)
+    else if (strcmp(command, CMD_TAKE) == 0 || strcmp(command, CMD_GET) == 0)
     {
       // Picking up items
-      cout << "Enter your command parameter > ";
-      cin >> cmd2;
+      cout << "Enter the item name > ";
+      cin >> argument;
+      for (int i = 0; i < strlen(argument); i++) // ignore case
+      {
+        argument[i] = toupper(argument[i]);
+      }
+      
       cout << endl;
 
       int idx = 0;
       vector<Item *>::iterator it;
       bool found = false;
+
       for (it = currentRoom->items->begin(); it < currentRoom->items->end(); it++)
       {
-        if (strcmp((*it)->name, cmd2) == 0)
+        if (strcmp((*it)->name, argument) == 0)
         {
           inventory->push_back(currentRoom->items->at(idx));
           currentRoom->items->erase(currentRoom->items->begin() + idx);
-          cout << "You picked up the \"" << cmd2 << "\" that was in the room." << endl;
+          cout << "You picked up the \"" << argument << "\" that was in the room." << endl;
           cout << "Type \"INVT\" to view your inventory at any time." << endl;
           found = true;
           break;
@@ -416,18 +287,23 @@ int main()
         cout << "I couldn't find that item anywhere..." << endl;
       }
     }
-    if (strcmp(cmd1, CMD_DROP) == 0)
+    else if (strcmp(command, CMD_DROP) == 0)
     {
       // Dropping items
-      cout << "Enter your command parameter > ";
-      cin >> cmd2;
+      cout << "Enter the item name > ";
+      cin >> argument;
+      for (int i = 0; i < strlen(argument); i++) // ignore case
+      {
+        argument[i] = toupper(argument[i]);
+      }
+
       cout << endl;
 
       int idx = 0;
       vector<Item *>::iterator it;
       for (it = inventory->begin(); it < inventory->end(); it++)
       {
-        if (strcmp((*it)->name, cmd2) == 0)
+        if (strcmp((*it)->name, argument) == 0)
         {
           if (find(currentRoom->requirements->begin(), currentRoom->requirements->end(), *it) != currentRoom->requirements->end()) // Current room has this item as a requirement
           {
@@ -437,25 +313,32 @@ int main()
           {
             currentRoom->items->push_back(inventory->at(idx));
             inventory->erase(inventory->begin() + idx);
-            cout << "You dropped the \"" << cmd2 << "\" into the room." << endl;
+            cout << "You dropped the \"" << argument << "\" into the room." << endl;
             cout << "Type \"INVT\" to view your inventory at any time." << endl;
           }
+          break;
         }
         idx++;
       }
+      cout << "You don't have that item..." << endl;
     }
-    if (strcmp(cmd1, CMD_MOVE) == 0)
+    else if (strcmp(command, CMD_MOVE) == 0 || strcmp(command, CMD_GO) == 0)
     {
       // Moving around the map
-      cout << "Enter your command parameter > ";
-      cin >> cmd2;
+      cout << "Enter the direction (" << currentRoom->getRoomListStr() << ") > ";
+      cin >> argument;
+      for (int i = 0; i < strlen(argument); i++) // ignore case
+      {
+        argument[i] = toupper(argument[i]);
+      }
+
       cout << endl;
 
       bool found = false;
       map<char *, Room *>::iterator it = currentRoom->exits->begin(); // APPARENTLY THIS WORKS BUT A NORMAL FOR LOOP DOESN'T AAGHA
       for (auto it = currentRoom->exits->begin(); it != currentRoom->exits->end(); it++)
       {
-        if (strcmp(it->first, cmd2) == 0)
+        if (strcmp(it->first, argument) == 0)
         {
           bool missing = false;
           found = true;
@@ -482,7 +365,7 @@ int main()
           }
           else
           {
-            cout << "You moved " << cmd2 << " to the " << currentRoom->name << "." << endl;
+            cout << "You moved " << argument << " to the " << currentRoom->name << "." << endl;
             break;
           }
         }
@@ -493,14 +376,19 @@ int main()
         cout << "There isn't an exit there!" << endl;
       }
     }
-    if (strcmp(cmd1, CMD_INVT) == 0)
+    else if (strcmp(command, CMD_INVT) == 0)
     {
       // Display inventory or specific item info
-      cout << "Enter your command parameter > ";
-      cin >> cmd2;
+      cout << "Enter an item name or NONE to view all > ";
+      cin >> argument;
+      for (int i = 0; i < strlen(argument); i++) // ignore case
+      {
+        argument[i] = toupper(argument[i]);
+      }
+
       cout << endl;
 
-      if (strcmp(cmd2, CMD_NULL) == 0)
+      if (strcmp(argument, "NONE") == 0)
       {
         vector<Item *>::iterator it;
         cout << "Your Items:" << endl;
@@ -516,7 +404,7 @@ int main()
         vector<Item *>::iterator it;
         for (it = inventory->begin(); it < inventory->end(); it++)
         {
-          if (strcmp((*it)->name, cmd2) == 0)
+          if (strcmp((*it)->name, argument) == 0)
           {
             cout << (*it)->name << endl;
             cout << "   " << (*it)->description << endl;
@@ -531,10 +419,9 @@ int main()
         }
       }
     }
-    if (strcmp(cmd1, CMD_HELP) == 0)
+    else if (strcmp(command, CMD_HELP) == 0)
     {
       // Display the help menu
-      cout << endl;
       cout << "Escape the Castle - Help" << endl;
       cout << "Square bracket arguments [] are required; angle bracket arguments <> are optional." << endl;
       cout << "To leave an optional argument blank, simply type \"NONE\"." << endl
@@ -547,11 +434,15 @@ int main()
       cout << "HELP                 View this message." << endl;
       cout << "QUIT                 Exit the game at any time." << endl;
     }
-    if (strcmp(cmd1, CMD_QUIT) == 0)
+    else if (strcmp(command, CMD_QUIT) == 0)
     {
       // Quit command.  Send message and return exit code 0
       cout << "Thanks for playing!" << endl;
       return 0;
+    }
+    else
+    {
+      cout << "I didn't recognize that command...";
     }
     cout << endl;
   }
@@ -562,7 +453,7 @@ int main()
 void printRoom(Room *currentRoom)
 {
   // Print the room name, description, and tip
-  cout << "Current Room: " << currentRoom->name << endl;
-  cout << currentRoom->description << endl;
+  cout << "Current Room: " << currentRoom->name << endl << endl;
+  cout << currentRoom->description << endl << endl;
   cout << "What would you like to do?  Type \"HELP\" for you available commands." << endl;
 }

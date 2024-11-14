@@ -1,19 +1,24 @@
 #include <cstring>
 #include "item.h"
 
-Item::Item() {
+Item::Item(char *nameIn, char *descriptionIn) {
   // Initialize fields. lol.
-  name = new char[16];
-  description = new char[101];
+  this->name = new char[257]; // 256 characters + null
+  this->description = new char[257]; // 256 characters + null
+
+  strncpy(name, nameIn, 256);
+  name[256] = '\0'; // Ensure null termination
+  strncpy(description, descriptionIn, 256);
+  description[256] = '\0'; // Ensure null termination
 }
 
 Item::~Item() {
   // Make sure to delete any fields that are pointers.
-  delete name;
-  delete description;
+  delete this->name;
+  delete this->description;
 }
 
 bool Item::equals(Item* other) {
   // Never used?
-  return strcmp(name, other->name) == 0 && strcmp(description, other->description) == 0;
+  return strcmp(this->name, other->name) == 0 && strcmp(this->description, other->description) == 0;
 }

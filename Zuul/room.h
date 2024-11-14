@@ -22,6 +22,7 @@ class Room {
   void addRequirement(Item *itemIn);
   void addItem(Item *itemIn);
   void setExit(char *directionIn, Room *roomIn);
+  char* getRoomListStr();
 };
 
 #endif // ROOM_H
