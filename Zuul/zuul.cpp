@@ -506,10 +506,17 @@ int main()
       {
         if (strcmp((*it)->name, cmd2) == 0)
         {
-          currentRoom->items->push_back(inventory->at(idx));
-          inventory->erase(inventory->begin() + idx);
-          cout << "You dropped the \"" << cmd2 << "\" into the room." << endl;
-          cout << "Type \"INVT\" to view your inventory at any time." << endl;
+          if (find(currentRoom->requirements->begin(), currentRoom->requirements->end(), *it) != currentRoom->requirements->end()) // Current room has this item as a requirement
+          {
+            cout << "You can't drop this item here..." << endl;
+          }
+          else
+          {
+            currentRoom->items->push_back(inventory->at(idx));
+            inventory->erase(inventory->begin() + idx);
+            cout << "You dropped the \"" << cmd2 << "\" into the room." << endl;
+            cout << "Type \"INVT\" to view your inventory at any time." << endl;
+          }
         }
         idx++;
       }
